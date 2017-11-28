@@ -10,6 +10,16 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".activity.MainActivity">
+
+        </activity>
+
+        <service
+            android:name=".engine.MonitorService"
+            android:enabled="true"
+            android:exported="false" />
+        <service android:name=".engine.QueryAppsIntentService" />
+
+        <activity android:name=".test.MockActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
