@@ -10,9 +10,10 @@
         android:id="@+id/act_mock_btn_service_start"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="开启服务"
-        tools:layout_editor_absoluteX="77dp"
-        tools:layout_editor_absoluteY="84dp" />
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/act_mock_btn_service_stop"
+        android:layout_marginTop="80dp"
+        android:text="开启服务" />
 
     <Button
         android:id="@+id/act_mock_btn_service_stop"
@@ -22,4 +23,14 @@
         android:layout_centerInParent="true"
         tools:layout_editor_absoluteX="269dp"
         tools:layout_editor_absoluteY="354dp" />
+
+    <Button
+        android:id="@+id/act_mock_btn_start_get_app_list_service_"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/act_mock_btn_service_stop"
+        android:layout_below="@+id/act_mock_btn_service_stop"
+        android:layout_marginTop="82dp"
+        android:text="获取应用列表" />
+
 </RelativeLayout>

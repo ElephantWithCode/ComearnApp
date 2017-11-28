@@ -8,6 +8,8 @@ import android.content.pm.PackageInfo;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import com.example.team.comearnlib.utils.ToastTools;
+
 import java.util.ArrayList;
 import java.util.List;
 

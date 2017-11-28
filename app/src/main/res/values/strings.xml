@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">ComearnApp</string>
     <string name="WYY_getAppListTag">GetAppListREC</string>
+    <string name="WYY_getListAction">GetListAction</string>
 </resources>

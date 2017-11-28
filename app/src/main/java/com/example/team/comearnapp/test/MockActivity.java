@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.example.team.comearnapp.R;
 import com.example.team.comearnapp.engine.MonitorService;
+import com.example.team.comearnapp.engine.QueryAppsIntentService;
 import com.example.team.comearnlib.base.mvp_mode.base_presenter.BasePresenter;
 import com.example.team.comearnlib.base.mvp_mode.base_view.IBaseView;
 import com.example.team.comearnlib.utils.ToastTools;
@@ -27,31 +28,12 @@ interface MockBaseView extends IBaseView{
 
 public class MockActivity extends AppCompatActivity implements MockBaseView{
 
+
     private static final String TAG = "Mock";
-
-
-    private static class MockPresenter extends BasePresenter<MockBaseView> {
-
-
-        void startService(){
-            mContext.startService(new Intent(mContext, MonitorService.class));
-        }
-        void stopService(){
-            ToastTools.showToast(mContext, "DummyStop");
-            mContext.sendBroadcast(new Intent(MonitorService.RECEIVE));
-            mContext.stopService(new Intent(mContext, MonitorService.class));
-        }
-
-        <T>void updateList(ArrayList<T> list){
-            mView.updateList(list);
-        }
-
-
-    }
-
     private MockPresenter mPresenter;
     private Button mStartBtn;
     private Button mStopBtn;
+    private Button mGetAppListBtn;
     private BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -66,16 +48,22 @@ public class MockActivity extends AppCompatActivity implements MockBaseView{
         setContentView(R.layout.activity_mock);
 
         mPresenter = new MockPresenter();
+
         mPresenter.attachView(this);
+        mPresenter.registerReceiver(mReceiver, getString(R.string.WYY_getListAction));
 
+        iniViews();
+    }
 
+    private void iniViews() {
         mStartBtn = findViewById(R.id.act_mock_btn_service_start);
         mStopBtn = findViewById(R.id.act_mock_btn_service_stop);
+        mGetAppListBtn = findViewById(R.id.act_mock_btn_start_get_app_list_service_);
         mStartBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (mPresenter.isAttached()) {
-                    mPresenter.startService();
+                    mPresenter.startService(MonitorService.class);
                 }else {
                     Log.d(TAG, "Unattached");
                 }
@@ -85,10 +73,17 @@ public class MockActivity extends AppCompatActivity implements MockBaseView{
             @Override
             public void onClick(View v) {
                 if (mPresenter.isAttached()) {
-                    mPresenter.stopService();
+                    mPresenter.stopService(MonitorService.class);
+                    mPresenter.sendBroadCast(new Intent(MonitorService.RECEIVE));
                 }else {
                     Log.d(TAG, "Unattached");
                 }
+            }
+        });
+        mGetAppListBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPresenter.startService(QueryAppsIntentService.class);
             }
         });
     }
@@ -97,6 +92,7 @@ public class MockActivity extends AppCompatActivity implements MockBaseView{
     protected void onDestroy() {
         super.onDestroy();
         mPresenter.detachView();
+        mPresenter.unregisterReceiver(mReceiver);
     }
 
     @Override
