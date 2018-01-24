@@ -11,16 +11,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_alignStart="@+id/act_mock_btn_service_stop"
-        android:layout_marginTop="80dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="47dp"
         android:text="开启服务" />
 
     <Button
         android:id="@+id/act_mock_btn_service_stop"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/act_mock_btn_service_start"
+        android:layout_marginEnd="56dp"
         android:text="关闭服务"
-        android:layout_centerInParent="true"
         tools:layout_editor_absoluteX="269dp"
         tools:layout_editor_absoluteY="354dp" />
 
@@ -28,9 +30,42 @@
         android:id="@+id/act_mock_btn_start_get_app_list_service_"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/act_mock_btn_service_stop"
-        android:layout_below="@+id/act_mock_btn_service_stop"
-        android:layout_marginTop="82dp"
+        android:layout_below="@+id/act_mock_btn_service_start"
+        android:layout_toStartOf="@+id/act_mock_btn_service_start"
         android:text="获取应用列表" />
 
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/act_mock_rv_app_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/act_mock_btn_service_stop"
+        android:layout_marginTop="44dp">
+
+    </android.support.v7.widget.RecyclerView>
+
+    <Button
+        android:id="@+id/act_mock_btn_select_all"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toStartOf="@+id/act_mock_btn_service_start"
+        android:text="全选" />
+
+    <Button
+        android:id="@+id/act_mock_btn_cancel_all"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/act_mock_btn_select_all"
+        android:layout_alignStart="@+id/act_mock_btn_service_stop"
+        android:text="取消全选" />
+
+    <Button
+        android:id="@+id/act_mock_btn_ensure_list"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/act_mock_btn_select_all"
+        android:layout_marginStart="16dp"
+        android:text="确认列表" />
 </RelativeLayout>

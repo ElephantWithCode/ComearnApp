@@ -8,6 +8,7 @@ import android.content.pm.PackageInfo;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import com.example.team.comearnapp.R;
 import com.example.team.comearnlib.utils.ToastTools;
 
 import java.util.ArrayList;
@@ -42,6 +43,7 @@ public class QueryAppsIntentService extends IntentService {
         Log.d(TAG, "OnHandleIntent");
         ArrayList<String> names = queryAppsList();
         Intent sendNamesIntent = new Intent();
+        sendNamesIntent.setAction(getString(R.string.WYY_getListAction));
         sendNamesIntent.putStringArrayListExtra(APP_LIST_NAMES, names);
         sendBroadcast(sendNamesIntent);
     }
@@ -54,6 +56,8 @@ public class QueryAppsIntentService extends IntentService {
             PackageInfo packageInfo = packages.get(i);
             if ((packageInfo.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) ==  0) {
                 names.add(packageInfo.packageName);
+//                packageInfo.applicationInfo.loadLabel(getPackageManager()).toString();  可以获取应用名称
+//                packageInfo.applicationInfo.loadIcon(getPackageManager()); 可以获得应用图标
                 Log.d(TAG+"_NAME", packageInfo.packageName);
             }
         }
