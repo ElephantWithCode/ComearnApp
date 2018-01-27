@@ -27,7 +27,6 @@ public class QueryAppsIntentService extends IntentService {
     private static final String TAG = "QAIS";
     private static final String APP_LIST_NAMES_SHARED = "APP_LIST_NAME_SHARED";
     public static final String APP_LIST_NAMES = "APP_LIST_NAME";
-    private SharedPreferences mSavedPreferences;
     public QueryAppsIntentService() {
         super("com.example.engine.query_apps_intent_service");
     }
@@ -35,7 +34,6 @@ public class QueryAppsIntentService extends IntentService {
     @Override
     public void onCreate() {
         super.onCreate();
-        mSavedPreferences = getSharedPreferences(APP_LIST_NAMES_SHARED, 0);
     }
 
     @Override
@@ -49,7 +47,6 @@ public class QueryAppsIntentService extends IntentService {
     }
 
     private ArrayList<String> queryAppsList() {
-//        mEditor = mSavedPreferences.edit();
         List<PackageInfo> packages = getPackageManager().getInstalledPackages(0);
         ArrayList<String> names = new ArrayList<>();
         for (int i = 0; i < packages.size(); i++) {

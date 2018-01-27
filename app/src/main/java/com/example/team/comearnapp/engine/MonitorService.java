@@ -14,6 +14,7 @@ import android.util.Log;
 
 import com.example.team.comearnapp.test.MockActivity;
 import com.example.team.comearnapp.test.MockPresenter;
+import com.example.team.comearnapp.test.PackageNameInListDetector;
 import com.wenming.library.BackgroundUtil;
 import com.wenming.library.processutil.ProcessManager;
 import com.wenming.library.processutil.models.AndroidAppProcess;
@@ -31,8 +32,8 @@ public class MonitorService extends Service {
         @Override
         public void handleMessage(Message msg) {
             if (msg.what == HANDLER_MARK_MONITOR) {
-                monitorAndReturn();
                 if (mStopSignal){
+                    mDetector.monitor();
                     sendEmptyMessageDelayed(HANDLER_MARK_MONITOR, DETECT_DELAY_MILL);
                     Log.d(TAG + "_HAN", "EmptyMessageReceived");
                 }
@@ -42,18 +43,19 @@ public class MonitorService extends Service {
     private static int HANDLER_MARK_MONITOR = -1;
     private static final String TAG = "Monitor";
     public static final String RECEIVE = "com.example.train";
+
     private Context mContext;
-    private List<AndroidAppProcess> mProcesses;
-    private Set<String> nameSet;
     private boolean mStopSignal = true;
+
+    private ArrayList<String> mAppNameList = new ArrayList<>();
     private BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             mStopSignal = false;
         }
     };
-    private ArrayList<String> mAppNameList = new ArrayList<>();
     private ReturnHandler mReturnHandler = new ReturnHandler();
+    private PackageNameInListDetector mDetector = new PackageNameInListDetector();
 
     @Override
     public void onCreate() {
@@ -61,7 +63,7 @@ public class MonitorService extends Service {
         registerServiceStopReceiver();
         Log.d(TAG, "Created");
         mContext = this;
-
+        mDetector.attach(this);
     }
 
     @Override
@@ -78,17 +80,11 @@ public class MonitorService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Log.d(TAG, "startCommanded");
-        /*  使用了SharedPreference存储
-        SharedPreferences sp = getSharedPreferences(MockPresenter.SP_TAG, 0);
-        nameSet = sp.getStringSet(MockPresenter.APP_NAME_TAG, null);
-        assert nameSet != null;
-        for (String s : nameSet){
-            Log.d(TAG, s);
-        }
-        */
-        mAppNameList = intent.getStringArrayListExtra(QueryAppsIntentService.APP_LIST_NAMES);
 
+        mAppNameList = intent.getStringArrayListExtra(QueryAppsIntentService.APP_LIST_NAMES);
+        mDetector.setToDetectList(mAppNameList);
+
+        Log.d(TAG, "startCommanded");
         Log.d(TAG+"_Size", mAppNameList.size() + "");
 
         new Thread(new Runnable() {
@@ -100,13 +96,13 @@ public class MonitorService extends Service {
         return START_STICKY;
     }
 
+
     private void monitorAndReturn() {
         Log.d(TAG, getAppStatus() + "");
         if (getAppStatus()){
             startActivity(new Intent(mContext, MockActivity.class));
         }
     }
-
     private boolean getAppStatus() {
         boolean isForeground = false;
         for (String packageName : mAppNameList){
