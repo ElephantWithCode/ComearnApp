@@ -26,7 +26,7 @@ import java.util.Set;
 public class MonitorService extends Service {
 
 
-    private static final long DETECT_DELAY_MILL = 1000;
+    private static final long DETECT_DELAY_MILL = 2000;
 
     private class ReturnHandler extends Handler{
         @Override

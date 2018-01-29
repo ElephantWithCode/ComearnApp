@@ -46,6 +46,7 @@ public class BasePresenter <V extends IBaseView>{
     }
 
     public void unregisterAllReceiver(){
+        if (mReceivers == null ){return;}
         for (BroadcastReceiver receiver : mReceivers){
             mContext.unregisterReceiver(receiver);
         }

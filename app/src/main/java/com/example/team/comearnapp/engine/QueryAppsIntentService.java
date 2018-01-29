@@ -38,14 +38,29 @@ public class QueryAppsIntentService extends IntentService {
 
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
-        Log.d(TAG, "OnHandleIntent");
+        Log.d(TAG + "_OHI", "OnHandleIntent");
+/*
         ArrayList<String> names = queryAppsList();
-        Intent sendNamesIntent = new Intent();
-        sendNamesIntent.setAction(getString(R.string.WYY_getListAction));
-        sendNamesIntent.putStringArrayListExtra(APP_LIST_NAMES, names);
-        sendBroadcast(sendNamesIntent);
+        Intent sendPackageInfoIntent = new Intent();
+        sendPackageInfoIntent.setAction(getString(R.string.WYY_getListAction));
+        sendPackageInfoIntent.putStringArrayListExtra(APP_LIST_NAMES, names);
+        sendBroadcast(sendPackageInfoIntent);
+*/
+        //这里把之前直接返回包名的操作改成了返回PackageInfo的操作
+        ArrayList<PackageInfo> infos = queryPackageInfoList();
+        Intent sendPackageInfoIntent = new Intent();
+        sendPackageInfoIntent.setAction(getString(R.string.WYY_getListAction));
+        sendPackageInfoIntent.putParcelableArrayListExtra(APP_LIST_NAMES, infos);
+        sendBroadcast(sendPackageInfoIntent);
     }
 
+    private ArrayList<PackageInfo> queryPackageInfoList(){
+        List<PackageInfo> lst = getPackageManager().getInstalledPackages(0);
+        ArrayList<PackageInfo> aLst = new ArrayList<>();
+        aLst.addAll(lst);
+        return aLst;
+    }
+    @Deprecated
     private ArrayList<String> queryAppsList() {
         List<PackageInfo> packages = getPackageManager().getInstalledPackages(0);
         ArrayList<String> names = new ArrayList<>();

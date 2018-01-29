@@ -29,7 +29,6 @@ public class PackageNameInListDetector {
 
 
     public void monitor(){
-        Log.d(TAG, getAppStatus() + "");
         if (mContext == null){
             throw new RuntimeException("mContext must exists. (the detector must be attached)");
         }
@@ -86,10 +85,14 @@ public class PackageNameInListDetector {
         for (String packageName : mPackagesList){
             Log.d(TAG + "_PACK_O", packageName);
             Log.d(TAG + "_PACK", mContext.getPackageName());
-            isForeground = isForeground || BackgroundUtil.isForeground(mContext, 3, packageName);//3可以检测其他包名的App
-            Log.d(TAG + "_NUM", "HERE!!!!" + isForeground);
+            isForeground = isForeground || BackgroundUtil.isForeground(mContext, 5, packageName);//3可以检测其他包名的App
+            Log.d(TAG + "_SIN", "检测:    " + packageName + "  " + isForeground);
         }
-        isForeground = isForeground || BackgroundUtil.isForeground(mContext, 3, mContext.getPackageName());
+        Log.d(TAG + "_OTH", "检测其他的App的结果:   " + isForeground);
+        isForeground = isForeground || BackgroundUtil.isForeground(mContext, 5, mContext.getPackageName());
+        Log.d(TAG + "_SIN", "检测自己的结果:   " + BackgroundUtil.isForeground(mContext, 5, mContext.getPackageName()));
+        Log.d(TAG + "_NUM", "最终的检测结果:   " + isForeground);
+
         return isForeground;
     }
 

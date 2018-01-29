@@ -46,6 +46,7 @@ public class MockActivity extends AppCompatActivity implements MockBaseView{
     private Button mEnsureListBtn;
     private RecyclerView mAppListRv;
     private AppListRvAdapter<String> mAppListAdapter;
+    private AppInfoObtainer mObtainer;
     private ArrayList<String> mAppNameList = new ArrayList<>();
 /*
     private BroadcastReceiver mReceiver = new BroadcastReceiver() {
@@ -64,25 +65,16 @@ public class MockActivity extends AppCompatActivity implements MockBaseView{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mock);
+        Log.d(TAG + "_C", "OnCreate");
 
-        BroadcastReceiver updateReceiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                ArrayList<String> listExtra = intent.getStringArrayListExtra(QueryAppsIntentService.APP_LIST_NAMES);
-                //这里的List引用不能更改
-                mAppNameList.addAll(listExtra);
-                mPresenter.updateList(mAppNameList);
-
-                Log.d(TAG+"_List", mAppNameList + "");
-            }
-        };
 
         mPresenter = new MockPresenter();
 
         mPresenter.attachView(this);
-        mPresenter.registerReceiver(updateReceiver, getString(R.string.WYY_getListAction));
 
-        mPresenter.startService(QueryAppsIntentService.class);
+        mObtainer = new AppInfoObtainer(this);
+
+        mObtainer.startQuery();
 
         iniViews();
     }
@@ -123,7 +115,10 @@ public class MockActivity extends AppCompatActivity implements MockBaseView{
         mGetAppListBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPresenter.startService(QueryAppsIntentService.class);
+                mObtainer.startQuery();
+                mAppNameList.clear();//为了保证原地修改对象，而不是更改对象。
+                mAppNameList.addAll(mObtainer.getPackageNames());
+                mPresenter.updateList(mAppNameList);
             }
         });
         mSelectAllBtn.setOnClickListener(new View.OnClickListener() {
@@ -154,6 +149,7 @@ public class MockActivity extends AppCompatActivity implements MockBaseView{
         super.onDestroy();
         mPresenter.detachView();
         mPresenter.unregisterAllReceiver();
+        mObtainer.detach();
     }
 
     @Override
