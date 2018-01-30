@@ -1,5 +1,6 @@
 package com.example.team.comearnapp.test;
 
+import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -34,7 +35,7 @@ public class PackageNameInListDetector {
         }
         if (!getAppStatus()){
             if (mDetectMode) {
-                executeWithdraw();
+//                executeWithdraw();
             } else {
 
             }
@@ -85,12 +86,13 @@ public class PackageNameInListDetector {
         for (String packageName : mPackagesList){
             Log.d(TAG + "_PACK_O", packageName);
             Log.d(TAG + "_PACK", mContext.getPackageName());
-            isForeground = isForeground || BackgroundUtil.isForeground(mContext, 5, packageName);//3可以检测其他包名的App
-            Log.d(TAG + "_SIN", "检测:    " + packageName + "  " + isForeground);
+            boolean b = BackgroundUtil.isForeground(mContext, 3, packageName);
+            Log.d(TAG + "_SIN", "检测:    " + packageName + "  " + b);
+            isForeground = isForeground || b;//3可以检测其他包名的App
         }
         Log.d(TAG + "_OTH", "检测其他的App的结果:   " + isForeground);
-        isForeground = isForeground || BackgroundUtil.isForeground(mContext, 5, mContext.getPackageName());
-        Log.d(TAG + "_SIN", "检测自己的结果:   " + BackgroundUtil.isForeground(mContext, 5, mContext.getPackageName()));
+        isForeground = isForeground || BackgroundUtil.isForeground(mContext, 3, mContext.getPackageName());
+        Log.d(TAG + "_SIN", "检测自己的结果:   " + BackgroundUtil.isForeground(mContext, 3, mContext.getPackageName()));
         Log.d(TAG + "_NUM", "最终的检测结果:   " + isForeground);
 
         return isForeground;

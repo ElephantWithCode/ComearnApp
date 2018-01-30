@@ -4,12 +4,15 @@ import android.annotation.TargetApi;
 import android.app.ActivityManager;
 import android.app.AppOpsManager;
 import android.app.Service;
+import android.app.usage.UsageEvents;
 import android.app.usage.UsageStats;
 import android.app.usage.UsageStatsManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.provider.Settings;
@@ -20,6 +23,7 @@ import android.widget.Toast;
 import com.wenming.library.processutil.ProcessManager;
 import com.wenming.library.processutil.models.AndroidAppProcess;
 
+import java.security.PublicKey;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -57,6 +61,8 @@ public class BackgroundUtil {
                 return getFromAccessibilityService(context, packageName);
             case BKGMETHOD_GETLINUXPROCESS:
                 return getLinuxCoreInfo(context, packageName);
+            case 6:
+                return packageName.equals(getTopAppPackageName(context));
             default:
                 return false;
         }
@@ -133,9 +139,39 @@ public class BackgroundUtil {
                 return (lhs.getLastTimeUsed() > rhs.getLastTimeUsed()) ? -1 : (lhs.getLastTimeUsed() == rhs.getLastTimeUsed()) ? 0 : 1;
             }
         }
+        class PackageNameHolder{
+            private String mLastPackageName = "";
+            private Context mContext;
+            private static final String PREFERENCES_TAG= "HOLDER_PREFERENCES";
+            private static final String EDIT_TAG= "HOLDER_EDIT";
+
+            public PackageNameHolder(Context context){
+                mContext = context;
+                mLastPackageName = mContext.getSharedPreferences(PREFERENCES_TAG, 0).getString(EDIT_TAG, "");
+            }
+
+            public String getLastPackageName(){ return mLastPackageName;}
+
+            public void processName(String name){
+                if (!name.equals("") && !name.equals(mLastPackageName)){
+                    mLastPackageName = name;
+                    saveName(name);
+                }
+            }
+
+            private void saveName(String name){
+                SharedPreferences preferences = mContext.getSharedPreferences(PREFERENCES_TAG, 0);
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.putString(EDIT_TAG, name);
+                editor.apply();
+            }
+        }
+
+        PackageNameHolder mHolder = new PackageNameHolder(context);
+
         RecentUseComparator mRecentComp = new RecentUseComparator();
         long ts = System.currentTimeMillis();
-        UsageStatsManager mUsageStatsManager = (UsageStatsManager) context.getSystemService("usagestats");
+        UsageStatsManager mUsageStatsManager = (UsageStatsManager) context.getSystemService(Context.USAGE_STATS_SERVICE);
         List<UsageStats> usageStats = mUsageStatsManager.queryUsageStats(UsageStatsManager.INTERVAL_BEST, ts - 1000 * 10, ts);
         if (usageStats == null || usageStats.size() == 0) {
             if (HavaPermissionForTest(context) == false) {
@@ -143,16 +179,14 @@ public class BackgroundUtil {
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
                 Toast.makeText(context, "权限不够\n请打开手机设置，点击安全-高级，在有权查看使用情况的应用中，为这个App打上勾", Toast.LENGTH_SHORT).show();
+                return false;
             }
-            return false;
+        }else {
+            Collections.sort(usageStats, mRecentComp);
+            String currentTopPackage = usageStats.get(0).getPackageName();
+            mHolder.processName(currentTopPackage);
         }
-        Collections.sort(usageStats, mRecentComp);
-        String currentTopPackage = usageStats.get(0).getPackageName();
-        if (currentTopPackage.equals(packageName)) {
-            return true;
-        } else {
-            return false;
-        }
+        return mHolder.getLastPackageName().equals(packageName);
     }
 
     /**
@@ -204,9 +238,10 @@ public class BackgroundUtil {
      * @param packageName 需要检查是否位于栈顶的App的包名
      */
     public static boolean getLinuxCoreInfo(Context context, String packageName) {
-
         List<AndroidAppProcess> processes = ProcessManager.getRunningForegroundApps(context);
+        Log.d("__PP{", "In Linux    " + processes.size());
         for (AndroidAppProcess appProcess : processes) {
+            Log.d("__PPP", appProcess.getPackageName());
             if (appProcess.getPackageName().equals(packageName) && appProcess.foreground) {
                 return true;
             }
@@ -215,5 +250,34 @@ public class BackgroundUtil {
 
     }
 
+    public static String getTopAppPackageName(Context context) {
 
+        String packageName = "";
+        ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+
+        if(Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP){
+            final long end = System.currentTimeMillis();
+            final UsageStatsManager usageStatsManager = (UsageStatsManager) context.getSystemService( Context.USAGE_STATS_SERVICE);
+            if (null == usageStatsManager) {
+                return packageName;
+            }
+            final UsageEvents events = usageStatsManager.queryEvents((end - 60 * 1000), end);
+            if (null == events) {
+                return packageName;
+            }
+            UsageEvents.Event usageEvent = new UsageEvents.Event();
+            UsageEvents.Event lastMoveToFGEvent = null;
+            while (events.hasNextEvent()) {
+                events.getNextEvent(usageEvent);
+                if (usageEvent.getEventType() == UsageEvents.Event.MOVE_TO_FOREGROUND) {
+                    lastMoveToFGEvent = usageEvent;
+                }
+            }
+            if (lastMoveToFGEvent != null) {
+                packageName = lastMoveToFGEvent.getPackageName();
+            }
+        }
+        return packageName;
+    }
 }
+
