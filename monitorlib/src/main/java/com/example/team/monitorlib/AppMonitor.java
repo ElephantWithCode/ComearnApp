@@ -16,15 +16,18 @@ import java.util.ArrayList;
 
 /**
  * Created by Ellly on 2018/1/30.
+ * 提供手机所有应用信息，以及监控功能。
  */
 
 public class AppMonitor {
 
     /**
      * 此接口为检测到非白名单应用后应该进行的行动。
+     * 注意：
+     *      如果需要强制返回应用界面的话，最好使用接口中的Context（来自MonitorService），直接用Activity的startActivity会在退出应用后失效。
      */
     public interface DetectListener{
-        public void afterDetect();
+        public void afterDetect(Context context);
     }
 
     /**
@@ -90,6 +93,8 @@ public class AppMonitor {
      *                                      1：应用名
      *                                      2：应用图标（Drawable）
      *
+     * 注意：！
+     *      此方法在绝大多数情景下为耗时操作，不应在主线程下直接调用。
      */
     public ArrayList<ApplicationInfoEntity> getAllInformationList(){
         ArrayList<ApplicationInfoEntity> entities = new ArrayList<>();

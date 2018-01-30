@@ -39,7 +39,7 @@ public class PackageNameInListDetector {
 
     private void executeWithdraw() {
         try {
-            mAfterDetectListener.afterDetect();
+            mAfterDetectListener.afterDetect(mContext);
         }catch (NullPointerException e){
             Log.e(TAG + "_E", "listener must be implemented");
         }
