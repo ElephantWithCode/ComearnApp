@@ -1,15 +1,12 @@
-package com.example.team.comearnapp.engine;
+package com.example.team.monitorlib.service;
 
 import android.app.IntentService;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
-import com.example.team.comearnapp.R;
-import com.example.team.comearnlib.utils.ToastTools;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +14,7 @@ import java.util.List;
 /**
  * Created by Ellly on 2017/11/28.
  */
-
+@Deprecated
 public class QueryAppsIntentService extends IntentService {
     /**
      * Creates an IntentService.  Invoked by your subclass's constructor.
@@ -27,6 +24,7 @@ public class QueryAppsIntentService extends IntentService {
     private static final String TAG = "QAIS";
     private static final String APP_LIST_NAMES_SHARED = "APP_LIST_NAME_SHARED";
     public static final String APP_LIST_NAMES = "APP_LIST_NAME";
+    private static final String GET_LIST_ACTION = "GetListAction";
     public QueryAppsIntentService() {
         super("com.example.engine.query_apps_intent_service");
     }
@@ -42,14 +40,14 @@ public class QueryAppsIntentService extends IntentService {
 /*
         ArrayList<String> names = queryAppsList();
         Intent sendPackageInfoIntent = new Intent();
-        sendPackageInfoIntent.setAction(getString(R.string.WYY_getListAction));
+        sendPackageInfoIntent.setAction(GET_LIST_ACTION);
         sendPackageInfoIntent.putStringArrayListExtra(APP_LIST_NAMES, names);
         sendBroadcast(sendPackageInfoIntent);
 */
         //这里把之前直接返回包名的操作改成了返回PackageInfo的操作
         ArrayList<PackageInfo> infos = queryPackageInfoList();
         Intent sendPackageInfoIntent = new Intent();
-        sendPackageInfoIntent.setAction(getString(R.string.WYY_getListAction));
+        sendPackageInfoIntent.setAction(GET_LIST_ACTION);
         sendPackageInfoIntent.putParcelableArrayListExtra(APP_LIST_NAMES, infos);
         sendBroadcast(sendPackageInfoIntent);
     }

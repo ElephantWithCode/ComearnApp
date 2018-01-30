@@ -1,10 +1,9 @@
-package com.example.team.comearnapp.test;
+package com.example.team.monitorlib.tools;
 
-import android.app.Application;
 import android.content.Context;
-import android.content.Intent;
 import android.util.Log;
 
+import com.example.team.monitorlib.AppMonitor;
 import com.wenming.library.BackgroundUtil;
 
 import java.util.ArrayList;
@@ -21,6 +20,7 @@ public class PackageNameInListDetector {
     private ArrayList<String> mPackagesList;
     private Context mContext;
     private boolean mDetectMode = true;
+    private AppMonitor.DetectListener mAfterDetectListener;
 
     public PackageNameInListDetector(ArrayList<String> targetList){
         mPackagesList = targetList;
@@ -28,53 +28,21 @@ public class PackageNameInListDetector {
 
     public PackageNameInListDetector(){}
 
-
     public void monitor(){
         if (mContext == null){
             throw new RuntimeException("mContext must exists. (the detector must be attached)");
         }
         if (!getAppStatus()){
-            if (mDetectMode) {
-//                executeWithdraw();
-            } else {
-
-            }
+            executeWithdraw();
         }
     }
 
     private void executeWithdraw() {
-        if (mBackMode){
-            turnToAppItself();
-        }else {
-            turnToDesktop();
+        try {
+            mAfterDetectListener.afterDetect();
+        }catch (NullPointerException e){
+            Log.e(TAG + "_E", "listener must be implemented");
         }
-    }
-
-
-    /**
-     * 获得当前检测模式
-     * @return 当前模式。
-     */
-    public boolean getMode(){
-        return mDetectMode;
-    }
-    /**
-     * 改变当前模式（即对应代码功能的回到桌面还是回到应用）
-     */
-    public void switchMode(){
-        mBackMode = !mBackMode;
-    }
-    /**
-     * 回到桌面。
-     */
-    private void turnToDesktop(){
-        //TODO:回到桌面的代码
-    }
-    /**
-     * 回到应用界面
-     */
-    private void turnToAppItself(){
-        mContext.startActivity(new Intent(mContext, MockActivity.class));
     }
 
     /**
@@ -98,6 +66,7 @@ public class PackageNameInListDetector {
         return isForeground;
     }
 
+
     public void setToDetectList(ArrayList<String> targetList){
         mPackagesList = targetList;
     }
@@ -105,8 +74,13 @@ public class PackageNameInListDetector {
     public void attach(Context context){
         mContext = context;
     }
+
     public void detach(){
         mContext = null;
+    }
+
+    public void setAfterDetectListener(AppMonitor.DetectListener l){
+        mAfterDetectListener = l;
     }
 
 

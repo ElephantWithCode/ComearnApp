@@ -1,10 +1,7 @@
 package com.example.team.comearnapp.test;
 
-import android.app.IntentService;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,18 +10,14 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.Toast;
 
 import com.example.team.comearnapp.R;
-import com.example.team.comearnapp.engine.MonitorService;
-import com.example.team.comearnapp.engine.QueryAppsIntentService;
-import com.example.team.comearnlib.base.mvp_mode.base_presenter.BasePresenter;
+import com.example.team.monitorlib.tools.AppInfoObtainer;
+import com.example.team.monitorlib.service.MonitorService;
+import com.example.team.monitorlib.service.QueryAppsIntentService;
 import com.example.team.comearnlib.base.mvp_mode.base_view.IBaseView;
-import com.example.team.comearnlib.utils.ToastTools;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 interface MockBaseView extends IBaseView{
     <T>void updateList(ArrayList<T> list);
@@ -52,7 +45,7 @@ public class MockActivity extends AppCompatActivity implements MockBaseView{
     private BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            ArrayList<String> listExtra = intent.getStringArrayListExtra(QueryAppsIntentService.APP_LIST_NAMES);
+            ArrayList<String> listExtra = intent.getStringArrayListExtra(MonitorService.GET_LIST_ACTION);
             //这里的List引用不能更改
             mAppNameList.addAll(listExtra);
             mPresenter.updateList(mAppNameList);
@@ -94,7 +87,7 @@ public class MockActivity extends AppCompatActivity implements MockBaseView{
                 if (mPresenter.isAttached()) {
                     ArrayList<String> selectedList = mPresenter.getSelectedAppNamesList();
                     Intent sendNameIntent = new Intent(MockActivity.this, MonitorService.class);
-                    sendNameIntent.putStringArrayListExtra(QueryAppsIntentService.APP_LIST_NAMES, selectedList);
+                    sendNameIntent.putStringArrayListExtra(MonitorService.GET_LIST_ACTION, selectedList);
                     mPresenter.startService(sendNameIntent);   
                 }else {
                     Log.d(TAG, "Unattached");

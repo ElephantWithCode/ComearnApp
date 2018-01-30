@@ -1,15 +1,15 @@
-package com.example.team.comearnapp.test;
+package com.example.team.monitorlib.tools;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageInfo;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 
-import com.example.team.comearnapp.R;
-import com.example.team.comearnapp.engine.QueryAppsIntentService;
-import com.example.team.comearnlib.utils.ToastTools;
+import com.example.team.monitorlib.service.MonitorService;
+import com.example.team.monitorlib.service.QueryAppsIntentService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,11 +24,13 @@ public class AppInfoObtainer {
     private boolean mAttached = false;
     private ArrayList<PackageInfo> mPackageInfoList;
     private Context mContext;
-    private PackageInformationExtractor mExtractor;
+    private PackageInformationExtractor mExtractor = new PackageInformationExtractor();
+
+    @Deprecated
     private BroadcastReceiver mUpdateReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            mPackageInfoList = intent.getParcelableArrayListExtra(QueryAppsIntentService.APP_LIST_NAMES);
+            mPackageInfoList = intent.getParcelableArrayListExtra(MonitorService.GET_LIST_ACTION);
             mExtractor = new PackageInformationExtractor(mPackageInfoList);
         }
     };
@@ -36,12 +38,10 @@ public class AppInfoObtainer {
     public AppInfoObtainer(){}
 
     public AppInfoObtainer(Context context){
-        mContext = context;
-        mAttached = true;
-        registerReceiver(mUpdateReceiver, mContext.getString(R.string.WYY_getListAction));
+        attach(context);
     }
 
-    private ArrayList<PackageInfo> queryPackageInfoList(){
+    public ArrayList<PackageInfo> queryPackageInfoList(){
         List<PackageInfo> lst = mContext.getPackageManager().getInstalledPackages(0);
         ArrayList<PackageInfo> aLst = new ArrayList<>();
         aLst.addAll(lst);
@@ -49,20 +49,24 @@ public class AppInfoObtainer {
     }
 
     public void attach(Context context){
+        init(context);
+    }
+
+    private void init(Context context) {
         mContext = context;
         mAttached = true;
-        registerReceiver(mUpdateReceiver, mContext.getString(R.string.WYY_getListAction));
+//        registerReceiver(mUpdateReceiver, mContext.getString(R.string.WYY_getListAction)); 弃用Service
     }
 
     public void detach(){
-        mContext.unregisterReceiver(mUpdateReceiver);
+//        mContext.unregisterReceiver(mUpdateReceiver);
         mAttached = false;
         mContext = null;
     }
 
     public void startQuery(){
 //        mContext.startService(new Intent(mContext, QueryAppsIntentService.class));
-        mExtractor = new PackageInformationExtractor(queryPackageInfoList());
+        mExtractor.setToExtractList(queryPackageInfoList());
     }
 
     public ArrayList<String> getAppsNames(){
@@ -70,14 +74,18 @@ public class AppInfoObtainer {
         return mExtractor.getAppNames(mContext.getPackageManager());
     }
 
+    public ArrayList<Drawable> getAppIcons(){
+        if (checkExtractor()) return null;
+        return mExtractor.getAppIcons(mContext.getPackageManager());
+    }
+
     public ArrayList<String> getPackageNames(){
         if (checkExtractor()) return null;
         return mExtractor.getPackageNames();
     }
-
     private boolean checkExtractor() {
         if (mExtractor == null){
-            Log.d(TAG, "mExtractor must be initialized");
+            Log.e(TAG, "mExtractor must be initialized");
             return true;
         }
         return false;
@@ -89,5 +97,8 @@ public class AppInfoObtainer {
         mContext.registerReceiver(receiver, iFilter);
     }
 
+    public void switchQueryScope(){
+        mExtractor.switchScope();
+    }
 
 }

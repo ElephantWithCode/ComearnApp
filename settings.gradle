@@ -1,1 +1,1 @@
-include ':app', ':comearnlib', 'detectlibrary'
+include ':app', ':comearnlib', ':monitorlib', 'detectlibrary'

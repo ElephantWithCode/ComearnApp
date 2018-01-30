@@ -1,32 +1,30 @@
-package com.example.team.comearnapp.engine;
+package com.example.team.monitorlib.service;
 
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences;
-import android.graphics.LinearGradient;
+import android.os.Binder;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
 import android.util.Log;
 
-import com.example.team.comearnapp.test.MockActivity;
-import com.example.team.comearnapp.test.MockPresenter;
-import com.example.team.comearnapp.test.PackageNameInListDetector;
+import com.example.team.monitorlib.AppMonitor;
+import com.example.team.monitorlib.tools.PackageNameInListDetector;
 import com.wenming.library.BackgroundUtil;
-import com.wenming.library.processutil.ProcessManager;
-import com.wenming.library.processutil.models.AndroidAppProcess;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
 
 public class MonitorService extends Service {
 
-
+    public static final String GET_LIST_ACTION= "APP_LIST_NAME";
     private static final long DETECT_DELAY_MILL = 2000;
+
+    public class CallbackBinder extends Binder{
+        public MonitorService getService(){return MonitorService.this;}
+    }
 
     private class ReturnHandler extends Handler{
         @Override
@@ -40,6 +38,9 @@ public class MonitorService extends Service {
             }
         }
     }
+
+    private CallbackBinder mBinder = new CallbackBinder();
+
     private static int HANDLER_MARK_MONITOR = -1;
     private static final String TAG = "Monitor";
     public static final String RECEIVE = "com.example.train";
@@ -81,7 +82,7 @@ public class MonitorService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
-        mAppNameList = intent.getStringArrayListExtra(QueryAppsIntentService.APP_LIST_NAMES);
+        mAppNameList = intent.getStringArrayListExtra(MonitorService.GET_LIST_ACTION);
         mDetector.setToDetectList(mAppNameList);
 
         Log.d(TAG, "startCommanded");
@@ -97,12 +98,6 @@ public class MonitorService extends Service {
     }
 
 
-    private void monitorAndReturn() {
-        Log.d(TAG, getAppStatus() + "");
-        if (getAppStatus()){
-            startActivity(new Intent(mContext, MockActivity.class));
-        }
-    }
     private boolean getAppStatus() {
         boolean isForeground = false;
         for (String packageName : mAppNameList){
@@ -120,7 +115,11 @@ public class MonitorService extends Service {
 
     @Override
     public IBinder onBind(Intent intent) {
-        // TODO: Return the communication channel to the service.
-        throw new UnsupportedOperationException("Not yet implemented");
+        return mBinder;
     }
+
+    public void setDetectListener(AppMonitor.DetectListener l){
+        mDetector.setAfterDetectListener(l);
+    }
+
 }

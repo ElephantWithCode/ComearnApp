@@ -1,8 +1,10 @@
-package com.example.team.comearnapp.test;
+package com.example.team.monitorlib.tools;
 
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -20,6 +22,12 @@ public class PackageInformationExtractor {
         mPackages = packageInfo;
     }
 
+    public void setToExtractList(List<PackageInfo> packageInfos){
+        mPackages = packageInfos;
+    }
+
+    public PackageInformationExtractor(){}
+
     public void switchScope(){
         if (mSystemFlag == 0){
             mSystemFlag = 1;
@@ -36,6 +44,16 @@ public class PackageInformationExtractor {
             }
         }
         return names;
+    }
+
+    public ArrayList<Drawable> getAppIcons(PackageManager manager){
+        ArrayList<Drawable> icons = new ArrayList<>();
+        for (PackageInfo pi : mPackages){
+            if ((pi.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) == mSystemFlag){
+                icons.add(pi.applicationInfo.loadIcon(manager));
+            }
+        }
+        return icons;
     }
 
     public ArrayList<String> getPackageNames(){
