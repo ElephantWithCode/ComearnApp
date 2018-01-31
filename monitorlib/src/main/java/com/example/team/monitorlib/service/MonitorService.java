@@ -19,14 +19,12 @@ import java.util.ArrayList;
 
 public class MonitorService extends Service {
 
-    public static final String GET_LIST_ACTION= "APP_LIST_NAME";
-    private static final long DETECT_DELAY_MILL = 2000;
-
     public class CallbackBinder extends Binder{
+
         public MonitorService getService(){return MonitorService.this;}
     }
-
     private class ReturnHandler extends Handler{
+
         @Override
         public void handleMessage(Message msg) {
             if (msg.what == HANDLER_MARK_MONITOR) {
@@ -39,44 +37,83 @@ public class MonitorService extends Service {
         }
     }
 
-    private CallbackBinder mBinder = new CallbackBinder();
+    public static final String GET_LIST_ACTION= "APP_LIST_NAME";    //SharedPreferences的标识String。
+    private static final long DETECT_DELAY_MILL = 2000;             //轮询检测前台应用的间隔。
+    private static final int FOREGROUND_SERVICE_MARK = 110;         //启动前台通知的标识。
+    private static int HANDLER_MARK_MONITOR = -1;                   //轮询Handler的what值。
+    private static final String TAG = "Monitor";                    //此类的DebugTag。
+    public static final String RECEIVE = "com.example.train";       //用于注册关闭服务的广播标识。
+    public static final String RECEIVE_CLOSE = "RECEIVE_CLOSE";     //用于关闭服务的Broadcast的IntentFilter。
 
-    private static int HANDLER_MARK_MONITOR = -1;
-    private static final String TAG = "Monitor";
-    public static final String RECEIVE = "com.example.train";
+    private CallbackBinder mBinder = new CallbackBinder();          //为了获得Detector的回调方法而写的Binder。
+    private AppMonitor.NotificationHolder mNotificationHolder;      //为了获得外界的前台通知的Holder抽象的对象。
 
-    private Context mContext;
-    private boolean mStopSignal = true;
+    private Context mContext;                                       //保存的上下文。
+    private boolean mStopSignal = true;                             //后台检测轮询的开关变量。
 
-    private ArrayList<String> mAppNameList = new ArrayList<>();
-    private BroadcastReceiver mReceiver = new BroadcastReceiver() {
+    private ArrayList<String> mAppNameList = new ArrayList<>();     //保存获得的白名单包名。
+    private BroadcastReceiver mStopReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            mStopSignal = false;
+            if (intent.getAction() != null && intent.getAction().equals(RECEIVE_CLOSE)){
+                mStopSignal = false;
+            }
+        }
+    };                                                              //对应的结束轮询的BroadcastReceiver。
+
+    private BroadcastReceiver mCallBackReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            processCallbacks(action);
+        }
+        private void processCallbacks(String action) {
+            int actionIndex = -1;//本身holder不能为空，且其包含的Callback不能为空。
+            if (action != null && mNotificationHolder != null && mNotificationHolder.getCallbacks().size() != 0){
+                for (int i = 0; i < mNotificationHolder.getCallbacks().size(); i++){
+                    if (action.equals(mNotificationHolder.getCallbacks().get(i).getAction())){
+                        actionIndex = i;
+                        break;
+                    }
+                }
+                mNotificationHolder.getCallbacks().get(actionIndex).getCallback().callBack(MonitorService.this);
+            }
         }
     };
-    private ReturnHandler mReturnHandler = new ReturnHandler();
+    private ReturnHandler mReturnHandler = new ReturnHandler();     //用于轮询的Handler。
     private PackageNameInListDetector mDetector = new PackageNameInListDetector();
-
+                                                                    //用来做检测的抽象类对象Detector。
     @Override
     public void onCreate() {
         super.onCreate();
-        registerServiceStopReceiver();
         Log.d(TAG, "Created");
+
         mContext = this;
         mDetector.attach(this);
+
+        if (mNotificationHolder.getNotification() != null){
+            startForeground(FOREGROUND_SERVICE_MARK, mNotificationHolder.getNotification());
+        }
+
+        registerServiceStopReceiver();
     }
 
     @Override
     public void onDestroy() {
+        unregisterReceiver(mStopReceiver);
+        if (mNotificationHolder.getNotification() != null) {
+            stopForeground(true);//不确定这个在没有Notification的情况下会发生什么bug。。
+        }
         super.onDestroy();
-        unregisterReceiver(mReceiver);
     }
 
+    /**
+     * 动态注册用于停止的Receiver。
+     */
     private void registerServiceStopReceiver() {
         IntentFilter broadCastFilter = new IntentFilter();
         broadCastFilter.addAction(RECEIVE);
-        registerReceiver(mReceiver, broadCastFilter);
+        registerReceiver(mStopReceiver, broadCastFilter);
     }
 
     @Override
@@ -97,7 +134,11 @@ public class MonitorService extends Service {
         return START_STICKY;
     }
 
-
+    /**
+     * 此方法已经被抽象到Detector里面。
+     * @return True即为检测到白名单应用。
+     */
+    @Deprecated
     private boolean getAppStatus() {
         boolean isForeground = false;
         for (String packageName : mAppNameList){
@@ -118,8 +159,20 @@ public class MonitorService extends Service {
         return mBinder;
     }
 
+    /**
+     *设置内部的Detector监听。（Listener在监听到非白名单应用后调用“AfterDetect”）
+     * @param l 外界传进来的Listener。
+     */
     public void setDetectListener(AppMonitor.DetectListener l){
         mDetector.setAfterDetectListener(l);
+    }
+
+    /**
+     * 获得外界的Notification，这里用NotificationHolder封装了一层。
+     * @param holder   封装的notification实例。
+     */
+    public void setForegroundNotification(AppMonitor.NotificationHolder holder){
+        mNotificationHolder = holder;
     }
 
 }

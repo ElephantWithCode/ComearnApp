@@ -1,5 +1,6 @@
 package com.example.team.monitorlib;
 
+import android.app.Notification;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -8,7 +9,6 @@ import android.graphics.drawable.Drawable;
 import android.os.IBinder;
 
 import com.example.team.monitorlib.service.MonitorService;
-import com.example.team.monitorlib.service.QueryAppsIntentService;
 import com.example.team.monitorlib.entity.ApplicationInfoEntity;
 import com.example.team.monitorlib.tools.AppInfoObtainer;
 
@@ -27,7 +27,47 @@ public class AppMonitor {
      *      如果需要强制返回应用界面的话，最好使用接口中的Context（来自MonitorService），直接用Activity的startActivity会在退出应用后失效。
      */
     public interface DetectListener{
-        public void afterDetect(Context context);
+        void afterDetect(Context context);
+    }
+
+    public static class NotificationCallback{
+        public NotificationCallback(String mAction, ICallback mCallback) {
+            this.mAction = mAction;
+            this.mCallback = mCallback;
+        }
+
+        public String getAction() {
+            return mAction;
+        }
+
+        public ICallback getCallback() {
+            return mCallback;
+        }
+
+        public interface ICallback{
+            void callBack(Context context);
+        }
+
+        private String mAction;
+        private ICallback mCallback;
+    }
+
+    public static  class NotificationHolder{
+        private Notification mNotification;
+
+        private ArrayList<NotificationCallback> mNosyCallbacks = new ArrayList<>();
+
+        public ArrayList<NotificationCallback> getCallbacks(){return mNosyCallbacks;}
+
+        public void addCallback(NotificationCallback callback){mNosyCallbacks.add(callback);}
+
+        public Notification getNotification(){
+            return mNotification;
+        }
+
+        public void setNotification(Notification mNotification) {
+            this.mNotification = mNotification;
+        }
     }
 
     /**
@@ -39,6 +79,7 @@ public class AppMonitor {
             MonitorService.CallbackBinder binder = (MonitorService.CallbackBinder) service;
             MonitorService monitorService = binder.getService();
             monitorService.setDetectListener(mListener);
+            monitorService.setForegroundNotification(mNotificationHolder);
         }
 
         @Override
@@ -47,8 +88,11 @@ public class AppMonitor {
         }
     };
 
-    private AppInfoObtainer mObtainer;
+    private NotificationHolder mNotificationHolder = new NotificationHolder() {};
+
     private DetectListener mListener;
+
+    private AppInfoObtainer mObtainer;
     private Context mContext;
 
     public AppMonitor(){
@@ -56,7 +100,7 @@ public class AppMonitor {
     }
 
     /**
-     *  主要是bindService比较重要。
+     *  主要是bindService比较重要。（用来传递回调接口）
      * @param context 上下文
      */
     public void attach(Context context){
@@ -123,7 +167,7 @@ public class AppMonitor {
      * 关闭服务。
      */
     public void stopMonitor(){
-        mContext.sendBroadcast(new Intent(MonitorService.RECEIVE));
+        mContext.sendBroadcast(new Intent(MonitorService.RECEIVE_CLOSE));
         mContext.stopService(new Intent(mContext, MonitorService.class));
     }
 
@@ -135,4 +179,11 @@ public class AppMonitor {
         mListener = l;
     }
 
+    /**
+     * 获得外界的Notification，这里用NotificationHolder封装了一层。
+     * @param holder   封装的notification实例。
+     */
+    public void setForegroundNotification(AppMonitor.NotificationHolder holder){
+        mNotificationHolder = holder;
+    }
 }
