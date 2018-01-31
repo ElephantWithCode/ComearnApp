@@ -1,5 +1,7 @@
 package com.example.team.comearnapp.test;
 
+import android.app.Notification;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
@@ -33,6 +35,18 @@ public class SecondMockActivity extends AppCompatActivity {
                 context.startActivity(new Intent(context, SecondMockActivity.class));//这里有个坑：必须得用service的context才能保证一直都能正常工作，直接Activity的话会不能startActivity
             }
         });
+
+        AppMonitor.NotificationHolder holder = new AppMonitor.NotificationHolder();
+        Notification.Builder builder = new Notification.Builder(getApplicationContext()).setContentTitle("测试").setContentText("测试Content").setSmallIcon(R.mipmap.ic_launcher).setWhen(System.currentTimeMillis());
+        holder.addCallback(new AppMonitor.NotificationCallback("ACTION_CLICK", new AppMonitor.NotificationCallback.ICallback() {
+            @Override
+            public void callBack(Context context) {
+                Log.d("SMA_CALL", "call back");
+            }
+        }));
+        holder.setNotification(builder.build());
+        mMonitor.setForegroundNotification(holder);
+
 
         Button start = findViewById(R.id.start);
         Button stop = findViewById(R.id.stop);

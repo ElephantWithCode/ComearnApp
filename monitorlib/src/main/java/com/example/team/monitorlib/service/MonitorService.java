@@ -19,6 +19,8 @@ import java.util.ArrayList;
 
 public class MonitorService extends Service {
 
+    public static final String CALLBACK = "CALLBACK";
+
     public class CallbackBinder extends Binder{
 
         public MonitorService getService(){return MonitorService.this;}
@@ -55,6 +57,7 @@ public class MonitorService extends Service {
     private BroadcastReceiver mStopReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
+            Log.d(TAG + "_STOP", intent.getAction());
             if (intent.getAction() != null && intent.getAction().equals(RECEIVE_CLOSE)){
                 mStopSignal = false;
             }
@@ -68,7 +71,7 @@ public class MonitorService extends Service {
             processCallbacks(action);
         }
         private void processCallbacks(String action) {
-            int actionIndex = -1;//本身holder不能为空，且其包含的Callback不能为空。
+            int actionIndex = -1;                                   //本身holder不能为空，且其包含的Callback不能为空。
             if (action != null && mNotificationHolder != null && mNotificationHolder.getCallbacks().size() != 0){
                 for (int i = 0; i < mNotificationHolder.getCallbacks().size(); i++){
                     if (action.equals(mNotificationHolder.getCallbacks().get(i).getAction())){
@@ -91,11 +94,7 @@ public class MonitorService extends Service {
         mContext = this;
         mDetector.attach(this);
 
-        if (mNotificationHolder.getNotification() != null){
-            startForeground(FOREGROUND_SERVICE_MARK, mNotificationHolder.getNotification());
-        }
-
-        registerServiceStopReceiver();
+        registerServiceReceiver(RECEIVE_CLOSE, mStopReceiver);
     }
 
     @Override
@@ -103,17 +102,20 @@ public class MonitorService extends Service {
         unregisterReceiver(mStopReceiver);
         if (mNotificationHolder.getNotification() != null) {
             stopForeground(true);//不确定这个在没有Notification的情况下会发生什么bug。。
+            if (mNotificationHolder.getCallbacks().size() != 0) {
+                unregisterReceiver(mCallBackReceiver);
+            }
         }
         super.onDestroy();
     }
 
     /**
-     * 动态注册用于停止的Receiver。
+     * 动态注册服务里面的Receiver。
      */
-    private void registerServiceStopReceiver() {
-        IntentFilter broadCastFilter = new IntentFilter();
-        broadCastFilter.addAction(RECEIVE);
-        registerReceiver(mStopReceiver, broadCastFilter);
+    private void registerServiceReceiver(String action, BroadcastReceiver receiver){
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(action);
+        registerReceiver(receiver, filter);
     }
 
     @Override
@@ -121,6 +123,18 @@ public class MonitorService extends Service {
 
         mAppNameList = intent.getStringArrayListExtra(MonitorService.GET_LIST_ACTION);
         mDetector.setToDetectList(mAppNameList);
+
+        if (mNotificationHolder.getNotification() != null){
+            Log.d(TAG + "_NO", "registered");
+            startForeground(FOREGROUND_SERVICE_MARK, mNotificationHolder.getNotification());
+            if (mNotificationHolder.getCallbacks().size() != 0) {
+                IntentFilter filter = new IntentFilter();
+                for (int i = 0; i < mNotificationHolder.getCallbacks().size(); i++){
+                    filter.addAction(mNotificationHolder.getCallbacks().get(i).getAction());
+                }
+                registerReceiver(mCallBackReceiver, filter);
+            }
+        }
 
         Log.d(TAG, "startCommanded");
         Log.d(TAG+"_Size", mAppNameList.size() + "");

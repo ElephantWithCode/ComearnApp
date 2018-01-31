@@ -1,6 +1,7 @@
 package com.example.team.monitorlib;
 
 import android.app.Notification;
+import android.app.PendingIntent;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -28,6 +29,11 @@ public class AppMonitor {
      */
     public interface DetectListener{
         void afterDetect(Context context);
+    }
+
+    public  PendingIntent getPendingIntent(String action, int requestCode){
+        Intent intent = new Intent(action);
+        return PendingIntent.getBroadcast(mContext.getApplicationContext(), requestCode, intent, PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
     public static class NotificationCallback{
