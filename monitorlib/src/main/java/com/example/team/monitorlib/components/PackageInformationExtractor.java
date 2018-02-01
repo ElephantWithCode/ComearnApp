@@ -1,11 +1,9 @@
-package com.example.team.monitorlib.tools;
+package com.example.team.monitorlib.components;
 
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +12,7 @@ import java.util.List;
  * Created by Ellly on 2018/1/27.
  */
 
-public class PackageInformationExtractor {
+class PackageInformationExtractor {
     private List<PackageInfo> mPackages;
     private int mSystemFlag = 0;
 

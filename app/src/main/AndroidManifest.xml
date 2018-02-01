@@ -12,10 +12,10 @@
         <activity android:name=".activity.MainActivity"></activity>
 
         <service
-            android:name="com.example.team.monitorlib.service.MonitorService"
+            android:name="com.example.team.monitorlib.components.MonitorService"
             android:enabled="true"
             android:exported="false" />
-        <service android:name="com.example.team.monitorlib.service.QueryAppsIntentService" />
+        <service android:name="com.example.team.monitorlib.components.QueryAppsIntentService" />
 
         <activity
             android:name=".test.MockActivity"

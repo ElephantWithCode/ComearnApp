@@ -1,4 +1,4 @@
-package com.example.team.monitorlib.entity;
+package com.example.team.monitorlib.components;
 
 import android.graphics.drawable.Drawable;
 

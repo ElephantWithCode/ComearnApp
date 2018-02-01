@@ -12,9 +12,8 @@ import android.widget.Button;
 import android.widget.CheckBox;
 
 import com.example.team.comearnapp.R;
-import com.example.team.monitorlib.tools.AppInfoObtainer;
-import com.example.team.monitorlib.service.MonitorService;
-import com.example.team.monitorlib.service.QueryAppsIntentService;
+import com.example.team.monitorlib.components.AppInfoObtainer;
+import com.example.team.monitorlib.components.MonitorService;
 import com.example.team.comearnlib.base.mvp_mode.base_view.IBaseView;
 
 import java.util.ArrayList;

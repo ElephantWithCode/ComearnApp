@@ -1,4 +1,4 @@
-package com.example.team.monitorlib;
+package com.example.team.monitorlib.components;
 
 import android.app.Notification;
 import android.app.PendingIntent;
@@ -9,15 +9,13 @@ import android.content.ServiceConnection;
 import android.graphics.drawable.Drawable;
 import android.os.IBinder;
 
-import com.example.team.monitorlib.service.MonitorService;
-import com.example.team.monitorlib.entity.ApplicationInfoEntity;
-import com.example.team.monitorlib.tools.AppInfoObtainer;
-
 import java.util.ArrayList;
 
 /**
- * Created by Ellly on 2018/1/30.
+ * Created by Ellly（汪衣宇） on 2018/1/30.
  * 提供手机所有应用信息，以及监控功能。
+ * ——————————————————
+ * 新增提供前台服务功能。
  */
 
 public class AppMonitor {
@@ -31,11 +29,21 @@ public class AppMonitor {
         void afterDetect(Context context);
     }
 
+    /**
+     * 用来获得自定义前台服务通知的PendingIntent。
+     * PS：用的是服务的Context。
+     * @param action 对应的写进MonitorService中的Receiver所接受的action字符串。
+     * @param requestCode Notification的RequestCode属性（应该是与外部关联较大）。
+     * @return 生成的PendingIntent。
+     */
     public  PendingIntent getPendingIntent(String action, int requestCode){
         Intent intent = new Intent(action);
         return PendingIntent.getBroadcast(mContext.getApplicationContext(), requestCode, intent, PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
+    /**
+     * 这个类是点击事件的Action和回调的抽象集合类。
+     */
     public static class NotificationCallback{
         public NotificationCallback(String mAction, ICallback mCallback) {
             this.mAction = mAction;
@@ -50,6 +58,9 @@ public class AppMonitor {
             return mCallback;
         }
 
+        /**
+         *回调接口
+         */
         public interface ICallback{
             void callBack(Context context);
         }
@@ -58,6 +69,9 @@ public class AppMonitor {
         private ICallback mCallback;
     }
 
+    /**
+     * 整体notification的抽象集合类。
+     */
     public static  class NotificationHolder{
         private Notification mNotification;
 

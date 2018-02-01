@@ -1,4 +1,4 @@
-package com.example.team.monitorlib.service;
+package com.example.team.monitorlib.components;
 
 import android.app.Service;
 import android.content.BroadcastReceiver;
@@ -11,13 +11,11 @@ import android.os.IBinder;
 import android.os.Message;
 import android.util.Log;
 
-import com.example.team.monitorlib.AppMonitor;
-import com.example.team.monitorlib.tools.PackageNameInListDetector;
 import com.wenming.library.BackgroundUtil;
 
 import java.util.ArrayList;
 
-public class MonitorService extends Service {
+class MonitorService extends Service {
 
     public static final String CALLBACK = "CALLBACK";
 

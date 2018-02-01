@@ -1,9 +1,8 @@
-package com.example.team.monitorlib.tools;
+package com.example.team.monitorlib.components;
 
 import android.content.Context;
 import android.util.Log;
 
-import com.example.team.monitorlib.AppMonitor;
 import com.wenming.library.BackgroundUtil;
 
 import java.util.ArrayList;
@@ -12,7 +11,7 @@ import java.util.ArrayList;
  * Created by Ellly on 2018/1/24.
  */
 
-public class PackageNameInListDetector {
+class PackageNameInListDetector {
 
     private static final String TAG = "DET";
 

@@ -1,10 +1,9 @@
 package com.example.team.comearnapp.test;
 
 import android.app.Notification;
-import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ApplicationInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,8 +11,8 @@ import android.view.View;
 import android.widget.Button;
 
 import com.example.team.comearnapp.R;
-import com.example.team.monitorlib.AppMonitor;
-import com.example.team.monitorlib.entity.ApplicationInfoEntity;
+import com.example.team.monitorlib.components.AppMonitor;
+import com.example.team.monitorlib.components.ApplicationInfoEntity;
 
 import java.util.ArrayList;
 
@@ -38,12 +37,15 @@ public class SecondMockActivity extends AppCompatActivity {
 
         AppMonitor.NotificationHolder holder = new AppMonitor.NotificationHolder();
         Notification.Builder builder = new Notification.Builder(getApplicationContext()).setContentTitle("测试").setContentText("测试Content").setSmallIcon(R.mipmap.ic_launcher).setWhen(System.currentTimeMillis());
-        holder.addCallback(new AppMonitor.NotificationCallback("ACTION_CLICK", new AppMonitor.NotificationCallback.ICallback() {
+        /*holder.addCallback(new AppMonitor.NotificationCallback("ACTION_CLICK", new AppMonitor.NotificationCallback.ICallback() {
             @Override
             public void callBack(Context context) {
                 Log.d("SMA_CALL", "call back");
             }
-        }));
+        }));*/
+        Intent intent = new Intent(this, SecondMockActivity.class);
+        PendingIntent pi = PendingIntent.getActivities(this, 0, new Intent[]{intent}, PendingIntent.FLAG_UPDATE_CURRENT);
+        builder.setContentIntent(pi);
         holder.setNotification(builder.build());
         mMonitor.setForegroundNotification(holder);
 

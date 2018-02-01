@@ -1,4 +1,4 @@
-package com.example.team.monitorlib.tools;
+package com.example.team.monitorlib.components;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -8,9 +8,6 @@ import android.content.pm.PackageInfo;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 
-import com.example.team.monitorlib.service.MonitorService;
-import com.example.team.monitorlib.service.QueryAppsIntentService;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,7 +15,7 @@ import java.util.List;
  * Created by Ellly on 2018/1/29.
  */
 
-public class AppInfoObtainer {
+class AppInfoObtainer {
 
     public static final String TAG = "AIO";
     private boolean mAttached = false;

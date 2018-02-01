@@ -119,7 +119,17 @@ public class BackgroundUtil {
     }
 
     /**
-     * 方法4：通过使用UsageStatsManager获取，此方法是ndroid5.0A之后提供的API
+     * ——————————————————————————
+     * PS：这个方法在原作者的基础上做了一定的修改
+     * PPS：原方法经测试后只能检测十秒钟
+     * （由于代码中只获得前10s的应用信息，所以停止操作10s后就会返回false即检测失败）
+     * 所以这里修改为：
+     * 用SharedPreferences保存之前检测到的最后一个包名。
+     * （可能会有效率上的问题）
+     *                              ——汪衣宇
+     *  ——————————————————————————
+     *
+     * 方法4：通过使用UsageStatsManager获取，此方法是Android5.0之后提供的API
      * 必须：
      * 1. 此方法只在android5.0以上有效
      * 2. AndroidManifest中加入此权限<uses-permission xmlns:tools="http://schemas.android.com/tools" android:name="android.permission.PACKAGE_USAGE_STATS"
@@ -250,6 +260,16 @@ public class BackgroundUtil {
 
     }
 
+    /**
+     * ——————————————————————
+     * 这个是直接在原作者上添加的
+     * 已被废弃。
+     *                          ——汪衣宇
+     * ——————————————————————
+     * @param context
+     * @return
+     */
+    @Deprecated
     public static String getTopAppPackageName(Context context) {
 
         String packageName = "";
