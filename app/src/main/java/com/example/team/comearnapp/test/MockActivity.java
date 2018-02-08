@@ -12,8 +12,8 @@ import android.widget.Button;
 import android.widget.CheckBox;
 
 import com.example.team.comearnapp.R;
-import com.example.team.monitorlib.components.AppInfoObtainer;
-import com.example.team.monitorlib.components.MonitorService;
+//import com.example.team.monitorlib.components.AppInfoObtainer;
+//import com.example.team.monitorlib.components.MonitorService;
 import com.example.team.comearnlib.base.mvp_mode.base_view.IBaseView;
 
 import java.util.ArrayList;
@@ -38,7 +38,7 @@ public class MockActivity extends AppCompatActivity implements MockBaseView{
     private Button mEnsureListBtn;
     private RecyclerView mAppListRv;
     private AppListRvAdapter<String> mAppListAdapter;
-    private AppInfoObtainer mObtainer;
+//    private AppInfoObtainer mObtainer;
     private ArrayList<String> mAppNameList = new ArrayList<>();
 /*
     private BroadcastReceiver mReceiver = new BroadcastReceiver() {
@@ -64,9 +64,11 @@ public class MockActivity extends AppCompatActivity implements MockBaseView{
 
         mPresenter.attachView(this);
 
+/*
         mObtainer = new AppInfoObtainer(this);
 
         mObtainer.startQuery();
+*/
 
         iniViews();
     }
@@ -79,7 +81,7 @@ public class MockActivity extends AppCompatActivity implements MockBaseView{
         mStartBtn = findViewById(R.id.act_mock_btn_service_start);
         mStopBtn = findViewById(R.id.act_mock_btn_service_stop);
         mGetAppListBtn = findViewById(R.id.act_mock_btn_start_get_app_list_service_);
-
+/*
         mStartBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -112,7 +114,7 @@ public class MockActivity extends AppCompatActivity implements MockBaseView{
                 mAppNameList.addAll(mObtainer.getPackageNames());
                 mPresenter.updateList(mAppNameList);
             }
-        });
+        });*/
         mSelectAllBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -141,7 +143,7 @@ public class MockActivity extends AppCompatActivity implements MockBaseView{
         super.onDestroy();
         mPresenter.detachView();
         mPresenter.unregisterAllReceiver();
-        mObtainer.detach();
+//        mObtainer.detach();
     }
 
     @Override

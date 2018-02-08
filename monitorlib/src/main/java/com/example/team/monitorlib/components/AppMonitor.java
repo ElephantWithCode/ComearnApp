@@ -162,7 +162,7 @@ public class AppMonitor {
      */
     public ArrayList<ApplicationInfoEntity> getAllInformationList(){
         ArrayList<ApplicationInfoEntity> entities = new ArrayList<>();
-        mObtainer.startQuery();
+        mObtainer.startQuery();//主要耗时逻辑
         ArrayList<String> packageNames = mObtainer.getPackageNames();
         ArrayList<String> appLabels = mObtainer.getAppsNames();
         ArrayList<Drawable> appIcons = mObtainer.getAppIcons();

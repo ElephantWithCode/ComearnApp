@@ -1,4 +1,4 @@
-package com.example.team.monitorlib.service;
+package com.example.team.monitorlib.components;
 
 import android.app.IntentService;
 import android.content.Intent;
@@ -15,7 +15,7 @@ import java.util.List;
  * Created by Ellly on 2017/11/28.
  */
 @Deprecated
-public class QueryAppsIntentService extends IntentService {
+class QueryAppsIntentService extends IntentService {
     /**
      * Creates an IntentService.  Invoked by your subclass's constructor.
      *
