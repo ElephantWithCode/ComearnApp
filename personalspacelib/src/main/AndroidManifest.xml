@@ -3,7 +3,7 @@
     package="com.example.team.personalspacelib">
 
     <application>
-        <activity android:name=".test.PersonalSpaceActivity"></activity>
+        <activity android:name=".test.PersonalSpaceActivity" />
     </application>
 
 </manifest>

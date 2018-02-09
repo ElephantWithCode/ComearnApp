@@ -9,20 +9,22 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.MainActivity"></activity>
+        <activity android:name=".activity.MainActivity" />
 
-        <service
-            android:name="com.example.team.monitorlib.components.MonitorService"
-            android:enabled="true"
-            android:exported="false" />
-        <service android:name="com.example.team.monitorlib.components.QueryAppsIntentService" />
+
+        <!--两个Service的声明已经被删去-->
 
         <activity
             android:name=".test.MockActivity"
             android:launchMode="singleTask">
+
         </activity>
-        <activity android:name=".test.SecondMockActivity"
+        <activity
+            android:name=".test.SecondMockActivity"
             android:launchMode="singleTask">
+
+        </activity>
+        <activity android:name=".test.ThirdMockActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
