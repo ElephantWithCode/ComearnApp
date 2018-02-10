@@ -1,14 +1,19 @@
 package com.example.team.comearnapp.test;
 
+import android.graphics.Color;
+import android.support.design.widget.AppBarLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.team.comearnapp.R;
+import com.example.team.comearnlib.utils.ToastTools;
 import com.example.team.personalspacelib.test.DefaultCustomCardView;
+import com.example.team.personalspacelib.test.DefaultCustomCollapsingToolbarLayout;
 
 import java.util.ArrayList;
 
@@ -21,23 +26,43 @@ public class ThirdMockActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_third_mock);
 
+        AppBarLayout appBarLayout = findViewById(R.id.test_app_bar);
 
+        View tmpView = View.inflate(this, R.layout.test_background, null);
+        tmpView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ToastTools.showToast(getApplicationContext(), "Heloo Wolord");
+            }
+        });
+        DefaultCustomCollapsingToolbarLayout collapsingToolbarLayout = new DefaultCustomCollapsingToolbarLayout(this, tmpView);
 
-        mCardView = findViewById(R.id.act_third_dccv_test);
+        collapsingToolbarLayout.setContentScrimColor(Color.parseColor("#4caf50"));
+        setSupportActionBar(collapsingToolbarLayout.getToolbar());
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        TextView tv1 = new TextView(this);
-        TextView tv2 = new TextView(this);
-        TextView tv3 = new TextView(this);
-        tv1.setText("hello world");
-        tv2.setText("hello world");
-        tv3.setText("hello world");
-        tv1.setLayoutParams(lp);
-        tv2.setLayoutParams(lp);
-        tv3.setLayoutParams(lp);
-        mViews.add(tv1);
-        mViews.add(tv2);
-        mViews.add(tv3);
-        mCardView.addViewList(mViews);
+        appBarLayout.addView(collapsingToolbarLayout);
     }
+
+    /**
+     * 从CollapsingToolbarLayout源码下摘录的。
+     * ————————————————————
+     * 其实找到的是根节点。//错了错了。
+     * 这个其实是找的包裹着Toolbar的在CollapsingToolbarLayout下的第一层布局。
+     * 而且如果并没有包裹层，即Toolbar的直接父布局就是CollapsingToolbar的话
+     * 则返回Toolbar（descendant）。
+     * direct是针对CollapsingToolbarLayout而言的
+     * @param descendant 目标View
+     * @return 找到的View
+     */
+    private View findDirectChild(final View descendant) {
+        View directChild = descendant;
+        for (ViewParent p = descendant.getParent(); p != this && p != null; p = p.getParent()) {
+            if (p instanceof View) {
+                directChild = (View) p;
+            }
+        }
+        return directChild;
+    }
+
 }

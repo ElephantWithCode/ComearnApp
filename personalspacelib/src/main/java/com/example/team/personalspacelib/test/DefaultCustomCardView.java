@@ -6,6 +6,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -22,8 +23,8 @@ import java.util.ArrayList;
 public class DefaultCustomCardView extends CardView {
 
     public static final int DEFAULT_DIVIDER_PADDING = 2;
-    public static  int DEFAULT_MARGIN_TB = 5;
-    public static  int DEFAULT_MARGIN_LR = 5;
+    public static  int DEFAULT_MARGIN_TB = 10;
+    public static  int DEFAULT_MARGIN_LR = 10;
 
     public static class WeightedViewWrapper{
         private View mView;
@@ -39,6 +40,10 @@ public class DefaultCustomCardView extends CardView {
 
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(view.getLayoutParams());
             lp.weight = weight;
+            lp.gravity = Gravity.CENTER;
+            lp.width = ViewGroup.LayoutParams.WRAP_CONTENT;
+            lp.height = ViewGroup.LayoutParams.WRAP_CONTENT;// 由于weight的原因
+                                                            // 其实height的值并不会起作用
             lp.setMargins(leftAndRightMargin, topAndBottomMargin, leftAndRightMargin, topAndBottomMargin);
             view.setLayoutParams(lp);
         }
@@ -93,7 +98,9 @@ public class DefaultCustomCardView extends CardView {
         mDirectChildLayout.setDividerDrawable(mDivider);
         mDirectChildLayout.setDividerPadding(DEFAULT_DIVIDER_PADDING);
         mDirectChildLayout.setOrientation(LinearLayout.VERTICAL);
-        mDirectChildLayout.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        LayoutParams lp = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        lp.setMargins(DEFAULT_MARGIN_LR, DEFAULT_MARGIN_TB, DEFAULT_MARGIN_LR, DEFAULT_MARGIN_TB);
+        mDirectChildLayout.setLayoutParams(lp);
         addView(mDirectChildLayout);
     }
 

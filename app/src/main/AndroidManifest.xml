@@ -11,8 +11,7 @@
         android:theme="@style/AppTheme">
         <activity android:name=".activity.MainActivity" />
 
-
-        <!--两个Service的声明已经被删去-->
+        <!-- 两个Service的声明已经被删去 -->
 
         <activity
             android:name=".test.MockActivity"
@@ -25,6 +24,8 @@
 
         </activity>
         <activity android:name=".test.ThirdMockActivity">
+        </activity>
+        <activity android:name=".activity.PersonalInfoActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
