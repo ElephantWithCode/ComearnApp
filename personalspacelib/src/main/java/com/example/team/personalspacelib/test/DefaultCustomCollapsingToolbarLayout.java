@@ -1,7 +1,9 @@
 package com.example.team.personalspacelib.test;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -44,34 +46,44 @@ public class DefaultCustomCollapsingToolbarLayout extends CollapsingToolbarLayou
 
     private void init(View view) {
 
-        TypedValue tv = new TypedValue();
-        mActionBarHeight = 0;
-        if (getContext().getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true)){
-            mActionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data, getContext().getResources().getDisplayMetrics());
-        }
-        Log.d(TAG, mActionBarHeight + "");
+        mActionBarHeight = obtainActionBarHeight();
                                             //获得?attr/actionBarSize
-
         CollapsingToolbarLayout.LayoutParams clp = new CollapsingToolbarLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, mActionBarHeight);
                                             //这里主要是不知道怎么代码获得?attr/actionBarSize值
                                             //TODO 已经获得了。
         mToCollapseView = view;
         mDefaultToolbar = new Toolbar(getContext());
         mDefaultToolbar.setLayoutParams(clp);
-        resetViewCollapseMode(mToCollapseView, LayoutParams.COLLAPSE_MODE_PARALLAX);
+
         resetViewCollapseMode(mDefaultToolbar, LayoutParams.COLLAPSE_MODE_PIN);
+        resetViewCollapseMode(mToCollapseView, LayoutParams.COLLAPSE_MODE_PARALLAX);
+
         addView(mToCollapseView);           //的子View全清空，
         addView(mDefaultToolbar);           //防止再添加时出现冲突。
 
+
+
+        initSelf();
+        initTextColor();
+    }
+
+    private int obtainActionBarHeight() {
+        TypedValue tv = new TypedValue();
+        int actionBarHeight= 0;
+        if (getContext().getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true)){
+            actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data, getContext().getResources().getDisplayMetrics());
+        }
+        return actionBarHeight;
+    }
+
+    private void initSelf() {
         AppBarLayout.LayoutParams lp = new AppBarLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         lp.setScrollFlags(0x3);             //SCROLL|EXIT_UNTIL_COLLAPSED = 0x3
 
         setLayoutParams(lp);
-
-        initColorProperties();
     }
 
-    private void initColorProperties() {
+    private void initTextColor() {
         setExpandedTitleColor(Color.WHITE);
         setCollapsedTitleTextColor(Color.WHITE);
     }
@@ -99,5 +111,22 @@ public class DefaultCustomCollapsingToolbarLayout extends CollapsingToolbarLayou
      * @return Toolbar
      */
     public Toolbar getToolbar(){return mDefaultToolbar;}
+
+    public void setSupportActionBar(final AppCompatActivity activity){
+        activity.setSupportActionBar(mDefaultToolbar);
+        if (activity.getSupportActionBar() != null){
+            activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            activity.getSupportActionBar().setHomeButtonEnabled(true);
+            activity.getSupportActionBar().setHomeAsUpIndicator(R.drawable.white_back_arrow);
+            //TODO 只是不知道怎样把颜色调成白的，应该可以用theme。
+        }
+        mDefaultToolbar.setNavigationOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                activity.finish();
+            }
+        });
+    }
+
 
 }

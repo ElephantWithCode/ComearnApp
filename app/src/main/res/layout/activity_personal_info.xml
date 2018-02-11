@@ -6,15 +6,32 @@
     android:layout_height="match_parent"
     tools:context="com.example.team.comearnapp.activity.PersonalInfoActivity">
     <android.support.v4.widget.NestedScrollView
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:id="@+id/act_personal_info_nsv_second"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
-        <RelativeLayout
+
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="1000dp"
-            android:background="#47bafe">
-            
-        </RelativeLayout>
+            android:layout_height="wrap_content">
+            <com.example.team.personalspacelib.test.DefaultCustomCardView
+                android:layout_margin="3dp"
+                android:id="@+id/act_personal_info_nsv_dccv_hold"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            </com.example.team.personalspacelib.test.DefaultCustomCardView>
+
+            <com.example.team.personalspacelib.test.DefaultCustomCardView
+                android:layout_margin="3dp"
+                android:id="@+id/act_personal_info_nsv_dccv_group_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </com.example.team.personalspacelib.test.DefaultCustomCardView>
+        </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
     <android.support.design.widget.AppBarLayout
         android:id="@+id/act_personal_info_abl"
