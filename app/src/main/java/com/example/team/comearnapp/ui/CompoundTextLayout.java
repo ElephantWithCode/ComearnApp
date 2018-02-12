@@ -60,7 +60,7 @@ public class CompoundTextLayout extends LinearLayout {
 
     private void initEditText() {
         mEditTextView = new EditText(getContext());
-//        mEditTextView.setFocusable(false);
+        mEditTextView.setFocusable(false);
         mEditTextView.setBackground(null);
         mEditTextView.setMaxLines(EDIT_MAX_LINES);
         mEditTextView.setLayoutParams(generateLayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));

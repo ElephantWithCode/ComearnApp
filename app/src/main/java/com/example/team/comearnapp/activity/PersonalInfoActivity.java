@@ -24,6 +24,7 @@ import com.example.team.comearnlib.base.mvp_mode.base_presenter.BasePresenter;
 import com.example.team.comearnlib.base.mvp_mode.base_view.IBaseView;
 import com.example.team.personalspacelib.test.DefaultCustomCardView;
 import com.example.team.personalspacelib.test.DefaultCustomCollapsingToolbarLayout;
+import com.qmuiteam.qmui.util.QMUIStatusBarHelper;
 
 import java.util.ArrayList;
 
@@ -113,6 +114,8 @@ public class PersonalInfoActivity extends AppCompatActivity implements PersonalI
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_personal_info);
+
+        QMUIStatusBarHelper.translucent(this); //沉浸式状态栏
 
         attachWidgets();
 

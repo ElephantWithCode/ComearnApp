@@ -15,16 +15,11 @@
 
         <activity
             android:name=".test.MockActivity"
-            android:launchMode="singleTask">
-
-        </activity>
+            android:launchMode="singleTask"></activity>
         <activity
             android:name=".test.SecondMockActivity"
-            android:launchMode="singleTask">
-
-        </activity>
-        <activity android:name=".test.ThirdMockActivity">
-        </activity>
+            android:launchMode="singleTask"></activity>
+        <activity android:name=".test.ThirdMockActivity"></activity>
         <activity android:name=".activity.PersonalInfoActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -32,6 +27,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".activity.WhiteListActivity"></activity>
     </application>
 
 </manifest>

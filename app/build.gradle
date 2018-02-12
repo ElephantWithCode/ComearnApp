@@ -26,6 +26,8 @@ dependencies {
     implementation 'com.android.support:design:27.0.2'
     implementation 'com.qmuiteam:qmui:1.0.6'
     implementation 'de.hdodenhof:circleimageview:2.2.0'
+    implementation 'org.byteam.superadapter:superadapter:3.6.8'
+    implementation 'cn.hugeterry.coordinatortablayout:coordinatortablayout:1.2.2'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'

@@ -3,4 +3,5 @@
     <dimen name="height_250_abl">250dp</dimen>
     <dimen name="margin_left_and_right_10dp_ci">10dp</dimen>
     <dimen name="text_size_normal">15sp</dimen>
+    <dimen name="btn_radius_3_dp">3dp</dimen>
 </resources>

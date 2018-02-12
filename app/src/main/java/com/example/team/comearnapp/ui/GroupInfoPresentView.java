@@ -1,6 +1,7 @@
 package com.example.team.comearnapp.ui;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.RelativeLayout;
@@ -45,6 +46,19 @@ public class GroupInfoPresentView extends RelativeLayout {
 
     public void setGroupInfo(GroupInfo info){
         mGroupName.setText(info.getGroupName());
+    }
+
+    /**
+     * 设置点击事件：跳转到群组信息界面。
+     * //TODO 现在仍未有具体的model，保留。
+dd     */
+    public void startActivityOn(){
+        setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
     }
 
 }
