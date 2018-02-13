@@ -14,11 +14,13 @@ public class AppInfo implements Parcelable{
     private Bitmap mAppIcon;
     private String mAppLabel;
     private String mAppPackageName;
+    private boolean mAppSelected;
 
     public AppInfo(Bitmap mAppIcon, String mAppLabel, String mAppPackageName){
         this.mAppIcon = mAppIcon;
         this.mAppLabel = mAppLabel;
         this.mAppPackageName = mAppPackageName;
+        this.mAppSelected = false;
     }
 
     public AppInfo(){}
@@ -27,6 +29,7 @@ public class AppInfo implements Parcelable{
         mAppIcon = in.readParcelable(Bitmap.class.getClassLoader());
         mAppLabel = in.readString();
         mAppPackageName = in.readString();
+        mAppSelected = in.readByte() != 0;
     }
 
     public static final Creator<AppInfo> CREATOR = new Creator<AppInfo>() {
@@ -53,6 +56,12 @@ public class AppInfo implements Parcelable{
         return mAppPackageName;
     }
 
+    public boolean getAppSeleted(){return mAppSelected;}
+
+    public void setAppSelected(boolean selected){
+        this.mAppSelected = selected;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -63,5 +72,6 @@ public class AppInfo implements Parcelable{
         parcel.writeParcelable(mAppIcon, i);
         parcel.writeString(mAppLabel);
         parcel.writeString(mAppPackageName);
+        parcel.writeByte((byte) (mAppSelected ? 1 : 0));
     }
 }
