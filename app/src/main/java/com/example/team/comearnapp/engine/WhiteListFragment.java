@@ -43,6 +43,7 @@ interface FragmentWhiteListView extends IBaseView{
     void presentLoading();
     void stopLoading();
     boolean appsShowType();
+    ArrayList<AppInfo> getInfos();
 }
 
 class FragmentWhiteListPresenter extends BasePresenter<FragmentWhiteListView>{
@@ -86,6 +87,10 @@ class FragmentWhiteListPresenter extends BasePresenter<FragmentWhiteListView>{
             }
         }.start();
     }
+
+    public void uploadAppSelectedStates(){
+        mView.getInfos();
+    }
 }
 
 class FragmentWhiteListModel extends BaseModel{
@@ -108,6 +113,11 @@ class FragmentWhiteListModel extends BaseModel{
             appInfos.add(info);
         }
         return appInfos;
+    }
+
+    private ArrayList adapteType(ArrayList<AppInfo> infos){
+        //TODO 准备用来适应后端的数据结构。
+        return infos;
     }
 }
 public class WhiteListFragment extends Fragment implements FragmentWhiteListView{
@@ -186,6 +196,11 @@ public class WhiteListFragment extends Fragment implements FragmentWhiteListView
     @Override
     public boolean appsShowType() {
         return mShowSystemApps;
+    }
+
+    @Override
+    public ArrayList<AppInfo> getInfos() {
+        return mInfos;
     }
 }
 

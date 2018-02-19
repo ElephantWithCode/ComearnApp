@@ -29,23 +29,23 @@ public class DefaultCustomCardView extends CardView {
     public static final int DEFAULT_DIVIDER_PADDING = 2;
     public static final int RADIUS = 10;
     public static final int ELEVATION = 10;
-    public static  int DEFAULT_MARGIN_TB = 0;
-    public static  int DEFAULT_MARGIN_LR = 15;
+    public static  int DEFAULT_Padding_TB = 0;
+    public static  int DEFAULT_PADDING_LR = 15;
 
     public static class WeightedViewWrapper{
         private View mView;
         private LinearLayout.LayoutParams mLayoutParams;
         private float mWeight;
-        private int mTopAndBottomMargin;
-        private int mLeftAndRightMargin;
+        private int mTopAndBottomPadding;
+        private int mLeftAndRightPadding;
         private int mGravity;
 
         @Deprecated
         public WeightedViewWrapper(View view, float weight, int topAndBottomMargin, int leftAndRightMargin) {
             this.mView = view;
             this.mWeight = weight;
-            this.mLeftAndRightMargin = leftAndRightMargin;
-            this.mTopAndBottomMargin = topAndBottomMargin;
+            this.mLeftAndRightPadding = leftAndRightMargin;
+            this.mTopAndBottomPadding = topAndBottomMargin;
 
             LinearLayout.LayoutParams lp;
             if (view.getLayoutParams() == null){
@@ -56,7 +56,13 @@ public class DefaultCustomCardView extends CardView {
                 lp = new LinearLayout.LayoutParams(view.getLayoutParams());
             }
             lp.weight = weight;
-            lp.setMargins(leftAndRightMargin, topAndBottomMargin, leftAndRightMargin, topAndBottomMargin);
+//            lp.setMargins(leftAndRightMargin, topAndBottomMargin, leftAndRightMargin, topAndBottomMargin);
+            //考虑兼容性不再设置margin而是padding。
+
+            view.setPadding(leftAndRightMargin + view.getPaddingLeft(),
+                            topAndBottomMargin + view.getPaddingTop(),
+                            leftAndRightMargin + view.getPaddingRight(),
+                            topAndBottomMargin + view.getPaddingBottom());
             view.setLayoutParams(lp);
         }
 
@@ -75,9 +81,13 @@ public class DefaultCustomCardView extends CardView {
             return this;
         }
 
-        public WeightedViewWrapper setMargins(int lrMargins, int tbMargins){
-            this.mLeftAndRightMargin = lrMargins;
-            mLayoutParams.setMargins(lrMargins, tbMargins, lrMargins, tbMargins);
+        public WeightedViewWrapper setPadding(int lrPadding, int tbPadding){
+            this.mLeftAndRightPadding = lrPadding;
+            this.mTopAndBottomPadding = tbPadding;
+            this.mView.setPadding(lrPadding + mView.getPaddingLeft(),
+                    tbPadding + mView.getPaddingTop(),
+                    lrPadding + mView.getPaddingRight(),
+                    tbPadding + mView.getPaddingBottom());
             return this;
         }
 
@@ -101,30 +111,45 @@ public class DefaultCustomCardView extends CardView {
     public static final String TAG = "DCCV";
     private LinearLayout mDirectChildLayout;
     private Drawable mDivider;
-    private ArrayList<WeightedViewWrapper> mViewWrappers;
+    private ArrayList<WeightedViewWrapper> mViewWrappers = new ArrayList<>();
     private boolean mHeadEnable = false;
     private TextView mHeadText;
 
     public DefaultCustomCardView(Context context) {
         super(context);
-        init(context);
+        init();
     }
 
     public DefaultCustomCardView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init(context);
+        init();
     }
 
     public DefaultCustomCardView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init(context);
+        init();
     }
 
-    private void init(Context context) {
+    @Override
+    protected void onFinishInflate() {
+        relocateChildViews();
+        super.onFinishInflate();
+    }
 
-        initDirectChild(context);
+    private void init() {
 
         initSelf();
+        
+    }
+
+    private void relocateChildViews() {
+        ArrayList<View> childViews = new ArrayList<>();
+        for (int i = 0; i < getChildCount(); i++){
+            childViews.add(getChildAt(i));
+        }
+        removeAllViews();
+        initDirectChild(getContext());
+        addViewList(childViews);
     }
 
     private void initSelf() {
@@ -150,7 +175,7 @@ public class DefaultCustomCardView extends CardView {
         mDirectChildLayout.setOrientation(LinearLayout.VERTICAL);
 
         LayoutParams lp = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        lp.setMargins(DEFAULT_MARGIN_LR, DEFAULT_MARGIN_TB, DEFAULT_MARGIN_LR, DEFAULT_MARGIN_TB);
+        lp.setMargins(DEFAULT_PADDING_LR, DEFAULT_Padding_TB, DEFAULT_PADDING_LR, DEFAULT_Padding_TB);
         mDirectChildLayout.setLayoutParams(lp);
 
         addView(mDirectChildLayout);
@@ -172,16 +197,22 @@ public class DefaultCustomCardView extends CardView {
 
         //默认情况下将所有的View的Weight均设为1,margins设为默认值。
         ArrayList<WeightedViewWrapper> wrappers = new ArrayList<>();
-        if (mHeadEnable) {
-            wrappers.add(new WeightedViewWrapper(mHeadText).setWeight(1).setMargins(DEFAULT_MARGIN_LR, DEFAULT_MARGIN_TB).setGravity(Gravity.CENTER).build());
-        }
+        /*if (mHeadEnable) {
+            wrappers.add(new WeightedViewWrapper(mHeadText).setWeight(1).setPadding(DEFAULT_PADDING_LR, DEFAULT_Padding_TB).setGravity(Gravity.CENTER).build());
+        }*/
         for (View v : views){
-            WeightedViewWrapper wrapper = new WeightedViewWrapper(v).setWeight(1).setMargins(DEFAULT_MARGIN_LR, DEFAULT_MARGIN_TB).build();
+            WeightedViewWrapper wrapper = new WeightedViewWrapper(v).setWeight(1).setPadding(DEFAULT_PADDING_LR, DEFAULT_Padding_TB).build();
             wrappers.add(wrapper);
         }
-        mViewWrappers = wrappers;
+        mViewWrappers.addAll(wrappers);
 
         addViewsIntoDCLayout(wrappers);
+    }
+
+    public void addSingleView(View view){
+        ArrayList<View> views = new ArrayList<>();
+        views.add(view);
+        addViewList(views);
     }
 
     private void addViewsIntoDCLayout(ArrayList<WeightedViewWrapper> wrappers) {
@@ -191,20 +222,45 @@ public class DefaultCustomCardView extends CardView {
             }
         } catch (NullPointerException e) {
             Log.w(TAG, "ArrayList为空");
+            throw e;
         }
     }
 
+    /**
+     * 设置头部文字是否存在。
+     * <strong>设置存在时可以直接设置{@link #setHeadText(CharSequence)}
+     * 内部直接设置了此方法为true</strong>
+     * @param enable 设置值
+     * @return 为了支持链式调用。
+     */
     public DefaultCustomCardView setHeadTextEnable(boolean enable){
         mHeadEnable = enable;
         if (enable) {
             mHeadText = generateHeadTextView();
+        }else {
+            mDirectChildLayout.removeView(mHeadText);
         }
         return this;
     }
 
+    /**
+     * 添加一个头部文字
+     * <strong>PS：只在有内部LinearLayout至少有一个子View的条件下成立</strong>
+     * @param text 标题
+     * @return 为了支持链式调用
+     */
     public DefaultCustomCardView setHeadText(CharSequence text){
         setHeadTextEnable(true);
         mHeadText.setText(text);
+        mDirectChildLayout.addView(new WeightedViewWrapper(mHeadText).setWeight(1).setPadding(DEFAULT_PADDING_LR, DEFAULT_Padding_TB).setGravity(Gravity.CENTER).build().getView(), 0);
+
+        return this;
+    }
+
+    public DefaultCustomCardView setHeadTextColor(int color){
+        if (mHeadText != null) {
+            mHeadText.setTextColor(color);
+        }
         return this;
     }
 }

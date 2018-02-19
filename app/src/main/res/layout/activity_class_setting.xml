@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.example.team.comearnapp.activity.ClassSettingActivity">
+    <com.example.team.personalspacelib.test.DefaultCustomCardView
+        android:id="@+id/act_class_setting_dccv_spot"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp">
+        <EditText
+            android:text="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </com.example.team.personalspacelib.test.DefaultCustomCardView>
+    <com.example.team.personalspacelib.test.DefaultCustomCardView
+        android:id="@+id/act_class_setting_dccv_start_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp">
+        <TextView
+            android:textColor="@color/colorPrimary"
+            android:textSize="50sp"
+            android:gravity="center"
+            android:id="@+id/act_class_setting_dccv_start_time_tv_start_time"
+            android:text="10:00"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </com.example.team.personalspacelib.test.DefaultCustomCardView>
+    <com.example.team.personalspacelib.test.DefaultCustomCardView
+        android:id="@+id/act_class_setting_dccv_last_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+          </RelativeLayout>
+    </com.example.team.personalspacelib.test.DefaultCustomCardView>
+
+    <com.example.team.comearnlib.ui.ChangeShapeButton
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>

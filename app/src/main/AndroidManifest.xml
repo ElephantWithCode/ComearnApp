@@ -15,15 +15,16 @@
 
         <activity
             android:name=".test.MockActivity"
-            android:launchMode="singleTask"></activity>
+            android:launchMode="singleTask" />
         <activity
             android:name=".test.SecondMockActivity"
-            android:launchMode="singleTask"></activity>
-        <activity android:name=".test.ThirdMockActivity"></activity>
-        <activity android:name=".activity.PersonalInfoActivity">
+            android:launchMode="singleTask" />
+        <activity android:name=".test.ThirdMockActivity" />
+        <activity android:name=".activity.PersonalInfoActivity"></activity>
+        <activity android:name=".activity.WhiteListActivity">
 
         </activity>
-        <activity android:name=".activity.WhiteListActivity">
+        <activity android:name=".activity.ClassSettingActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

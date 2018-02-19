@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
+import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -14,6 +16,7 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 
 import com.example.team.personalspacelib.R;
 
@@ -25,7 +28,7 @@ public class DefaultCustomCollapsingToolbarLayout extends CollapsingToolbarLayou
 
     public static final String TAG  = "DCCTL";
 
-    private Toolbar mDefaultToolbar;
+    private Toolbar mToolbar;
     private View mToCollapseView;
     private int mActionBarHeight;
 
@@ -52,14 +55,14 @@ public class DefaultCustomCollapsingToolbarLayout extends CollapsingToolbarLayou
                                             //这里主要是不知道怎么代码获得?attr/actionBarSize值
                                             //TODO 已经获得了。
         mToCollapseView = view;
-        mDefaultToolbar = new Toolbar(getContext());
-        mDefaultToolbar.setLayoutParams(clp);
+        mToolbar = new Toolbar(getContext());
+        mToolbar.setLayoutParams(clp);
 
-        resetViewCollapseMode(mDefaultToolbar, LayoutParams.COLLAPSE_MODE_PIN);
+        resetViewCollapseMode(mToolbar, LayoutParams.COLLAPSE_MODE_PIN);
         resetViewCollapseMode(mToCollapseView, LayoutParams.COLLAPSE_MODE_PARALLAX);
 
         addView(mToCollapseView);           //的子View全清空，
-        addView(mDefaultToolbar);           //防止再添加时出现冲突。
+        addView(mToolbar);           //防止再添加时出现冲突。
 
 
 
@@ -110,17 +113,17 @@ public class DefaultCustomCollapsingToolbarLayout extends CollapsingToolbarLayou
      * 主要目的为方便自定义。
      * @return Toolbar
      */
-    public Toolbar getToolbar(){return mDefaultToolbar;}
+    public Toolbar getToolbar(){return mToolbar;}
 
     public void setSupportActionBar(final AppCompatActivity activity){
-        activity.setSupportActionBar(mDefaultToolbar);
+        activity.setSupportActionBar(mToolbar);
         if (activity.getSupportActionBar() != null){
             activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             activity.getSupportActionBar().setHomeButtonEnabled(true);
             activity.getSupportActionBar().setHomeAsUpIndicator(R.drawable.white_back_arrow);
             //TODO 只是不知道怎样把颜色调成白的，应该可以用theme。
         }
-        mDefaultToolbar.setNavigationOnClickListener(new OnClickListener() {
+        mToolbar.setNavigationOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 activity.finish();
@@ -128,5 +131,46 @@ public class DefaultCustomCollapsingToolbarLayout extends CollapsingToolbarLayou
         });
     }
 
+    /**
+     * 设置透明状态栏
+     *
+     * @param activity 当前展示的activity
+     * @return CoordinatorTabLayout
+     */
+    public DefaultCustomCollapsingToolbarLayout setTranslucentStatusBar(@NonNull Activity activity) {
 
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
+            return this;
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            activity.getWindow().setStatusBarColor(Color.TRANSPARENT);
+            activity.getWindow()
+                    .getDecorView()
+                    .setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            activity.getWindow()
+                    .setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
+                            WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        }
+
+        if (mToolbar != null) {
+            ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) mToolbar.getLayoutParams();
+            layoutParams.setMargins(
+                    layoutParams.leftMargin,
+                    layoutParams.topMargin + getStatusBarHeight(activity),
+                    layoutParams.rightMargin,
+                    layoutParams.bottomMargin);
+        }
+
+        return this;
+    }
+
+    public static int getStatusBarHeight(Context context) {
+        int result = 0;
+        int resourceId = context.getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            result = context.getResources().getDimensionPixelSize(resourceId);
+        }
+        return result;
+    }
 }

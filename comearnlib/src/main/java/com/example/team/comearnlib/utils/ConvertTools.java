@@ -18,4 +18,12 @@ public class ConvertTools {
     public static Drawable bitmapToDrawable(Context context, Bitmap bitmap){
         return new BitmapDrawable(context.getResources(), bitmap);
     }
+
+    public static String parseTime(int time){
+        if (time < 10) {
+            return "0" + String.valueOf(time);
+        }else {
+            return String.valueOf(time);
+        }
+    }
 }

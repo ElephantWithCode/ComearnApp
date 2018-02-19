@@ -8,7 +8,6 @@ import android.util.AttributeSet;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 /**
@@ -77,12 +76,14 @@ public class CompoundTextLayout extends LinearLayout {
         addView(mTextView);
     }
 
-    public void setLabelText(CharSequence text){
+    public CompoundTextLayout setLabelText(CharSequence text){
         mTextView.setText(text);
+        return this;
     }
 
-    public void setContentText(CharSequence text){
+    public CompoundTextLayout setContentText(CharSequence text){
         mEditTextView.setText(text);
+        return this;
     }
 
     @NonNull
