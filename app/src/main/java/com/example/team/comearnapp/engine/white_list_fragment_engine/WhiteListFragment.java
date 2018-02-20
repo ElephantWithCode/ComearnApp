@@ -1,15 +1,12 @@
-package com.example.team.comearnapp.engine;
+package com.example.team.comearnapp.engine.white_list_fragment_engine;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,12 +18,6 @@ import android.widget.TextView;
 
 import com.example.team.comearnapp.R;
 import com.example.team.comearnapp.entity.AppInfo;
-import com.example.team.comearnlib.base.mvp_mode.base_model.BaseModel;
-import com.example.team.comearnlib.base.mvp_mode.base_presenter.BasePresenter;
-import com.example.team.comearnlib.base.mvp_mode.base_view.IBaseView;
-import com.example.team.comearnlib.utils.ConvertTools;
-import com.example.team.monitorlib.components.AppMonitor;
-import com.example.team.monitorlib.components.ApplicationInfoEntity;
 
 import org.byteam.superadapter.SuperAdapter;
 import org.byteam.superadapter.SuperViewHolder;
@@ -34,93 +25,7 @@ import org.byteam.superadapter.SuperViewHolder;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Ellly on 2018/2/12.
- */
-
-interface FragmentWhiteListView extends IBaseView{
-    void updateAppList(ArrayList<AppInfo> infos);
-    void presentLoading();
-    void stopLoading();
-    boolean appsShowType();
-    ArrayList<AppInfo> getInfos();
-}
-
-class FragmentWhiteListPresenter extends BasePresenter<FragmentWhiteListView>{
-
-    public static final String TAG = "WLF";
-    private FragmentWhiteListModel mModel = new FragmentWhiteListModel();
-    private Handler mUpdateHandler = new Handler();
-
-    public FragmentWhiteListPresenter(){
-
-    }
-
-    @Override
-    public void attachView(FragmentWhiteListView view) {
-        super.attachView(view);
-        mModel.attach(mView.getContext());
-    }
-
-    @Override
-    public void detachView() {
-        super.detachView();
-        mModel.detach();
-    }
-
-    public void updateAppList(){
-        mView.presentLoading();
-        new Thread(){
-            @Override
-            public void run() {
-                if (mView.appsShowType()){
-                    mModel.switchQueryScope();
-                }
-                final ArrayList<AppInfo> appInfos = mModel.getAppInfos();
-                mUpdateHandler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        mView.updateAppList(appInfos);
-                        mView.stopLoading();
-                    }
-                }, 0);
-            }
-        }.start();
-    }
-
-    public void uploadAppSelectedStates(){
-        mView.getInfos();
-    }
-}
-
-class FragmentWhiteListModel extends BaseModel{
-    private AppMonitor mMonitor = new AppMonitor();
-
-    public void attach(Context context){mMonitor.attach(context);}
-
-    public void detach(){mMonitor.detach();}
-
-    public ArrayList<AppInfo> getAppInfos(){
-        return adaptType(mMonitor.getAllInformationList());
-    }
-
-    public void switchQueryScope(){mMonitor.switchQueryScope();}
-
-    private ArrayList<AppInfo> adaptType(ArrayList<ApplicationInfoEntity> entities){
-        ArrayList<AppInfo> appInfos = new ArrayList<>();
-        for (ApplicationInfoEntity entity : entities){
-            AppInfo info = new AppInfo(ConvertTools.drawableToBitmap(entity.getAppIcon()), entity.getAppLabel(), entity.getPackageName());
-            appInfos.add(info);
-        }
-        return appInfos;
-    }
-
-    private ArrayList adapteType(ArrayList<AppInfo> infos){
-        //TODO 准备用来适应后端的数据结构。
-        return infos;
-    }
-}
-public class WhiteListFragment extends Fragment implements FragmentWhiteListView{
+public class WhiteListFragment extends Fragment implements FragmentWhiteListView {
 
     private RecyclerView mRecyclerView;
     private ProgressBar mProgressBar;
@@ -143,6 +48,26 @@ public class WhiteListFragment extends Fragment implements FragmentWhiteListView
         fragment.setArguments(args);
 
         return fragment;
+    }
+
+    public static WhiteListFragment newInstance(){
+        Bundle args = new Bundle();
+
+        WhiteListFragment fragment = new WhiteListFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    public WhiteListFragment setPresenter(FragmentWhiteListPresenter presenter){
+        mPresenter = presenter;
+        return this;
+    }
+
+    public WhiteListFragment setModel(FragmentWhiteListModel model){
+        if (mPresenter != null){
+            mPresenter.setModel(model);
+        }
+        return this;
     }
 
     @Override

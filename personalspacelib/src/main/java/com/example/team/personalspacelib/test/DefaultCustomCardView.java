@@ -263,4 +263,9 @@ public class DefaultCustomCardView extends CardView {
         }
         return this;
     }
+
+    public DefaultCustomCardView setContentBackgroundColor(int color){
+        mDirectChildLayout.setBackgroundColor(color);
+        return this;
+    }
 }

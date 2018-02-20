@@ -6,14 +6,28 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.example.team.comearnapp.activity.ClassSettingActivity">
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimary"
+        android:elevation="4dp"
+        app:title="课堂设置"
+        app:titleTextColor="#ffffff">
+
+    </android.support.v7.widget.Toolbar>
     <com.example.team.personalspacelib.test.DefaultCustomCardView
         android:id="@+id/act_class_setting_dccv_spot"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp">
         <EditText
-            android:text="1"
-            android:layout_width="wrap_content"
+            android:focusable="false"
+            android:clickable="false"
+            android:textColor="@color/colorPrimary"
+            android:gravity="center"
+            android:text="信远#311"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </com.example.team.personalspacelib.test.DefaultCustomCardView>
     <com.example.team.personalspacelib.test.DefaultCustomCardView
@@ -23,7 +37,7 @@
         android:layout_margin="5dp">
         <TextView
             android:textColor="@color/colorPrimary"
-            android:textSize="50sp"
+            android:textSize="40sp"
             android:gravity="center"
             android:id="@+id/act_class_setting_dccv_start_time_tv_start_time"
             android:text="10:00"
@@ -38,11 +52,56 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_marginTop="10dp"
+                android:id="@+id/act_class_setting_dccv_last_time_tv_last_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:gravity="center"
+                android:text="10"
+                android:textColor="@color/colorPrimary"
+                android:textSize="40sp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/act_class_setting_dccv_last_time_tv_last_time"
+                android:layout_alignBaseline="@id/act_class_setting_dccv_last_time_tv_last_time"
+                android:layout_marginLeft="5dp"
+                android:textColor="@color/colorPrimary"
+                android:text="min"
+                android:textSize="20sp"/>
+
+            <com.xw.repo.BubbleSeekBar
+                android:layout_marginTop="20dp"
+                android:id="@+id/act_class_setting_dccv_last_time_bsb_seek_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/act_class_setting_dccv_last_time_tv_last_time"
+                app:bsb_bubble_color="@color/colorPrimary"
+                app:bsb_bubble_text_color="#ffffff"
+                app:bsb_max="200"
+                app:bsb_min="10"
+                app:bsb_second_track_color="@color/colorPrimary"
+                app:bsb_section_count="9"
+                app:bsb_section_text_position="bottom_sides"
+                app:bsb_show_section_mark="true"
+                app:bsb_show_section_text="true"
+                app:bsb_show_thumb_text="true"/>
           </RelativeLayout>
+
     </com.example.team.personalspacelib.test.DefaultCustomCardView>
 
-    <com.example.team.comearnlib.ui.ChangeShapeButton
+    <Button
+        android:id="@+id/act_class_setting_btn_start_study"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:background="@drawable/wyy_activity_personal_info_btn_background"
+        android:layout_margin="5dp"
+        android:text="学呗"
+        android:textSize="30sp"
+        android:textColor="#ffffff"/>
 
 </LinearLayout>

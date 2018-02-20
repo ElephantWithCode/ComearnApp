@@ -1,19 +1,16 @@
 package com.example.team.comearnapp.activity;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.example.team.comearnapp.R;
-import com.example.team.comearnapp.engine.WhiteListFragment;
+import com.example.team.comearnapp.engine.white_list_fragment_engine.WhiteListFragment;
 import com.example.team.comearnlib.base.mvp_mode.base_model.BaseModel;
 import com.example.team.comearnlib.base.mvp_mode.base_presenter.BasePresenter;
 import com.example.team.comearnlib.base.mvp_mode.base_view.IBaseView;
@@ -36,11 +33,11 @@ class WhiteListPresenter extends BasePresenter<WhiteListBaseView>{
 
 public class WhiteListActivity extends AppCompatActivity implements WhiteListBaseView{
 
-    private CoordinatorTabLayout mCoorTabLayout;
-    private ViewPager mViewPager;
+    protected CoordinatorTabLayout mCoorTabLayout;
+    protected ViewPager mViewPager;
 
-    private ArrayList<String> mIndicators = new ArrayList<>();
-    private ArrayList<Fragment> mFragments = new ArrayList<>();
+    protected ArrayList<String> mIndicators = new ArrayList<>();
+    protected ArrayList<Fragment> mFragments = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,17 +56,17 @@ public class WhiteListActivity extends AppCompatActivity implements WhiteListBas
 
     }
 
-    private void initIndicators() {
+    protected void initIndicators() {
         mIndicators.add("非系统");
         mIndicators.add("系统");
     }
 
-    private void initFragments() {
+    protected void initFragments() {
         mFragments.add(WhiteListFragment.newInstance(false));
         mFragments.add(WhiteListFragment.newInstance(true));
     }
 
-    private void initViewPager() {
+    protected void initViewPager() {
         FragmentPagerAdapter pagerAdapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
             @Override
             public Fragment getItem(int position) {
@@ -90,7 +87,7 @@ public class WhiteListActivity extends AppCompatActivity implements WhiteListBas
         mViewPager.setAdapter(pagerAdapter);
     }
 
-    private void initCoorTabLayout() {
+    protected void initCoorTabLayout() {
         mCoorTabLayout.setTitle("设置白名单");
         mCoorTabLayout.setTranslucentStatusBar(this);
         mCoorTabLayout.setBackEnable(true);
@@ -107,7 +104,7 @@ public class WhiteListActivity extends AppCompatActivity implements WhiteListBas
         return super.onOptionsItemSelected(item);
     }
 
-    private void bindView() {
+    protected void bindView() {
         mCoorTabLayout = findViewById(R.id.act_white_list_ctl);
         mViewPager = findViewById(R.id.act_white_list_ctl_vp_content);
     }
