@@ -1,4 +1,4 @@
-package com.example.team.comearnapp.engine.white_list_fragment_engine;
+package com.example.team.comearnapp.engine.fragment.white_list;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -33,6 +33,7 @@ public class WhiteListFragment extends Fragment implements FragmentWhiteListView
     private ArrayList<AppInfo> mInfos = new ArrayList<>();
     private FragmentWhiteListPresenter mPresenter = new FragmentWhiteListPresenter();
     private boolean mShowSystemApps = false;
+    private boolean mCheckboxVisibility = true;
 
     private static String ARRAY_KEY = "APP_LIST";
     private static String SYSTEM_APP_KEY = "SYSTEM_APP_LIST";
@@ -94,8 +95,10 @@ public class WhiteListFragment extends Fragment implements FragmentWhiteListView
         mRecyclerView = view.findViewById(R.id.act_white_list_rv);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         mAdapter = new WhiteListAdapter(getContext(), mInfos, R.layout.item_act_white_list_rv_app_list);
+        mAdapter.setCheckboxVisibility(mCheckboxVisibility);
         mRecyclerView.setAdapter(mAdapter);
         mPresenter.updateAppList();
+
         return view;
     }
 
@@ -127,13 +130,25 @@ public class WhiteListFragment extends Fragment implements FragmentWhiteListView
     public ArrayList<AppInfo> getInfos() {
         return mInfos;
     }
+
+    @Override
+    public WhiteListFragment setCheckboxVisibility(boolean visibility) {
+        mCheckboxVisibility = visibility;
+        return this;
+    }
 }
 
 
 class WhiteListAdapter extends SuperAdapter<AppInfo>{
 
+    private boolean mCheckboxVisibility = true;
+
     public WhiteListAdapter(Context context, List<AppInfo> items, int layoutResId) {
         super(context, items, layoutResId);
+    }
+
+    public void setCheckboxVisibility(boolean visible){
+        mCheckboxVisibility = visible;
     }
 
     @Override
@@ -141,12 +156,18 @@ class WhiteListAdapter extends SuperAdapter<AppInfo>{
         final AppInfo currentItem = item;
         ((ImageView)holder.findViewById(R.id.act_white_list_rv_app_list_iv_app_icon)).setImageBitmap(currentItem.getAppIcon());
         ((TextView)holder.findViewById(R.id.act_white_list_rv_app_list_tv_app_label)).setText(currentItem.getAppLabel());
-        ((CheckBox)holder.findViewById(R.id.act_white_list_rv_app_list_cb_app_selected)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        CheckBox checkBox = (CheckBox) holder.findViewById(R.id.act_white_list_rv_app_list_cb_app_selected);
+        checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 currentItem.setAppSelected(b);
             }
         });
-        ((CheckBox)holder.findViewById(R.id.act_white_list_rv_app_list_cb_app_selected)).setChecked(currentItem.getAppSeleted());
+        checkBox.setChecked(currentItem.getAppSeleted());
+        if (mCheckboxVisibility) {
+            checkBox.setVisibility(View.VISIBLE);
+        }else {
+            checkBox.setVisibility(View.GONE);
+        }
     }
 }

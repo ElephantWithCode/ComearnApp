@@ -24,7 +24,7 @@
         <EditText
             android:focusable="false"
             android:clickable="false"
-            android:textColor="@color/colorPrimary"
+            android:textColor="#000000"
             android:gravity="center"
             android:text="信远#311"
             android:layout_width="match_parent"
@@ -36,7 +36,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="5dp">
         <TextView
-            android:textColor="@color/colorPrimary"
+            android:textColor="#000000"
             android:textSize="40sp"
             android:gravity="center"
             android:id="@+id/act_class_setting_dccv_start_time_tv_start_time"
@@ -62,7 +62,7 @@
                 android:layout_centerHorizontal="true"
                 android:gravity="center"
                 android:text="10"
-                android:textColor="@color/colorPrimary"
+                android:textColor="#000000"
                 android:textSize="40sp" />
             <TextView
                 android:layout_width="wrap_content"
@@ -70,7 +70,7 @@
                 android:layout_toEndOf="@id/act_class_setting_dccv_last_time_tv_last_time"
                 android:layout_alignBaseline="@id/act_class_setting_dccv_last_time_tv_last_time"
                 android:layout_marginLeft="5dp"
-                android:textColor="@color/colorPrimary"
+                android:textColor="#000000"
                 android:text="min"
                 android:textSize="20sp"/>
 

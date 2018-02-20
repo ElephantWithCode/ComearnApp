@@ -1,4 +1,4 @@
-package com.example.team.comearnapp.engine.white_list_fragment_engine;
+package com.example.team.comearnapp.engine.fragment.white_list;
 
 import com.example.team.comearnapp.entity.AppInfo;
 import com.example.team.comearnlib.base.mvp_mode.base_view.IBaseView;
@@ -15,4 +15,5 @@ public interface FragmentWhiteListView extends IBaseView {
     void stopLoading();
     boolean appsShowType();
     ArrayList<AppInfo> getInfos();
+    WhiteListFragment setCheckboxVisibility(boolean visibility);
 }

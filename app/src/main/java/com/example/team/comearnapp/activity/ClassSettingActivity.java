@@ -66,11 +66,11 @@ public class ClassSettingActivity extends AppCompatActivity implements ClassSett
 
     private void initUI() {
         mSpotCard = findViewById(R.id.act_class_setting_dccv_spot);
-        mSpotCard.setHeadText("地点").setHeadTextColor(getResources().getColor(R.color.colorPrimary));
+        mSpotCard.setHeadText("地点");
 
 
         mStartTimeCard = findViewById(R.id.act_class_setting_dccv_start_time);
-        mStartTimeCard.setHeadText("开始时间").setHeadTextColor(getResources().getColor(R.color.colorPrimary));
+        mStartTimeCard.setHeadText("开始时间");
 
 
         mStartTime = findViewById(R.id.act_class_setting_dccv_start_time_tv_start_time);
@@ -89,7 +89,7 @@ public class ClassSettingActivity extends AppCompatActivity implements ClassSett
         });
 
         mLastTimeCard = findViewById(R.id.act_class_setting_dccv_last_time);
-        mLastTimeCard.setHeadText("持续时间").setHeadTextColor(getResources().getColor(R.color.colorPrimary));
+        mLastTimeCard.setHeadText("持续时间");
 
 
         mLastTime = findViewById(R.id.act_class_setting_dccv_last_time_tv_last_time);

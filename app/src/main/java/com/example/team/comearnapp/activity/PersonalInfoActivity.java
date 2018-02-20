@@ -115,7 +115,7 @@ public class PersonalInfoActivity extends AppCompatActivity implements PersonalI
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_personal_info);
 
-        QMUIStatusBarHelper.translucent(this); //沉浸式状态栏
+//        QMUIStatusBarHelper.translucent(this); //沉浸式状态栏
 
         attachWidgets();
 

@@ -6,13 +6,26 @@ package com.example.team.comearnapp.entity;
 
 public class PersonInfo {
     private String mAge;
+    private String mName;
 
     public PersonInfo(String mAge) {
         this.mAge = mAge;
     }
 
+    public PersonInfo(){
+    }
 
-    public String getmAge() {
+    public PersonInfo setName(String name){
+        mName = name;
+        return this;
+    }
+
+
+    public String getAge() {
         return mAge;
+    }
+
+    public String getName() {
+        return mName;
     }
 }

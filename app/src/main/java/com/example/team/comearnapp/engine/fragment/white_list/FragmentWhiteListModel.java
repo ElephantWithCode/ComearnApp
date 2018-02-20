@@ -1,4 +1,4 @@
-package com.example.team.comearnapp.engine.white_list_fragment_engine;
+package com.example.team.comearnapp.engine.fragment.white_list;
 
 import android.content.Context;
 

@@ -1,47 +1,33 @@
-package com.example.team.comearnapp.activity;
+package com.example.team.comearnapp.ui;
 
-import android.content.Context;
+import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.MenuItem;
-
-import com.example.team.comearnapp.R;
-import com.example.team.comearnapp.engine.fragment.white_list.WhiteListFragment;
-import com.example.team.comearnlib.base.mvp_mode.base_model.BaseModel;
-import com.example.team.comearnlib.base.mvp_mode.base_presenter.BasePresenter;
-import com.example.team.comearnlib.base.mvp_mode.base_view.IBaseView;
 
 import java.util.ArrayList;
 
 import cn.hugeterry.coordinatortablayout.CoordinatorTabLayout;
 
-interface WhiteListBaseView extends IBaseView{
+/**
+ * Created by Ellly on 2018/2/20.
+ */
 
-}
-
-class WhiteListModel extends BaseModel{
-
-}
-
-class WhiteListPresenter extends BasePresenter<WhiteListBaseView>{
-
-}
-
-public class WhiteListActivity extends AppCompatActivity implements WhiteListBaseView{
-
+public abstract class AbstractListActivity extends AppCompatActivity {
     protected CoordinatorTabLayout mCoorTabLayout;
     protected ViewPager mViewPager;
 
     protected ArrayList<String> mIndicators = new ArrayList<>();
     protected ArrayList<Fragment> mFragments = new ArrayList<>();
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_white_list);
+
+        setContentView(getLayoutResId());
 
         bindView();
 
@@ -56,15 +42,14 @@ public class WhiteListActivity extends AppCompatActivity implements WhiteListBas
 
     }
 
-    protected void initIndicators() {
-        mIndicators.add("非系统");
-        mIndicators.add("系统");
-    }
+    protected abstract int getLayoutResId();
 
-    protected void initFragments() {
-        mFragments.add(WhiteListFragment.newInstance(false));
-        mFragments.add(WhiteListFragment.newInstance(true));
-    }
+    protected abstract void initFragments();
+
+    protected abstract void initIndicators();
+
+    protected abstract void bindView();
+
 
     protected void initViewPager() {
         FragmentPagerAdapter pagerAdapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
@@ -104,13 +89,4 @@ public class WhiteListActivity extends AppCompatActivity implements WhiteListBas
         return super.onOptionsItemSelected(item);
     }
 
-    protected void bindView() {
-        mCoorTabLayout = findViewById(R.id.act_white_list_ctl);
-        mViewPager = findViewById(R.id.act_white_list_ctl_vp_content);
-    }
-
-    @Override
-    public Context getContext() {
-        return this;
-    }
 }
