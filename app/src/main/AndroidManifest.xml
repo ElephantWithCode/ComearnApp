@@ -21,15 +21,18 @@
             android:launchMode="singleTask" />
         <activity android:name=".test.ThirdMockActivity" />
         <activity android:name=".activity.PersonalInfoActivity" />
-        <activity android:name=".activity.WhiteListActivity"></activity>
+        <activity android:name=".activity.WhiteListActivity" />
         <activity android:name=".activity.ClassSettingActivity">
+
+        </activity>
+        <activity android:name=".activity.OnClassActivity" />
+        <activity android:name=".activity.RefinedClassSettingActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.OnClassActivity"></activity>
     </application>
 
 </manifest>
