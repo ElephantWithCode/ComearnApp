@@ -22,17 +22,31 @@
         <activity android:name=".test.ThirdMockActivity" />
         <activity android:name=".activity.PersonalInfoActivity" />
         <activity android:name=".activity.WhiteListActivity" />
-        <activity android:name=".activity.ClassSettingActivity">
-
-        </activity>
-        <activity android:name=".activity.OnClassActivity" />
-        <activity android:name=".activity.RefinedClassSettingActivity">
+        <activity android:name=".activity.ClassSettingActivity" />
+        <activity
+            android:name=".activity.OnClassActivity"
+            android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".activity.RefinedClassSettingActivity"></activity>
+
+        <service
+            android:name=".service.CountDownService"
+            android:enabled="true"
+            android:exported="false" />
+
+        <receiver
+            android:name=".receiver.StartCountDownForServiceReceiver"
+            android:enabled="true"
+            android:exported="false" />
+        <receiver
+            android:name=".receiver.UpdateCountDownReceiver"
+            android:enabled="true"
+            android:exported="false"></receiver>
     </application>
 
 </manifest>

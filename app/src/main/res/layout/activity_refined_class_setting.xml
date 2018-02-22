@@ -24,4 +24,19 @@
 
     </com.qmuiteam.qmui.widget.grouplist.QMUIGroupListView>
 
+    <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
+        android:id="@+id/act_refined_class_setting_QMUIRB"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:layout_gravity="center_horizontal"
+        android:text="设置完成"
+        android:textSize="18sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:qmui_isRadiusAdjustBounds="true"
+        app:qmui_borderColor="@color/colorPrimary"
+        android:textColor="@color/colorPrimary" />
+
 </LinearLayout>

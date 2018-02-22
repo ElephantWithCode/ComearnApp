@@ -28,7 +28,9 @@ public abstract class AbstractListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(getLayoutResId());
-
+        
+        preSet();
+        
         bindView();
 
         initIndicators();
@@ -41,6 +43,8 @@ public abstract class AbstractListActivity extends AppCompatActivity {
 
 
     }
+
+    protected void preSet(){}
 
     protected abstract int getLayoutResId();
 

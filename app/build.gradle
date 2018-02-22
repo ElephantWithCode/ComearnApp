@@ -30,6 +30,7 @@ dependencies {
     implementation 'cn.hugeterry.coordinatortablayout:coordinatortablayout:1.2.2'
     implementation 'com.wdullaer:materialdatetimepicker:3.5.1'
     implementation 'com.xw.repo:bubbleseekbar:3.14'
+    implementation 'com.github.iwgang:countdownview:2.1.6'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'

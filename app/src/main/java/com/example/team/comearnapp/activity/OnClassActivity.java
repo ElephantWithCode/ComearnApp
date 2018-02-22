@@ -1,20 +1,50 @@
 package com.example.team.comearnapp.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import com.example.team.comearnapp.R;
 import com.example.team.comearnapp.engine.fragment.class_main.ClassMainFragment;
+import com.example.team.comearnapp.engine.fragment.class_main.ClassMainModel;
 import com.example.team.comearnapp.engine.fragment.proposing_students.ProposingStudentsFragment;
 import com.example.team.comearnapp.engine.fragment.white_list.FragmentWhiteListModelForOnline;
 import com.example.team.comearnapp.engine.fragment.white_list.FragmentWhiteListPresenterForOnline;
 import com.example.team.comearnapp.engine.fragment.white_list.WhiteListFragment;
 import com.example.team.comearnapp.ui.AbstractListActivity;
+import com.example.team.comearnlib.base.mvp_mode.base_presenter.BasePresenter;
 import com.example.team.comearnlib.base.mvp_mode.base_view.IBaseView;
+
+import java.util.Calendar;
 
 interface OnClassView extends IBaseView{}
 
+class OnClassPresenter extends BasePresenter<OnClassView>{
+    private ClassMainModel mModel;
+
+    public long getStopTime(){
+        return mModel.getStopTime();
+    }
+
+    @Override
+    public void attachView(OnClassView view) {
+        super.attachView(view);
+        mModel = new ClassMainModel(mContext);
+    }
+}
+
 public class OnClassActivity extends AbstractListActivity implements OnClassView{
+
+    private OnClassPresenter mPresenter = new OnClassPresenter();
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.act_on_class_menu, menu);
+        return true;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +61,7 @@ public class OnClassActivity extends AbstractListActivity implements OnClassView
 
     @Override
     protected void initFragments() {
-        mFragments.add(ClassMainFragment.newInstance());
+        mFragments.add(ClassMainFragment.newInstance(true, mPresenter.getStopTime()));
 
         mFragments.add(WhiteListFragment.newInstance()
                 .setPresenter(new FragmentWhiteListPresenterForOnline())
@@ -39,6 +69,13 @@ public class OnClassActivity extends AbstractListActivity implements OnClassView
                 .setCheckboxVisibility(false));
 
         mFragments.add(ProposingStudentsFragment.newInstance());
+    }
+
+    @Override
+    protected void preSet() {
+
+        mPresenter.attachView(this);
+
     }
 
     @Override
@@ -55,7 +92,23 @@ public class OnClassActivity extends AbstractListActivity implements OnClassView
     }
 
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.act_on_class_item_edit:
+                startActivity(new Intent(this, RefinedClassSettingActivity.class));
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     public Context getContext() {
         return this;
+    }
+
+    @Override
+    protected void onDestroy() {
+        mPresenter.detachView();
+        super.onDestroy();
     }
 }

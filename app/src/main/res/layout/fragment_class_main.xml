@@ -1,21 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="wrap_content">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/frag_class_main_tv_remained_time"
+        
+        <cn.iwgang.countdownview.CountdownView
+            android:id="@+id/frag_class_main_cv_count"
+            android:layout_centerInParent="true"
+            app:isHideTimeBackground="true"
+            app:isShowMinute="true"
+            app:isShowSecond="true"
+            app:isShowHour="true"
+            app:isShowDay="true"
+            app:isShowMillisecond="false"
+            app:isTimeTextBold="true"
+            app:suffixMinute="min"
+            app:suffixSecond="sec"
+            app:suffixDay="d"
+            app:suffixHour="h"
+            app:timeTextSize="30sp"
+            app:suffixTextSize="15sp"
+            app:suffixGravity="bottom"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="152dp"
-            android:text="46"
-            android:textSize="20sp" />
-
+            android:layout_height="wrap_content" />
+        
+        
         <Button
             android:text="申请退出"
             android:id="@+id/frag_class_main_btn_quit"
