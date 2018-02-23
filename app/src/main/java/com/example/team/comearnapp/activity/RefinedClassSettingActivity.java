@@ -83,7 +83,6 @@ public class RefinedClassSettingActivity extends AppCompatActivity implements Re
         mFinishButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(RefinedClassSettingActivity.this, OnClassActivity.class);
 
                 Intent serviceIntent = new Intent(getContext(), CountDownService.class);
 
@@ -106,7 +105,9 @@ public class RefinedClassSettingActivity extends AppCompatActivity implements Re
 
                 sendBroadcast(new Intent("update_count_time"));
 
-                finish();
+                Intent intent = new Intent(RefinedClassSettingActivity.this, OnClassActivity.class);
+
+                startActivity(intent);
 
             }
         });

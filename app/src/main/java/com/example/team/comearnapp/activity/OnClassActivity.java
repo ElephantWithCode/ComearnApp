@@ -60,6 +60,7 @@ public class OnClassActivity extends AbstractListActivity implements OnClassView
         super.onNewIntent(intent);
         if (Objects.equals(intent.getAction(), "refresh_on_class_activity")) {
             recreate();
+            Log.d("OCA", "recreated");
         }
     }
 

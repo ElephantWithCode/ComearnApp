@@ -1,13 +1,16 @@
 package com.example.team.comearnapp.service;
 
 import android.app.AlarmManager;
+import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Binder;
+import android.os.Handler;
 import android.os.IBinder;
+import android.os.Message;
 import android.util.Log;
 
 import com.example.team.comearnapp.activity.OnClassActivity;
@@ -26,10 +29,6 @@ public class CountDownService extends Service {
         }
     }
 
-    public interface OnCountDownListener{
-        void onCountDownEnd(boolean state);
-    }
-
     public static final String TAG_GET_CALENDAR = "get_calendar";
 
     private CountDownBinder mBinder = new CountDownBinder();
@@ -42,11 +41,6 @@ public class CountDownService extends Service {
 
     private ClassMainModel mModel = new ClassMainModel(this);
 
-    private OnCountDownListener mListener;
-
-    public void setOnCountDownLister(OnCountDownListener l){
-        mListener = l;
-    }
 
     public CountDownService() {
     }
@@ -59,6 +53,8 @@ public class CountDownService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+
+        startForeground(101, new Notification());
 
         initAlarmService(intent);
 
@@ -115,13 +111,13 @@ public class CountDownService extends Service {
 
             if (intent.getAction() != null && intent.getAction().equals(mAction)) {
 
-                Intent activityIntent = new Intent(CountDownService.this, OnClassActivity.class);
+                Intent activityIntent = new Intent(context, OnClassActivity.class);
                 activityIntent.setAction("refresh_on_class_activity");
 
                 if (mModel.getClassState()){
                     mModel.saveClassState(false);
 
-                    CountDownService.this.startActivity(activityIntent);
+                    context.startActivity(activityIntent);
 
                     ToastTools.showToast(CountDownService.this, "From Service");
 
@@ -129,15 +125,11 @@ public class CountDownService extends Service {
                 }else {
                     mModel.saveClassState(true);
 
-                    Intent serviceIntent = new Intent(CountDownService.this, CountDownService.class);
+                    Intent serviceIntent = new Intent(context, CountDownService.class);
                     serviceIntent.putExtra(TAG_GET_CALENDAR, ConvertTools.constructFromTimeInMilis(mModel.getClassStopTime()));
                     startService(serviceIntent);
 
-                    CountDownService.this.startActivity(activityIntent);
-                }
-
-                if (mListener != null){
-//                    mListener.onCountDownEnd(mModel.getClassState());
+                    context.startActivity(activityIntent);
                 }
             }
         }

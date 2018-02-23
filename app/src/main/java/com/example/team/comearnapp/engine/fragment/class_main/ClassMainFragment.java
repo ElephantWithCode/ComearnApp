@@ -30,7 +30,7 @@ import java.util.Calendar;
 
 import cn.iwgang.countdownview.CountdownView;
 
-public class ClassMainFragment extends Fragment implements ClassMainView, UpdateCountDownReceiver.OnReceiveListener, CountDownService.OnCountDownListener{
+public class ClassMainFragment extends Fragment implements ClassMainView, UpdateCountDownReceiver.OnReceiveListener{
 
     public static final String TAG = "CMF";
 
@@ -43,7 +43,6 @@ public class ClassMainFragment extends Fragment implements ClassMainView, Update
         public void onServiceConnected(ComponentName name, IBinder service) {
             CountDownService.CountDownBinder binder = (CountDownService.CountDownBinder) service;
             CountDownService countDownService = binder.getService();
-            countDownService.setOnCountDownLister(ClassMainFragment.this);
         }
 
         @Override
@@ -163,7 +162,6 @@ public class ClassMainFragment extends Fragment implements ClassMainView, Update
         }
     }
 
-    @Override
     public void onCountDownEnd(boolean state) {
         if (mPresenter.getClassState()){
 //            mPresenter.saveClassState(false);
