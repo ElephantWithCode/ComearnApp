@@ -1,9 +1,13 @@
 package com.example.team.comearnapp.engine.fragment.class_main;
 
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -15,19 +19,38 @@ import android.widget.TextView;
 
 import com.example.team.comearnapp.R;
 import com.example.team.comearnapp.receiver.UpdateCountDownReceiver;
+import com.example.team.comearnapp.service.CountDownService;
 import com.example.team.comearnlib.base.mvp_mode.base_model.BaseModel;
 import com.example.team.comearnlib.base.mvp_mode.base_presenter.BasePresenter;
 import com.example.team.comearnlib.base.mvp_mode.base_view.IBaseView;
+import com.example.team.comearnlib.utils.ConvertTools;
+import com.example.team.comearnlib.utils.ToastTools;
 
 import java.util.Calendar;
 
 import cn.iwgang.countdownview.CountdownView;
 
-public class ClassMainFragment extends Fragment implements ClassMainView, UpdateCountDownReceiver.OnReceiveListener{
+public class ClassMainFragment extends Fragment implements ClassMainView, UpdateCountDownReceiver.OnReceiveListener, CountDownService.OnCountDownListener{
 
     public static final String TAG = "CMF";
+
+    private TextView mStateTv;
     private TextView mQuitBtn;
     private CountdownView mCountDownView;
+
+    private ServiceConnection mConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            CountDownService.CountDownBinder binder = (CountDownService.CountDownBinder) service;
+            CountDownService countDownService = binder.getService();
+            countDownService.setOnCountDownLister(ClassMainFragment.this);
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+
+        }
+    };
 
     private UpdateCountDownReceiver mReceiver;
 
@@ -66,7 +89,7 @@ public class ClassMainFragment extends Fragment implements ClassMainView, Update
         mReceiver.setmAction("update_count_time");
 
         getActivity().registerReceiver(mReceiver, new IntentFilter("update_count_time"));
-
+        getActivity().bindService(new Intent(getActivity(), CountDownService.class), mConnection, Context.BIND_AUTO_CREATE);
 
         super.onCreate(savedInstanceState);
     }
@@ -80,7 +103,7 @@ public class ClassMainFragment extends Fragment implements ClassMainView, Update
         mCountDownView.setOnCountdownEndListener(new CountdownView.OnCountdownEndListener() {
             @Override
             public void onEnd(CountdownView cv) {
-                getActivity().finish();
+//                onCountDownEnd();
             }
         });
 
@@ -93,6 +116,10 @@ public class ClassMainFragment extends Fragment implements ClassMainView, Update
 
             }
         });
+
+        mStateTv = view.findViewById(R.id.frag_class_main_tv_show_state);
+
+        mPresenter.refreshClassStateTv(mPresenter.getClassState());
 
         mPresenter.startCountDown();
 
@@ -111,6 +138,7 @@ public class ClassMainFragment extends Fragment implements ClassMainView, Update
     public void onDestroy() {
         mPresenter.detachView();
         getActivity().unregisterReceiver(mReceiver);
+        getActivity().unbindService(mConnection);
         super.onDestroy();
     }
 
@@ -123,6 +151,36 @@ public class ClassMainFragment extends Fragment implements ClassMainView, Update
     public long getStopTime(){
         return mStopTime;
     }
+
+    @Override
+    public void refreshClassStateTv(boolean state) {
+        if (state){
+            mStateTv.setText("距离课堂结束还有：");
+            mQuitBtn.setVisibility(View.VISIBLE);
+        }else {
+            mStateTv.setText("距离上课还有：");
+            mQuitBtn.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    @Override
+    public void onCountDownEnd(boolean state) {
+        if (mPresenter.getClassState()){
+//            mPresenter.saveClassState(false);
+            mPresenter.refreshClassStateTv(true);
+            mPresenter.startCountDown();
+        }else {
+//            mPresenter.saveClassState(true);
+            mPresenter.refreshClassStateTv(false);
+            ToastTools.showToast(getContext(), "倒计时结束");
+        }
+    }
+
+    @Override
+    public boolean getClassState() {
+        return mOnClassState;
+    }
+
 
     @Override
     public void onReceive() {

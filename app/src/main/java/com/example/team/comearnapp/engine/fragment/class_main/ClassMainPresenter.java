@@ -20,11 +20,41 @@ public class ClassMainPresenter extends BasePresenter<ClassMainView> {
 
     public void startCountDown(){
         long timeInMillis = Calendar.getInstance().getTimeInMillis();
-        mView.startCountDown(mModel.getStopTime() - timeInMillis);
-        Log.d("CMP", mModel.getStopTime() + "   " + timeInMillis);
+        if (mModel.getClassState()) {
+            mView.startCountDown(mModel.getClassStopTime() - timeInMillis);
+        }else {
+            mView.startCountDown(mModel.getStopTime() - timeInMillis);
+        }
+
+        Log.d("CMP", mModel.getStopTime() + "  1 " + timeInMillis);
+
+
     }
+
 
     public void saveStopTime(){
         mModel.saveStopTime(mView.getStopTime());
+    }
+
+    public void saveClassState(boolean state){
+        mModel.saveClassState(state);
+    }
+
+    public boolean getClassState(){
+        return mModel.getClassState();
+    }
+
+    public void saveClassStopTime(){
+
+    }
+
+    public void refreshClassStateTv(boolean state){
+        mView.refreshClassStateTv(state);
+    }
+
+
+
+    public void onCountDownEnd(){
+
     }
 }

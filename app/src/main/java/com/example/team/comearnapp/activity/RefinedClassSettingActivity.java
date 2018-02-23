@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import com.example.team.comearnapp.R;
 import com.example.team.comearnapp.engine.fragment.class_main.ClassMainModel;
 import com.example.team.comearnapp.receiver.UpdateCountDownReceiver;
+import com.example.team.comearnapp.service.CountDownService;
 import com.example.team.comearnapp.ui.SeekBarDialogBuilder;
 import com.example.team.comearnlib.base.mvp_mode.base_model.BaseModel;
 import com.example.team.comearnlib.base.mvp_mode.base_presenter.BasePresenter;
@@ -43,6 +45,10 @@ class RefinedClassSettingPresenter extends BasePresenter<RefinedClassSettingView
         mModel.saveStopTime(time);
         Intent i = new Intent("update_count_time");
         mContext.sendBroadcast(i);
+    }
+
+    public void saveClassStopTime(long time){
+        mModel.saveClassStopTime(time);
     }
 
 }
@@ -78,11 +84,27 @@ public class RefinedClassSettingActivity extends AppCompatActivity implements Re
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(RefinedClassSettingActivity.this, OnClassActivity.class);
+
+                Intent serviceIntent = new Intent(getContext(), CountDownService.class);
+
                 Calendar calendar = ConvertTools.constructFromAssignedHourAndMinute(mStartItemView.getDetailText().toString());
+
+                serviceIntent.putExtra(CountDownService.TAG_GET_CALENDAR, calendar);
+
+                Calendar classStopCalendar = (Calendar) calendar.clone();
+
+                classStopCalendar.set(Calendar.MINUTE, classStopCalendar.get(Calendar.MINUTE) +
+                Integer.parseInt(ConvertTools.pickNumberFromString(mLastItemView.getDetailText().toString())));
 
                 mPresenter.saveStopTime(calendar.getTimeInMillis());
 
-                sendBroadcast(new Intent(UpdateCountDownReceiver.ACTION));
+                mPresenter.saveClassStopTime(classStopCalendar.getTimeInMillis());
+                Log.d("RCSA", "class stop time" + classStopCalendar.toString() +
+                                        "\n class start time" + calendar.toString());
+
+                startService(serviceIntent);
+
+//                sendBroadcast(new Intent(UpdateCountDownReceiver.ACTION));
 
                 startActivity(intent);
 

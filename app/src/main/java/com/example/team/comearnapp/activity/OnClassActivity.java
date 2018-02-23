@@ -61,7 +61,7 @@ public class OnClassActivity extends AbstractListActivity implements OnClassView
 
     @Override
     protected void initFragments() {
-        mFragments.add(ClassMainFragment.newInstance(true, mPresenter.getStopTime()));
+        mFragments.add(ClassMainFragment.newInstance(false, mPresenter.getStopTime()));
 
         mFragments.add(WhiteListFragment.newInstance()
                 .setPresenter(new FragmentWhiteListPresenterForOnline())

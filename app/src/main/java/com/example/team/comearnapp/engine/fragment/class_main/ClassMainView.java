@@ -8,4 +8,7 @@ import com.example.team.comearnlib.base.mvp_mode.base_view.IBaseView;
 public interface ClassMainView extends IBaseView {
     void startCountDown(long miliseconds);
     long getStopTime();
+    void refreshClassStateTv(boolean state);
+//    void onCountDownEnd();
+    boolean getClassState();
 }

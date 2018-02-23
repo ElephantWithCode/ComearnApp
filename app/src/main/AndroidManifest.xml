@@ -40,7 +40,7 @@
             android:exported="false" />
 
         <receiver
-            android:name=".receiver.StartCountDownForServiceReceiver"
+            android:name=".service.CountDownService$StartCountDownForServiceReceiver"
             android:enabled="true"
             android:exported="false" />
         <receiver

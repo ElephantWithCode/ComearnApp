@@ -58,4 +58,11 @@ public class ConvertTools {
         Log.d("CMF", "original: " + calendar.toString());
         return calendar;
     }
+
+    public static Calendar constructFromTimeInMilis(long time){
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(time);
+        return calendar;
+    }
+
 }
