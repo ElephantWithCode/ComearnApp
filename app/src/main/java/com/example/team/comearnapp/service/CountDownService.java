@@ -81,6 +81,7 @@ public class CountDownService extends Service {
                 ToastTools.showToast(this, "本课堂将在   "
                         + mCalendar.get(Calendar.HOUR_OF_DAY) + ":" + mCalendar.get(Calendar.MINUTE)
                         + "开始");
+
             }
         }
     }
@@ -112,26 +113,32 @@ public class CountDownService extends Service {
         public void onReceive(Context context, Intent intent) {
             Log.d("SCDFSR", "On Start Count Receive Successfully");
 
-            if (mModel.getClassState()){
-                mModel.saveClassState(false);
+            if (intent.getAction() != null && intent.getAction().equals(mAction)) {
 
-                CountDownService.this.startActivity(new Intent(CountDownService.this, OnClassActivity.class));
+                Intent activityIntent = new Intent(CountDownService.this, OnClassActivity.class);
+                activityIntent.setAction("refresh_on_class_activity");
 
-                ToastTools.showToast(CountDownService.this, "From Service");
+                if (mModel.getClassState()){
+                    mModel.saveClassState(false);
 
-                stopSelf();
-            }else {
-                mModel.saveClassState(true);
+                    CountDownService.this.startActivity(activityIntent);
 
-                Intent serviceIntent = new Intent(CountDownService.this, CountDownService.class);
-                serviceIntent.putExtra(TAG_GET_CALENDAR, ConvertTools.constructFromTimeInMilis(mModel.getClassStopTime()));
-                startService(serviceIntent);
+                    ToastTools.showToast(CountDownService.this, "From Service");
 
-                CountDownService.this.startActivity(new Intent(CountDownService.this, OnClassActivity.class));
-            }
+                    stopSelf();
+                }else {
+                    mModel.saveClassState(true);
 
-            if (mListener != null){
-                mListener.onCountDownEnd(mModel.getClassState());
+                    Intent serviceIntent = new Intent(CountDownService.this, CountDownService.class);
+                    serviceIntent.putExtra(TAG_GET_CALENDAR, ConvertTools.constructFromTimeInMilis(mModel.getClassStopTime()));
+                    startService(serviceIntent);
+
+                    CountDownService.this.startActivity(activityIntent);
+                }
+
+                if (mListener != null){
+//                    mListener.onCountDownEnd(mModel.getClassState());
+                }
             }
         }
     }

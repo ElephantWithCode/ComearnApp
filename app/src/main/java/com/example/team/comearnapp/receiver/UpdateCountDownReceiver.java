@@ -27,7 +27,9 @@ public class UpdateCountDownReceiver extends BaseReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         super.onReceive(context, intent);
-        mListener.onReceive();
+        if (intent.getAction() != null && intent.getAction().equals("update_count_time")) {
+            mListener.onReceive();
+        }
         Log.d(TAG, "Received Update");
     }
 }

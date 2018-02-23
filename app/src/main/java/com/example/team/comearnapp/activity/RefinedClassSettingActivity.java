@@ -104,9 +104,9 @@ public class RefinedClassSettingActivity extends AppCompatActivity implements Re
 
                 startService(serviceIntent);
 
-//                sendBroadcast(new Intent(UpdateCountDownReceiver.ACTION));
+                sendBroadcast(new Intent("update_count_time"));
 
-                startActivity(intent);
+                finish();
 
             }
         });
@@ -158,6 +158,8 @@ public class RefinedClassSettingActivity extends AppCompatActivity implements Re
 
 
         mLastItemView = mGroupListView.createItemView("持续时间");
+        mLastItemView.setDetailText("1  min");
+
 
         View.OnClickListener onLastTimeClickListener = new View.OnClickListener() {
             @Override

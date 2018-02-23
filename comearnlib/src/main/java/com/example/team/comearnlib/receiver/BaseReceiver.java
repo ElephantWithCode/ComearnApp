@@ -13,7 +13,7 @@ public class BaseReceiver extends BroadcastReceiver {
 
     public static String ACTION;
 
-    private String mAction;
+    protected String mAction;
 
     public BaseReceiver(){}
 

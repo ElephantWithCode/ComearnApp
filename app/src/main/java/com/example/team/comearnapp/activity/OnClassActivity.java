@@ -19,6 +19,7 @@ import com.example.team.comearnlib.base.mvp_mode.base_presenter.BasePresenter;
 import com.example.team.comearnlib.base.mvp_mode.base_view.IBaseView;
 
 import java.util.Calendar;
+import java.util.Objects;
 
 interface OnClassView extends IBaseView{}
 
@@ -52,6 +53,14 @@ public class OnClassActivity extends AbstractListActivity implements OnClassView
 
         mCoorTabLayout.setTitle("课堂");
 
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        if (Objects.equals(intent.getAction(), "refresh_on_class_activity")) {
+            recreate();
+        }
     }
 
     @Override
