@@ -26,7 +26,7 @@ public class ClassMainPresenter extends BasePresenter<ClassMainView> {
             mView.startCountDown(mModel.getStopTime() - timeInMillis);
         }
 
-        Log.d("CMP", mModel.getStopTime() + "  1 " + timeInMillis);
+        Log.d("CMP", mModel.getStopTime() + " : " + mModel.getClassStopTime() + "  1 " + timeInMillis);
 
 
     }
@@ -52,6 +52,10 @@ public class ClassMainPresenter extends BasePresenter<ClassMainView> {
         mView.refreshClassStateTv(state);
     }
 
+    public void refreshWholeView(){
+        refreshClassStateTv(getClassState());
+        startCountDown();
+    }
 
 
     public void onCountDownEnd(){

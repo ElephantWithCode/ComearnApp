@@ -14,7 +14,7 @@ import java.util.ArrayList;
  * Created by Ellly on 2018/2/20.
  */
 public class FragmentWhiteListModel extends BaseModel {
-    private AppMonitor mMonitor = new AppMonitor();
+    protected AppMonitor mMonitor = new AppMonitor();
 
     public void attach(Context context){mMonitor.attach(context);}
 

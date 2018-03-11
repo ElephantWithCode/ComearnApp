@@ -15,7 +15,7 @@ import com.wenming.library.BackgroundUtil;
 
 import java.util.ArrayList;
 
-class MonitorService extends Service {
+public class MonitorService extends Service {
 
     public static final String CALLBACK = "CALLBACK";
 

@@ -41,8 +41,10 @@ public class ClassMainFragment extends Fragment implements ClassMainView, Update
     private ServiceConnection mConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
+/*
             CountDownService.CountDownBinder binder = (CountDownService.CountDownBinder) service;
             CountDownService countDownService = binder.getService();
+*/
         }
 
         @Override
@@ -182,6 +184,11 @@ public class ClassMainFragment extends Fragment implements ClassMainView, Update
 
     @Override
     public void onReceive() {
+        mPresenter.refreshClassStateTv(mPresenter.getClassState());
         mPresenter.startCountDown();
+    }
+
+    public ClassMainPresenter getPresenter(){
+        return mPresenter;
     }
 }

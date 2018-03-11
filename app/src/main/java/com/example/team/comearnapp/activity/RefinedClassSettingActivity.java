@@ -11,10 +11,9 @@ import android.widget.TextView;
 
 import com.example.team.comearnapp.R;
 import com.example.team.comearnapp.engine.fragment.class_main.ClassMainModel;
-import com.example.team.comearnapp.receiver.UpdateCountDownReceiver;
 import com.example.team.comearnapp.service.CountDownService;
 import com.example.team.comearnapp.ui.SeekBarDialogBuilder;
-import com.example.team.comearnlib.base.mvp_mode.base_model.BaseModel;
+import com.example.team.comearnapp.utils.ClassBehaviorManager;
 import com.example.team.comearnlib.base.mvp_mode.base_presenter.BasePresenter;
 import com.example.team.comearnlib.base.mvp_mode.base_view.IBaseView;
 import com.example.team.comearnlib.utils.ConvertTools;
@@ -24,12 +23,16 @@ import com.qmuiteam.qmui.widget.grouplist.QMUICommonListItemView;
 import com.qmuiteam.qmui.widget.grouplist.QMUIGroupListView;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 
-import java.util.Calendar;
-
 interface RefinedClassSettingView extends IBaseView{
     void setSpot(CharSequence spot);
     void setStartTime(CharSequence time);
     void setLastTime(CharSequence time);
+    CharSequence getSpot();
+    CharSequence getLastTime();
+    void showSpotDialog(CharSequence preText);
+    void showLastTimeDialog(CharSequence preText);
+    void showStartTimeDialog();
+
 }
 
 class RefinedClassSettingPresenter extends BasePresenter<RefinedClassSettingView>{
@@ -41,14 +44,29 @@ class RefinedClassSettingPresenter extends BasePresenter<RefinedClassSettingView
         mModel = new ClassMainModel(mContext);
     }
 
+
     public void saveStopTime(long time){
         mModel.saveStopTime(time);
-        Intent i = new Intent("update_count_time");
-        mContext.sendBroadcast(i);
+//        Intent i = new Intent("update_count_time");
+//        mContext.sendBroadcast(i);
     }
 
     public void saveClassStopTime(long time){
         mModel.saveClassStopTime(time);
+    }
+
+    public void saveClassState(boolean state){mModel.saveClassState(state);}
+
+    public void showSpotDialog(){
+        mView.showSpotDialog(mView.getSpot());
+    }
+
+    public void showLastTimeDialog(){
+        mView.showLastTimeDialog(mView.getLastTime());
+    }
+
+    public void showStartTimeDialog(){
+        mView.showStartTimeDialog();
     }
 
 }
@@ -84,30 +102,44 @@ public class RefinedClassSettingActivity extends AppCompatActivity implements Re
             @Override
             public void onClick(View v) {
 
-                Intent serviceIntent = new Intent(getContext(), CountDownService.class);
+                mPresenter.saveClassState(false);
+
+                ClassBehaviorManager builder = new ClassBehaviorManager(RefinedClassSettingActivity.this)
+                        .setStartTime(mStartItemView.getDetailText())
+                        .setLastTime(mLastItemView.getDetailText()).build();
+/*
 
                 Calendar calendar = ConvertTools.constructFromAssignedHourAndMinute(mStartItemView.getDetailText().toString());
-
-                serviceIntent.putExtra(CountDownService.TAG_GET_CALENDAR, calendar);
 
                 Calendar classStopCalendar = (Calendar) calendar.clone();
 
                 classStopCalendar.set(Calendar.MINUTE, classStopCalendar.get(Calendar.MINUTE) +
                 Integer.parseInt(ConvertTools.pickNumberFromString(mLastItemView.getDetailText().toString())));
+*/
+                mPresenter.saveStopTime(builder.getClassStartCalendar().getTimeInMillis());
 
-                mPresenter.saveStopTime(calendar.getTimeInMillis());
+                mPresenter.saveClassStopTime(builder.getClassStopCalendar().getTimeInMillis());
+/*
 
-                mPresenter.saveClassStopTime(classStopCalendar.getTimeInMillis());
-                Log.d("RCSA", "class stop time" + classStopCalendar.toString() +
-                                        "\n class start time" + calendar.toString());
+                Intent serviceIntent = new Intent(getContext(), CountDownService.class);
+
+                if (builder.getClassStartCalendar().getTimeInMillis() > System.currentTimeMillis()) {
+                    serviceIntent.putExtra(CountDownService.TAG_GET_CALENDAR, builder.getClassStartCalendar());
+                }else {
+                    serviceIntent.putExtra(CountDownService.TAG_GET_CALENDAR, builder.getClassStopCalendar());
+                    mPresenter.saveClassState(true);
+                }
 
                 startService(serviceIntent);
-
                 sendBroadcast(new Intent("update_count_time"));
 
                 Intent intent = new Intent(RefinedClassSettingActivity.this, OnClassActivity.class);
-
                 startActivity(intent);
+*/
+                builder.triggerCountDown();
+
+                Log.d("RCSA", "class stop time" + builder.getClassStopCalendar().toString() +
+                        "\n class start time" + builder.getClassStartCalendar().toString());
 
             }
         });
@@ -122,38 +154,14 @@ public class RefinedClassSettingActivity extends AppCompatActivity implements Re
         View.OnClickListener onSpotItemClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                QMUIDialog.EditTextDialogBuilder builder = new QMUIDialog.EditTextDialogBuilder(RefinedClassSettingActivity.this);
-                final EditText editText = builder.getEditText();
-                editText.setText(mSpotItemView.getDetailText());
-                QMUIDialog inputDialog = builder
-                        .addAction("取消", new QMUIDialogAction.ActionListener() {
-                            @Override
-                            public void onClick(QMUIDialog dialog, int index) {
-                                dialog.dismiss();
-                            }
-                        }).addAction("确定", new QMUIDialogAction.ActionListener() {
-                            @Override
-                            public void onClick(QMUIDialog dialog, int index) {
-                                setSpot(editText.getText());
-                                dialog.dismiss();
-                            }
-                        }).setTitle("填写地点")
-                        .create();
-                inputDialog.show();
+                mPresenter.showSpotDialog();
             }
         };
 
         View.OnClickListener onStartTimeItemClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TimePickerDialog tpd = TimePickerDialog.newInstance(new TimePickerDialog.OnTimeSetListener() {
-                    @Override
-                    public void onTimeSet(TimePickerDialog view, int hourOfDay, int minute, int second) {
-                        setStartTime(ConvertTools.parseTime(hourOfDay) + ":" + ConvertTools.parseTime(minute));
-                    }
-                }, true);
-                tpd.vibrate(false);
-                tpd.show(getFragmentManager(), "time picker dialog");
+                mPresenter.showStartTimeDialog();
             }
         };
 
@@ -165,32 +173,7 @@ public class RefinedClassSettingActivity extends AppCompatActivity implements Re
         View.OnClickListener onLastTimeClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SeekBarDialogBuilder builder = new SeekBarDialogBuilder(RefinedClassSettingActivity.this);
-
-                if (!mLastItemView.getDetailText().equals("")) {
-                    builder.setSeekProgress(Integer.parseInt(ConvertTools.pickNumberFromString(mLastItemView.getDetailText().toString())));
-                }
-
-                final TextView timeTv = builder.getTimeShowTv();
-
-
-                QMUIDialog dialog = builder
-                        .addAction("取消", new QMUIDialogAction.ActionListener() {
-                            @Override
-                            public void onClick(QMUIDialog dialog, int index) {
-                                dialog.dismiss();
-                            }
-                        })
-                        .addAction("确定", new QMUIDialogAction.ActionListener() {
-                            @Override
-                            public void onClick(QMUIDialog dialog, int index) {
-                                setLastTime(timeTv.getText());
-                                dialog.dismiss();
-                            }
-                        })
-                        .setTitle("选择时间")
-                        .create();
-                dialog.show();
+                mPresenter.showLastTimeDialog();
             }
         };
 
@@ -230,6 +213,80 @@ public class RefinedClassSettingActivity extends AppCompatActivity implements Re
     @Override
     public void setLastTime(CharSequence time) {
         mLastItemView.setDetailText(time);
+    }
+
+    @Override
+    public CharSequence getSpot() {
+        return mSpotItemView.getDetailText();
+    }
+
+    @Override
+    public CharSequence getLastTime() {
+        return mLastItemView.getDetailText();
+    }
+
+    @Override
+    public void showSpotDialog(CharSequence preText) {
+        QMUIDialog.EditTextDialogBuilder builder = new QMUIDialog.EditTextDialogBuilder(RefinedClassSettingActivity.this);
+        final EditText editText = builder.getEditText();
+        editText.setText(preText);
+        QMUIDialog inputDialog = builder
+                .addAction("取消", new QMUIDialogAction.ActionListener() {
+                    @Override
+                    public void onClick(QMUIDialog dialog, int index) {
+                        dialog.dismiss();
+                    }
+                }).addAction("确定", new QMUIDialogAction.ActionListener() {
+                    @Override
+                    public void onClick(QMUIDialog dialog, int index) {
+                        setSpot(editText.getText());
+                        dialog.dismiss();
+                    }
+                }).setTitle("填写地点")
+                .create();
+        inputDialog.show();
+    }
+
+    @Override
+    public void showLastTimeDialog(CharSequence preText) {
+        SeekBarDialogBuilder builder = new SeekBarDialogBuilder(RefinedClassSettingActivity.this);
+
+        if (!preText.equals("")) {
+            builder.setSeekProgress(Integer.parseInt(ConvertTools.pickNumberFromString(preText.toString())));
+        }
+
+        final TextView timeTv = builder.getTimeShowTv();
+
+
+        QMUIDialog dialog = builder
+                .addAction("取消", new QMUIDialogAction.ActionListener() {
+                    @Override
+                    public void onClick(QMUIDialog dialog, int index) {
+                        dialog.dismiss();
+                    }
+                })
+                .addAction("确定", new QMUIDialogAction.ActionListener() {
+                    @Override
+                    public void onClick(QMUIDialog dialog, int index) {
+                        setLastTime(timeTv.getText());
+                        dialog.dismiss();
+                    }
+                })
+                .setTitle("选择时间")
+                .create();
+        dialog.show();
+    }
+
+    @Override
+    public void showStartTimeDialog() {
+        TimePickerDialog tpd = TimePickerDialog.newInstance(new TimePickerDialog.OnTimeSetListener() {
+            @Override
+            public void onTimeSet(TimePickerDialog view, int hourOfDay, int minute, int second) {
+                setStartTime(ConvertTools.parseTime(hourOfDay) + ":" + ConvertTools.parseTime(minute));
+            }
+        }, true);
+        tpd.vibrate(false);
+        tpd.show(getFragmentManager(), "time picker dialog");
     }
 
     @Override

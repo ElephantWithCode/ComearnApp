@@ -30,6 +30,10 @@ class OnClassPresenter extends BasePresenter<OnClassView>{
         return mModel.getStopTime();
     }
 
+    public boolean getClassState(){
+        return mModel.getClassState();
+    }
+
     @Override
     public void attachView(OnClassView view) {
         super.attachView(view);
@@ -40,6 +44,7 @@ class OnClassPresenter extends BasePresenter<OnClassView>{
 public class OnClassActivity extends AbstractListActivity implements OnClassView{
 
     private OnClassPresenter mPresenter = new OnClassPresenter();
+    private ClassMainFragment mClassMainFragment;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -52,6 +57,7 @@ public class OnClassActivity extends AbstractListActivity implements OnClassView
         super.onCreate(savedInstanceState);
 
         mCoorTabLayout.setTitle("课堂");
+        mViewPager.setOffscreenPageLimit(3);
 
     }
 
@@ -59,7 +65,7 @@ public class OnClassActivity extends AbstractListActivity implements OnClassView
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         if (Objects.equals(intent.getAction(), "refresh_on_class_activity")) {
-            recreate();
+            mClassMainFragment.getPresenter().refreshWholeView();
             Log.d("OCA", "recreated");
         }
     }
@@ -71,7 +77,8 @@ public class OnClassActivity extends AbstractListActivity implements OnClassView
 
     @Override
     protected void initFragments() {
-        mFragments.add(ClassMainFragment.newInstance(false, mPresenter.getStopTime()));
+        mClassMainFragment = ClassMainFragment.newInstance(false, mPresenter.getStopTime());
+        mFragments.add(mClassMainFragment);
 
         mFragments.add(WhiteListFragment.newInstance()
                 .setPresenter(new FragmentWhiteListPresenterForOnline())

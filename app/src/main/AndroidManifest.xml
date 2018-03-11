@@ -9,9 +9,20 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.MainActivity" />
+        <activity
+            android:name=".activity.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 
         <!-- 两个Service的声明已经被删去 -->
+        <service
+            android:name="com.example.team.monitorlib.components.MonitorService"
+            android:enabled="true"
+            android:exported="false" />
 
         <activity
             android:name=".test.MockActivity"
@@ -25,19 +36,16 @@
         <activity android:name=".activity.ClassSettingActivity" />
         <activity
             android:name=".activity.OnClassActivity"
-            android:launchMode="singleTask">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            android:launchMode="singleTask"
+            android:excludeFromRecents="true">
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".activity.RefinedClassSettingActivity"></activity>
 
         <service
             android:name=".service.CountDownService"
             android:enabled="true"
-            android:exported="false" />
+            android:exported="false"/>
 
         <receiver
             android:name=".service.CountDownService$StartCountDownForServiceReceiver"
