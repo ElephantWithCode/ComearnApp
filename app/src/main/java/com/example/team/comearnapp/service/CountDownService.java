@@ -8,15 +8,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Binder;
-import android.os.Handler;
 import android.os.IBinder;
-import android.os.Message;
 import android.util.Log;
 
 import com.example.team.comearnapp.activity.OnClassActivity;
 import com.example.team.comearnapp.engine.fragment.class_main.ClassMainModel;
-import com.example.team.comearnapp.engine.fragment.white_list.FragmentWhiteListModel;
-import com.example.team.comearnapp.entity.AppInfo;
+import com.example.team.comearnapp.utils.PackageNameMonitor;
 import com.example.team.comearnlib.receiver.BaseReceiver;
 import com.example.team.comearnlib.utils.ConvertTools;
 import com.example.team.comearnlib.utils.ToastTools;
@@ -56,6 +53,12 @@ public class CountDownService extends Service {
         super.onCreate();
         initStartClassReceiver();
         mMonitor = new PackageNameMonitor();
+        mMonitor.getMonitor().setDetectListener(new AppMonitor.DetectListener() {
+            @Override
+            public void afterDetect(Context context) {
+                context.startActivity(new Intent(context, OnClassActivity.class));
+            }
+        });
         mMonitor.attach(this);
     }
 
@@ -65,6 +68,10 @@ public class CountDownService extends Service {
         startForeground(101, new Notification());
 
         initAlarmService(intent);
+
+        if (mModel.getClassState()){
+            mMonitor.startMonitor();
+        }
 
         return START_STICKY;
     }
@@ -130,7 +137,13 @@ public class CountDownService extends Service {
 
                     ToastTools.showToast(CountDownService.this, "From Service");
 
-                    mMonitor.getMonitor().stopMonitor();
+                    mMonitor.getMonitor().setDetectListener(new AppMonitor.DetectListener() {
+                        @Override
+                        public void afterDetect(Context context) {
+                            context.startActivity(new Intent(context, OnClassActivity.class));
+                        }
+                    });
+                    mMonitor.stopMonitor();
 
                     stopSelf();
                 }else {
@@ -140,7 +153,7 @@ public class CountDownService extends Service {
                     serviceIntent.putExtra(TAG_GET_CALENDAR, ConvertTools.constructFromTimeInMilis(mModel.getClassStopTime()));
                     startService(serviceIntent);
 
-                    mMonitor.getMonitor().startMonitor(new ArrayList<String>());
+                    mMonitor.startMonitor();
 
                     context.startActivity(activityIntent);
                 }
@@ -149,19 +162,3 @@ public class CountDownService extends Service {
     }
 }
 
-class PackageNameMonitor extends FragmentWhiteListModel{
-
-    public ArrayList<String> getPackageNames(){
-        ArrayList<String> names = new ArrayList<>();
-        ArrayList<AppInfo> infos = getAppInfos();
-        for(AppInfo info : infos){
-            names.add(info.getAppPackageName());
-        }
-        return names;
-    }
-
-    public AppMonitor getMonitor(){
-        return mMonitor;
-    }
-
-}

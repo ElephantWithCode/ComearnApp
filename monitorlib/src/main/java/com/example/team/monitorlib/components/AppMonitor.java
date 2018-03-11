@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.graphics.drawable.Drawable;
 import android.os.IBinder;
+import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -99,6 +100,8 @@ public class AppMonitor {
             MonitorService.CallbackBinder binder = (MonitorService.CallbackBinder) service;
             MonitorService monitorService = binder.getService();
             monitorService.setDetectListener(mListener);
+            Log.d("AM", mListener + "");
+
             monitorService.setForegroundNotification(mNotificationHolder);
         }
 

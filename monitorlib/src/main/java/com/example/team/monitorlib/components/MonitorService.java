@@ -122,7 +122,7 @@ public class MonitorService extends Service {
         mAppNameList = intent.getStringArrayListExtra(MonitorService.GET_LIST_ACTION);
         mDetector.setToDetectList(mAppNameList);
 
-        if (mNotificationHolder.getNotification() != null){
+        if (mNotificationHolder != null && mNotificationHolder.getNotification() != null){
             Log.d(TAG + "_NO", "registered");
             startForeground(FOREGROUND_SERVICE_MARK, mNotificationHolder.getNotification());
             if (mNotificationHolder.getCallbacks().size() != 0) {
