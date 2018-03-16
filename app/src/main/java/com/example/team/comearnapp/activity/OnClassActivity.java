@@ -110,10 +110,10 @@ public class OnClassActivity extends AbstractListActivity implements OnClassView
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
-            case R.id.act_on_class_item_edit:
-                startActivity(new Intent(this, RefinedClassSettingActivity.class));
-                break;
+        int i = item.getItemId();
+        if (i == R.id.act_on_class_item_edit) {
+            startActivity(new Intent(this, RefinedClassSettingActivity.class));
+
         }
         return super.onOptionsItemSelected(item);
     }

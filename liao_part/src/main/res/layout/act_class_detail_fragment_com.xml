@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+
+
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:id="@+id/periodical_detail_all"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_margin="10dp"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="10dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:divider="@drawable/divider_bg"
+                    android:orientation="vertical"
+                    android:showDividers="middle"
+                    >
+
+                    <LinearLayout
+                        android:id="@+id/_detail_oversee"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:minHeight="100dp"
+                        >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:text="群公告"
+                            android:textColor="#303131"
+                            android:textSize="20sp"
+                            android:textStyle="bold"
+                            android:gravity="center"
+                            android:layout_gravity="center"
+                            />
+
+                        <TextView
+                            android:id="@+id/notice_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ellipsize="end"
+                            android:maxLines="5"
+                            android:text="下周一上课的时候记得带练习册"
+                            android:textColor="#303131"
+                            android:textSize="16sp"
+                            android:gravity="center"
+                            android:layout_gravity="center"
+                            android:layout_margin="10dp"
+                            />
+                    </LinearLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="10dp"
+                        android:paddingEnd="20dp"
+                        android:paddingStart="20dp"
+                        android:paddingTop="10dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:text="本群昵称"
+                            android:textColor="#303131"
+                            android:textSize="16sp" />
+                        <TextView
+                            android:id="@+id/user_name_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_toLeftOf="@+id/change_name_iv"
+                            android:text="邹某"
+                            android:textColor="#c6bfc6"
+                            android:textSize="16sp" />
+                        <ImageView
+                            android:id="@+id/change_name_iv"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:padding="7dp"
+                            android:src="@drawable/ic_personal_expand_right" />
+                    </RelativeLayout>
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="10dp"
+                        android:paddingEnd="20dp"
+                        android:paddingStart="20dp"
+                        android:paddingTop="10dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:text="考勤记录"
+                            android:textColor="#303131"
+                            android:textSize="16sp" />
+                        <ImageView
+                            android:id="@+id/check_record_iv"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:padding="7dp"
+                            android:src="@drawable/ic_personal_expand_right" />
+                    </RelativeLayout>
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="10dp"
+                        android:paddingEnd="20dp"
+                        android:paddingStart="20dp"
+                        android:paddingTop="10dp">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:text="特别关注"
+                            android:textColor="#303131"
+                            android:textSize="16sp" />
+                        <com.suke.widget.SwitchButton
+                            android:id="@+id/focus_sb"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:padding="7dp"
+                            app:sb_show_indicator="false"
+                            />
+                    </RelativeLayout>
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+
+
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginBottom="10dp"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="10dp"
+                >
+                    <LinearLayout
+                        android:layout_below="@+id/comment_text"
+                        android:id="@+id/comment_father_view_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:divider="@drawable/divider_bg"
+                        android:dividerPadding="10dp"
+                        android:orientation="vertical"
+                        android:showDividers="middle"
+                        >
+                        <TextView
+                            android:id="@+id/comment_text"
+                            android:layout_gravity="center"
+                            android:text="自习活动"
+                            android:textStyle="bold"
+                            android:textSize="18sp"
+                            android:textColor="#303131"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="10dp"
+                            />
+                        <android.support.v7.widget.RecyclerView
+                            android:id="@+id/act_class_detail_activity_rv"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginRight="10dp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginBottom="10dp"
+                            />
+                    </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+
+
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+</LinearLayout>
+
+
+

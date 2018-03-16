@@ -1,0 +1,153 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:windowSoftInputMode="adjustPan"
+                >
+
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/green"
+        android:elevation="4dp" />
+
+
+    <com.example.team.comearnapp.ui.ClearEditText
+        android:id="@+id/clearEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:background="@drawable/search_border"
+        android:drawableLeft="@mipmap/ic_search_grey600_24dp"
+        android:hint="请输入关键字"
+        android:padding="5dp"
+        android:singleLine="true"
+        android:textSize="14sp"
+        android:layout_below="@id/toolbar"
+        />
+
+    <se.emilsjolander.stickylistheaders.StickyListHeadersListView
+        android:id="@+id/stickListHeadersListView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/select_layout"
+        android:layout_below="@+id/clearEditText"
+        />
+
+    <TextView
+        android:id="@+id/dialog"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:background="@drawable/head_number_bg"
+        android:gravity="center"
+        android:textSize="30sp"
+        android:visibility="gone"/>
+
+    <com.example.team.comearnapp.activity.SideBar
+        android:id="@+id/sideBar"
+        android:layout_width="30dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/clearEditText"
+        android:layout_above="@id/select_layout"
+
+        />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:backgroundTint="@color/green"
+        />
+
+    <LinearLayout
+        android:id="@+id/select_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="#86efefef"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
+            android:id="@+id/select_all"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:paddingBottom="10dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingTop="10dp"
+            android:layout_margin="5dp"
+            android:text="全选"
+            app:qmui_isRadiusAdjustBounds="true"
+            android:textColor="@color/s_btn_color"
+            app:qmui_borderColor="@color/s_btn_color"
+            app:qmui_backgroundColor="@color/white"
+
+            />
+        <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
+            android:id="@+id/select_reverse"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:paddingBottom="10dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingTop="10dp"
+            android:layout_margin="5dp"
+            android:text="反选"
+            app:qmui_isRadiusAdjustBounds="true"
+            android:textColor="@color/s_btn_color"
+            app:qmui_borderColor="@color/s_btn_color"
+            app:qmui_backgroundColor="@color/white"
+
+            />
+        <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
+            android:id="@+id/confirm"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:paddingBottom="10dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingTop="10dp"
+            android:layout_margin="5dp"
+            android:text="确认"
+            app:qmui_isRadiusAdjustBounds="true"
+            android:textColor="@color/s_btn_color"
+            app:qmui_borderColor="@color/s_btn_color"
+            app:qmui_backgroundColor="@color/white"
+
+            />
+        <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
+            android:id="@+id/cancel"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:paddingBottom="10dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingTop="10dp"
+            android:layout_margin="5dp"
+            android:text="取消"
+            app:qmui_isRadiusAdjustBounds="true"
+            android:textColor="@color/s_btn_color"
+            app:qmui_borderColor="@color/s_btn_color"
+            app:qmui_backgroundColor="@color/white"
+
+            />
+
+    </LinearLayout>
+
+</RelativeLayout>
