@@ -17,13 +17,14 @@ import com.example.team.comearnapp.ui.CompoundTextLayout;
 import com.example.team.comearnlib.base.mvp_mode.base_view.IBaseView;
 import com.example.team.comearnlib.utils.ConvertTools;
 import com.example.team.personalspacelib.test.DefaultCustomCardView;
+import com.github.mzule.activityrouter.annotation.Router;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 import com.xw.repo.BubbleSeekBar;
 
 import java.util.ArrayList;
 
 interface ClassSettingView extends IBaseView{}
-
+@Router("class_setting")
 public class ClassSettingActivity extends AppCompatActivity implements ClassSettingView{
 
     private DefaultCustomCardView mSpotCard;

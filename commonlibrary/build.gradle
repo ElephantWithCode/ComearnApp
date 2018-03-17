@@ -57,4 +57,7 @@ dependencies {
     compile 'com.jakewharton:butterknife:8.6.0'
 
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.6.0'
+
+    compile 'com.github.mzule.activityrouter:activityrouter:1.2.2'
+    annotationProcessor 'com.github.mzule.activityrouter:compiler:1.1.7'
 }
