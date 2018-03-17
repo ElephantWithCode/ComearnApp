@@ -177,7 +177,6 @@ public class ClassDetailActivity extends AppCompatActivity {
                                 break;
                             case 3:
                                 //TODO:汪工在这里跳转到设置白名单页面
-                                startActivity(new Intent(ClassDetailActivity.this, ClassSettingActivity.class));
                                 break;
                             case 4:
                                 break;
