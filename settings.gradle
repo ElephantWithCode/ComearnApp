@@ -1,1 +1,1 @@
-include ':app', ':comearnlib', ':monitorlib', ':personalspacelib', 'detectlibrary', ':liao_part'
+include ':app', ':comearnlib', ':monitorlib', ':personalspacelib', ':commonlibrary', 'detectlibrary', ':liao_part'
