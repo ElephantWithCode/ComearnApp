@@ -45,6 +45,6 @@ dependencies {
     implementation project(':monitorlib')
     implementation project(':personalspacelib')
 
-
     implementation project(':commonlibrary')
+    annotationProcessor 'com.github.mzule.activityrouter:compiler:1.1.7'
 }

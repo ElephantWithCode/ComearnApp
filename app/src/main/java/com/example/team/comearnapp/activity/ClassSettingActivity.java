@@ -24,7 +24,7 @@ import com.xw.repo.BubbleSeekBar;
 import java.util.ArrayList;
 
 interface ClassSettingView extends IBaseView{}
-@Router("class_setting")
+
 public class ClassSettingActivity extends AppCompatActivity implements ClassSettingView{
 
     private DefaultCustomCardView mSpotCard;
