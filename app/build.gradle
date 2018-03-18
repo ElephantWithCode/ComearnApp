@@ -40,7 +40,7 @@ android {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
-    implementation project(':detectlibrary')
+
     implementation project(':comearnlib')
     implementation project(':monitorlib')
     implementation project(':personalspacelib')
