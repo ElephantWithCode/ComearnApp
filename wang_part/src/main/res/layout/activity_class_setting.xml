@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.example.team.comearnapp.activity.ClassSettingActivity">
+    tools:context="com.example.team.comearnapp.com.example.team.wang.activity.ClassSettingActivity">
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"

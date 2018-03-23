@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.team.comearnapp.test.SecondMockActivity">
+    tools:context="com.example.team.comearnapp.com.example.team.wang.test.SecondMockActivity">
 
     <Button
         android:id="@+id/start"

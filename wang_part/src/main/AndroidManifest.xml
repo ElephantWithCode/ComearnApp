@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".activity.MainActivity">
+            android:name="com.example.team.wang.activity.MainActivity">
         </activity>
 
         <!-- 两个Service的声明已经被删去 -->
@@ -20,17 +20,17 @@
             android:exported="false" />
 
         <activity
-            android:name=".test.MockActivity"
+            android:name="com.example.team.wang.test.MockActivity"
             android:launchMode="singleTask" />
         <activity
-            android:name=".test.SecondMockActivity"
+            android:name="com.example.team.wang.test.SecondMockActivity"
             android:launchMode="singleTask" />
-        <activity android:name=".test.ThirdMockActivity" />
-        <activity android:name=".activity.PersonalInfoActivity" />
-        <activity android:name=".activity.WhiteListActivity" />
-        <activity android:name=".activity.ClassSettingActivity" />
+        <activity android:name="com.example.team.wang.test.ThirdMockActivity" />
+        <activity android:name="com.example.team.wang.activity.PersonalInfoActivity" />
+        <activity android:name="com.example.team.wang.activity.WhiteListActivity" />
+        <activity android:name="com.example.team.wang.activity.ClassSettingActivity" />
         <activity
-            android:name=".activity.OnClassActivity"
+            android:name="com.example.team.wang.activity.OnClassActivity"
             android:launchMode="singleTask"
             android:excludeFromRecents="true">
             <intent-filter>
@@ -39,19 +39,19 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.RefinedClassSettingActivity"></activity>
+        <activity android:name="com.example.team.wang.activity.RefinedClassSettingActivity"></activity>
 
         <service
-            android:name=".service.CountDownService"
+            android:name="com.example.team.wang.service.CountDownService"
             android:enabled="true"
             android:exported="false"/>
 
         <receiver
-            android:name=".service.CountDownService$StartCountDownForServiceReceiver"
+            android:name="com.example.team.wang.service.CountDownService$StartCountDownForServiceReceiver"
             android:enabled="true"
             android:exported="false" />
         <receiver
-            android:name=".receiver.UpdateCountDownReceiver"
+            android:name="com.example.team.wang.receiver.UpdateCountDownReceiver"
             android:enabled="true"
             android:exported="false"></receiver>
     </application>
