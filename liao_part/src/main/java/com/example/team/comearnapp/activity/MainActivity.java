@@ -49,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
             });
         }
 
+        
 
         mViewPager=(MaterialViewPager)findViewById(R.id.materialViewPager);
 
