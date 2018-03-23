@@ -28,9 +28,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.example.team.comearnapp.R;
 import com.example.team.comearnapp.tool.ToastTools;
-import com.github.mzule.activityrouter.router.Routers;
 import com.nightonke.boommenu.BoomButtons.HamButton;
 import com.nightonke.boommenu.BoomMenuButton;
 import com.nightonke.boommenu.ButtonEnum;
@@ -179,8 +179,7 @@ public class ClassDetailActivity extends AppCompatActivity {
                                 break;
                             case 3:
                                 //TODO:汪工在这里跳转到设置白名单页面
-                                Routers.open(ClassDetailActivity.this, "c_router://class_setting");
-                                ToastTools.ToastShow("open");
+                                ARouter.getInstance().build("/app/on_class").navigation();
                                 break;
                             case 4:
                                 break;

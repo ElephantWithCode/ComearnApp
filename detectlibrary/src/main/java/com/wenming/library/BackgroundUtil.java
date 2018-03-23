@@ -54,7 +54,8 @@ public class BackgroundUtil {
             case BKGMETHOD_GETRUNNING_PROCESS:
                 return getRunningAppProcesses(context, packageName);
             case BKGMETHOD_GETAPPLICATION_VALUE:
-                return getApplicationValue((MyApplication) ((Service) context).getApplication());
+//                return getApplicationValue((MyApplication) ((Service) context).getApplication());
+                return false;
             case BKGMETHOD_GETUSAGESTATS:
                 return queryUsageStats(context, packageName);
             case BKGMETHOD_GETACCESSIBILITYSERVICE:

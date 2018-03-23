@@ -99,8 +99,10 @@ public class AppMonitor {
         public void onServiceConnected(ComponentName name, IBinder service) {
             MonitorService.CallbackBinder binder = (MonitorService.CallbackBinder) service;
             MonitorService monitorService = binder.getService();
-            monitorService.setDetectListener(mListener);
-            Log.d("AM", mListener + "");
+            if (mListener != null) {
+                monitorService.setDetectListener(mListener);
+            }
+            Log.d("_AM", mListener + "");
 
             monitorService.setForegroundNotification(mNotificationHolder);
         }

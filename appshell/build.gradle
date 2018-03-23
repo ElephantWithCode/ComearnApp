@@ -35,6 +35,6 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     implementation project(':commonlibrary')
-    implementation project(':app')
+    implementation project(':wang_part')
     implementation project(':liao_part')
 }

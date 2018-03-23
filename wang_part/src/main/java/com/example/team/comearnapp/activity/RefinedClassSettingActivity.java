@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.alibaba.android.arouter.facade.annotation.Route;
 import com.example.team.comearnapp.R;
 import com.example.team.comearnapp.engine.fragment.class_main.ClassMainModel;
 import com.example.team.comearnapp.service.CountDownService;
@@ -17,7 +18,6 @@ import com.example.team.comearnapp.utils.ClassBehaviorManager;
 import com.example.team.comearnlib.base.mvp_mode.base_presenter.BasePresenter;
 import com.example.team.comearnlib.base.mvp_mode.base_view.IBaseView;
 import com.example.team.comearnlib.utils.ConvertTools;
-import com.github.mzule.activityrouter.annotation.Router;
 import com.qmuiteam.qmui.widget.dialog.QMUIDialog;
 import com.qmuiteam.qmui.widget.dialog.QMUIDialogAction;
 import com.qmuiteam.qmui.widget.grouplist.QMUICommonListItemView;
@@ -71,7 +71,8 @@ class RefinedClassSettingPresenter extends BasePresenter<RefinedClassSettingView
     }
 
 }
-@Router("class_setting")
+
+@Route(path = "/app/class_setting")
 public class RefinedClassSettingActivity extends AppCompatActivity implements RefinedClassSettingView{
 
     private RefinedClassSettingPresenter mPresenter = new RefinedClassSettingPresenter();

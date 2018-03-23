@@ -18,7 +18,15 @@ android {
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [ moduleName : project.getName() ]
+            }
+        }
     }
+
+
 
     sourceSets{
         main{
@@ -46,5 +54,5 @@ dependencies {
     implementation project(':personalspacelib')
 
     implementation project(':commonlibrary')
-    annotationProcessor 'com.github.mzule.activityrouter:compiler:1.1.7'
+    annotationProcessor rootProject.ext.router_compiler
 }

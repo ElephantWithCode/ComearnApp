@@ -58,5 +58,5 @@ dependencies {
 
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.6.0'
 
-    api 'com.github.mzule.activityrouter:activityrouter:1.2.2'
+    api rootProject.ext.router_api
 }

@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.alibaba.android.arouter.facade.annotation.Route;
 import com.example.team.comearnapp.R;
 import com.example.team.comearnapp.engine.fragment.class_main.ClassMainFragment;
 import com.example.team.comearnapp.engine.fragment.class_main.ClassMainModel;
@@ -41,6 +42,7 @@ class OnClassPresenter extends BasePresenter<OnClassView>{
     }
 }
 
+@Route(path = "/app/on_class")
 public class OnClassActivity extends AbstractListActivity implements OnClassView{
 
     private OnClassPresenter mPresenter = new OnClassPresenter();

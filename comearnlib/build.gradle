@@ -13,6 +13,13 @@ android {
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [ moduleName : project.getName() ]
+            }
+        }
+
+
     }
 
     buildTypes {
@@ -27,6 +34,6 @@ android {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
-    annotationProcessor 'com.github.mzule.activityrouter:compiler:1.1.7'
     implementation project(':commonlibrary')
+    annotationProcessor 'com.github.mzule.activityrouter:compiler:1.1.7'
 }

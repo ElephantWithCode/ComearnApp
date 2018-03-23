@@ -40,7 +40,7 @@ class PackageNameInListDetector {
         try {
             mAfterDetectListener.afterDetect(mContext);
         }catch (NullPointerException e){
-            Log.e(TAG + "_E", "listener must be implemented");
+            Log.e(TAG + "_E", "listener must be implemented : " + mAfterDetectListener);
         }
     }
 
