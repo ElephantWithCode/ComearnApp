@@ -41,7 +41,7 @@ class OnClassPresenter extends BasePresenter<OnClassView>{
     }
 }
 
-@Route(path = "/app/on_class")
+@Route(path = "/wang_part/on_class")
 public class OnClassActivity extends AbstractListActivity implements OnClassView{
 
     private OnClassPresenter mPresenter = new OnClassPresenter();

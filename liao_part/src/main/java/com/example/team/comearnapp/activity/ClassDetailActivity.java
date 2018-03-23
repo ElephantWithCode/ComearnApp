@@ -69,6 +69,12 @@ public class ClassDetailActivity extends AppCompatActivity {
 
         FloatingActionButton fab=(FloatingActionButton)findViewById(R.id.fab);
 
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ARouter.getInstance().build("/wang_part/on_class").withLong("on_class_time", 1000 * 60).navigation();
+            }
+        });
 
         //remove
         CollapsingToolbarLayout collapsingToolbar = (CollapsingToolbarLayout) findViewById(
@@ -179,7 +185,7 @@ public class ClassDetailActivity extends AppCompatActivity {
                                 break;
                             case 3:
                                 //TODO:汪工在这里跳转到设置白名单页面
-                                ARouter.getInstance().build("/app/on_class").navigation();
+                                ARouter.getInstance().build("/wang_part/on_class").navigation();
                                 break;
                             case 4:
                                 break;
