@@ -18,8 +18,11 @@ public class ClassBehaviorManager {
     private Calendar mClassStartCalendar;
     private Calendar mClassStopCalendar;
 
-    private CharSequence mStartTime;
-    private CharSequence mLastTime;
+    private CharSequence mStartTimeText;
+    private CharSequence mLastTimeText;
+
+    private long mStartTime;
+    private long mStopTime;
 
     private Context mContext;
 
@@ -39,27 +42,48 @@ public class ClassBehaviorManager {
     }
 
     public ClassBehaviorManager setStartTime(CharSequence startTime){
-        mStartTime = startTime;
+        mStartTimeText = startTime;
         return this;
     }
 
     public ClassBehaviorManager setLastTime(CharSequence lastTime){
-        mLastTime = lastTime;
+        mLastTimeText = lastTime;
         return this;
     }
 
-    public ClassBehaviorManager build(){
-        if (mStartTime != null) {
-            setClassStartCalendar(mStartTime);
+    public ClassBehaviorManager setStartTime(long startTimeInMillis){
+        mStartTime = startTimeInMillis;
+        return this;
+    }
+
+    public ClassBehaviorManager setStopTime(long stopTimeInMillis){
+        mStopTime = stopTimeInMillis;
+        return this;
+    }
+
+    public ClassBehaviorManager buildWithText(){
+        if (mStartTimeText != null) {
+            setClassStartCalendar(mStartTimeText);
         }
-        if (mLastTime != null) {
-            setClassStopCalendar(mLastTime);
+        if (mLastTimeText != null) {
+            setClassStopCalendar(mLastTimeText);
         }
+        return this;
+    }
+
+    public ClassBehaviorManager buildWithExactTime(){
+        setClassStartCalendar(mStartTime);
+        setClassStopCalendar(mStopTime);
         return this;
     }
 
     private void setClassStartCalendar(CharSequence startTime){
-        mClassStartCalendar = ConvertTools.constructFromAssignedHourAndMinute(startTime.toString());
+        setClassStartCalendar(ConvertTools.getTimeInMillisFromAssignedHourAndMinute(startTime.toString()));
+    }
+
+    private void setClassStartCalendar(long startTimeInMillis){
+        mClassStartCalendar = Calendar.getInstance();
+        mClassStartCalendar.setTimeInMillis(startTimeInMillis);
     }
 
     private void setClassStopCalendar(CharSequence lastTime){
@@ -74,6 +98,11 @@ public class ClassBehaviorManager {
         }
     }
 
+    private void setClassStopCalendar(long classStopTimeInMillis){
+        mClassStopCalendar = Calendar.getInstance();
+        mClassStopCalendar.setTimeInMillis(classStopTimeInMillis);
+    }
+
     private Intent createToServiceIntent(){
         Intent serviceIntent = new Intent(mContext, CountDownService.class);
         serviceIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -86,7 +115,15 @@ public class ClassBehaviorManager {
         return serviceIntent;
     }
 
+    /**
+     * 仅仅有逻辑上的倒计时
+     * 并不会引起视图上的倒计时
+     */
     public void triggerCountDown(){
+
+        mModel.saveStopTime(getClassStartCalendar().getTimeInMillis());
+
+        mModel.saveClassStopTime(getClassStopCalendar().getTimeInMillis());
 
         mContext.startService(createToServiceIntent());
 

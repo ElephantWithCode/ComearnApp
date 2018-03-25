@@ -12,7 +12,7 @@ configurations {
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     defaultConfig {
-        if (! isModule.toBoolean()) {
+        if (!isModule.toBoolean()) {
             applicationId "com.example.team.comearnapp"
         }
         minSdkVersion rootProject.ext.minSdkVersion
@@ -25,18 +25,18 @@ android {
 
         javaCompileOptions {
             annotationProcessorOptions {
-                arguments = [ moduleName : project.getName() ]
+                arguments = [moduleName: project.getName()]
             }
         }
     }
 
 
 
-    sourceSets{
-        main{
-            if (isModule.toBoolean()){
+    sourceSets {
+        main {
+            if (isModule.toBoolean()) {
                 manifest.srcFile 'src/main/module/AndroidManifest.xml'
-            }else{
+            } else {
                 manifest.srcFile 'src/main/AndroidManifest.xml'
             }
         }
@@ -58,5 +58,6 @@ dependencies {
     implementation project(':personalspacelib')
 
     implementation project(':commonlibrary')
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     annotationProcessor rootProject.ext.router_compiler
 }

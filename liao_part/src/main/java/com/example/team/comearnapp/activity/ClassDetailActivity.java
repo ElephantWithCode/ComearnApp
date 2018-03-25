@@ -72,7 +72,9 @@ public class ClassDetailActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ARouter.getInstance().build("/wang_part/on_class").withLong("on_class_time", 1000 * 60).navigation();
+                ARouter.getInstance().build("/wang_part/on_class").
+                        withLong("stop_time", 8 * 1000 + System.currentTimeMillis())
+                        .withString("on_class_mark", "on_class_mark").navigation();
             }
         });
 

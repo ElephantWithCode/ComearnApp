@@ -46,7 +46,7 @@ public class ConvertTools {
         return str2.toString();
     }
 
-    public static Calendar constructFromAssignedHourAndMinute(String time){
+    public static long getTimeInMillisFromAssignedHourAndMinute(String time){
         Calendar calendar = Calendar.getInstance();
         String[] hourAndMinute = time.split(":");
         calendar.set(calendar.get(Calendar.YEAR),
@@ -56,7 +56,7 @@ public class ConvertTools {
                 Integer.parseInt(hourAndMinute[1]),
                 0);
         Log.d("CMF", "original: " + calendar.toString());
-        return calendar;
+        return calendar.getTimeInMillis();
     }
 
     public static Calendar constructFromTimeInMilis(long time){

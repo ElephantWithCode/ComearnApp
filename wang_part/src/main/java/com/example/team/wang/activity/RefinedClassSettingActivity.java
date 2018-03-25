@@ -106,19 +106,19 @@ public class RefinedClassSettingActivity extends AppCompatActivity implements Re
 
                 ClassBehaviorManager builder = new ClassBehaviorManager(RefinedClassSettingActivity.this)
                         .setStartTime(mStartItemView.getDetailText())
-                        .setLastTime(mLastItemView.getDetailText()).build();
+                        .setLastTime(mLastItemView.getDetailText()).buildWithText();
 /*
 
-                Calendar calendar = ConvertTools.constructFromAssignedHourAndMinute(mStartItemView.getDetailText().toString());
+                Calendar calendar = ConvertTools.getTimeInMillisFromAssignedHourAndMinute(mStartItemView.getDetailText().toString());
 
                 Calendar classStopCalendar = (Calendar) calendar.clone();
 
                 classStopCalendar.set(Calendar.MINUTE, classStopCalendar.get(Calendar.MINUTE) +
                 Integer.parseInt(ConvertTools.pickNumberFromString(mLastItemView.getDetailText().toString())));
 */
-                mPresenter.saveStopTime(builder.getClassStartCalendar().getTimeInMillis());
+//                mPresenter.saveStopTime(builder.getClassStartCalendar().getTimeInMillis());
 
-                mPresenter.saveClassStopTime(builder.getClassStopCalendar().getTimeInMillis());
+//                mPresenter.saveClassStopTime(builder.getClassStopCalendar().getTimeInMillis());
 /*
 
                 Intent serviceIntent = new Intent(getContext(), CountDownService.class);

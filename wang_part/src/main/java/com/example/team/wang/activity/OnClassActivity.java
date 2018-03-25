@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.example.team.wang.utils.ClassBehaviorManager;
 import com.example.team.wang_part.R;
 import com.example.team.wang.engine.fragment.class_main.ClassMainFragment;
 import com.example.team.wang.engine.fragment.class_main.ClassMainModel;
@@ -23,6 +24,32 @@ import java.util.Objects;
 
 interface OnClassView extends IBaseView{}
 
+class IntentProcessor{
+    private Context mContext;
+
+    IntentProcessor(Context mContext) {
+        this.mContext = mContext;
+    }
+
+    public void processIntentFromRouter(Intent intent){
+        boolean fromRouter = Objects.equals(intent.getStringExtra("on_class_mark"), "on_class_mark");
+        if (fromRouter){
+            Log.d("OCA", intent.getLongExtra("stop_time", 0) + "");
+
+            ClassBehaviorManager manager = new ClassBehaviorManager(mContext);
+            manager.setStartTime(0)
+                    .setStopTime(intent.getLongExtra("stop_time", 0))
+                    .buildWithExactTime()
+                    .triggerCountDown();
+        }
+    }
+
+    public boolean isRefreshOnClassActivity(Intent intent) {
+        return Objects.equals(intent.getAction(), "refresh_on_class_activity");
+    }
+
+}
+
 class OnClassPresenter extends BasePresenter<OnClassView>{
     private ClassMainModel mModel;
 
@@ -33,6 +60,8 @@ class OnClassPresenter extends BasePresenter<OnClassView>{
     public boolean getClassState(){
         return mModel.getClassState();
     }
+
+    public void setStopTime(long stopTime){ mModel.saveStopTime(stopTime);}
 
     @Override
     public void attachView(OnClassView view) {
@@ -46,6 +75,7 @@ public class OnClassActivity extends AbstractListActivity implements OnClassView
 
     private OnClassPresenter mPresenter = new OnClassPresenter();
     private ClassMainFragment mClassMainFragment;
+    private IntentProcessor mProcessor = new IntentProcessor(this);
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -57,6 +87,8 @@ public class OnClassActivity extends AbstractListActivity implements OnClassView
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        mProcessor.processIntentFromRouter(getIntent());
+
         mCoorTabLayout.setTitle("课堂");
         mViewPager.setOffscreenPageLimit(3);
 
@@ -65,9 +97,8 @@ public class OnClassActivity extends AbstractListActivity implements OnClassView
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        if (Objects.equals(intent.getAction(), "refresh_on_class_activity")) {
+        if (mProcessor.isRefreshOnClassActivity(intent)){
             mClassMainFragment.getPresenter().refreshWholeView();
-            Log.d("OCA", "recreated");
         }
     }
 

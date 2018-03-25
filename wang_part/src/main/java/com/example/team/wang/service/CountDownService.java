@@ -105,6 +105,7 @@ public class CountDownService extends Service {
     @Override
     public void onDestroy() {
         unregisterReceiver(mReceiver);
+
         mMonitor.detach();
         super.onDestroy();
     }
