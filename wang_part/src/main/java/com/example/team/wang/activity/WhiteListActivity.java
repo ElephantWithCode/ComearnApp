@@ -1,14 +1,19 @@
 package com.example.team.wang.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 
+import com.alibaba.android.arouter.facade.annotation.Route;
+import com.example.team.wang.engine.fragment.white_list.FragmentWhiteListModelForOnline;
 import com.example.team.wang_part.R;
 import com.example.team.wang.engine.fragment.white_list.WhiteListFragment;
 import com.example.team.comearnlib.base.mvp_mode.base_model.BaseModel;
@@ -30,7 +35,7 @@ class WhiteListModel extends BaseModel{
 class WhiteListPresenter extends BasePresenter<WhiteListBaseView>{
 
 }
-
+@Route(path = "/wang_part/white_list")
 public class WhiteListActivity extends AppCompatActivity implements WhiteListBaseView{
 
     protected CoordinatorTabLayout mCoorTabLayout;
@@ -38,10 +43,17 @@ public class WhiteListActivity extends AppCompatActivity implements WhiteListBas
 
     protected ArrayList<String> mIndicators = new ArrayList<>();
     protected ArrayList<Fragment> mFragments = new ArrayList<>();
+    private FloatingActionButton mFloatingActionBtn;
+    private WhiteListFragment mNonSystemList;
+
+    private FragmentWhiteListModelForOnline mWhiteListModel = new FragmentWhiteListModelForOnline();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_white_list);
+
+        prepareModel();
 
         bindView();
 
@@ -53,7 +65,27 @@ public class WhiteListActivity extends AppCompatActivity implements WhiteListBas
 
         initCoorTabLayout();
 
+        initFAB();
 
+    }
+
+    private void prepareModel() {
+        mWhiteListModel.attach(this);
+    }
+
+    private void initFAB() {
+        mFloatingActionBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(WhiteListActivity.this, RefinedClassSettingActivity.class));
+                new Thread(){
+                    @Override
+                    public void run() {
+                        mWhiteListModel.setAppInfos(mNonSystemList.getInfos());
+                    }
+                }.start();
+            }
+        });
     }
 
     protected void initIndicators() {
@@ -62,7 +94,9 @@ public class WhiteListActivity extends AppCompatActivity implements WhiteListBas
     }
 
     protected void initFragments() {
-        mFragments.add(WhiteListFragment.newInstance(false));
+        mNonSystemList = WhiteListFragment.newInstance(false);
+        mNonSystemList.setCheckboxVisibility(true);
+        mFragments.add(mNonSystemList);
         mFragments.add(WhiteListFragment.newInstance(true));
     }
 
@@ -104,9 +138,16 @@ public class WhiteListActivity extends AppCompatActivity implements WhiteListBas
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected void onDestroy() {
+        mWhiteListModel.detach();
+        super.onDestroy();
+    }
+
     protected void bindView() {
         mCoorTabLayout = findViewById(R.id.act_white_list_ctl);
         mViewPager = findViewById(R.id.act_white_list_ctl_vp_content);
+        mFloatingActionBtn = findViewById(R.id.act_white_list_fab);
     }
 
     @Override

@@ -15,8 +15,12 @@ import java.util.ArrayList;
  */
 public class FragmentWhiteListModel extends BaseModel {
     protected AppMonitor mMonitor = new AppMonitor();
+    protected Context mContext;
 
-    public void attach(Context context){mMonitor.attach(context);}
+    public void attach(Context context){
+        mMonitor.attach(context);
+        mContext = context;
+    }
 
     public void detach(){mMonitor.detach();}
 

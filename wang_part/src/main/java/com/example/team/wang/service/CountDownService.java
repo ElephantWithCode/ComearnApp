@@ -11,8 +11,10 @@ import android.os.Binder;
 import android.os.IBinder;
 import android.util.Log;
 
+import com.example.team.wang_part.R;
 import com.example.team.wang.activity.OnClassActivity;
 import com.example.team.wang.engine.fragment.class_main.ClassMainModel;
+import com.example.team.wang.utils.FloatWindowManager;
 import com.example.team.wang.utils.PackageNameMonitor;
 import com.example.team.comearnlib.receiver.BaseReceiver;
 import com.example.team.comearnlib.utils.ConvertTools;
@@ -24,6 +26,7 @@ import java.util.Calendar;
 public class CountDownService extends Service {
 
     private PackageNameMonitor mMonitor;
+    private FloatWindowManager mWindowManager;
 
     public class CountDownBinder extends Binder{
         public CountDownService getService(){
@@ -70,6 +73,9 @@ public class CountDownService extends Service {
 
         if (mModel.getClassState()){
             mMonitor.startMonitor();
+
+            mWindowManager = new FloatWindowManager(this);
+            mWindowManager.setContentLayout(R.layout.activity_on_class_float_window_layout).show();
         }
 
         return START_STICKY;
@@ -105,7 +111,6 @@ public class CountDownService extends Service {
     @Override
     public void onDestroy() {
         unregisterReceiver(mReceiver);
-
         mMonitor.detach();
         super.onDestroy();
     }
@@ -145,7 +150,9 @@ public class CountDownService extends Service {
                     });
                     mMonitor.stopMonitor();
 
+                    mWindowManager.cancel();
                     stopSelf();
+
                 }else {
                     mModel.saveClassState(true);
 

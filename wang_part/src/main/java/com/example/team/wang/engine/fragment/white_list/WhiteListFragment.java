@@ -1,6 +1,7 @@
 package com.example.team.wang.engine.fragment.white_list;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -128,7 +129,13 @@ public class WhiteListFragment extends Fragment implements FragmentWhiteListView
 
     @Override
     public ArrayList<AppInfo> getInfos() {
-        return mInfos;
+        ArrayList<AppInfo> selected = new ArrayList<>();
+        for (AppInfo info : mInfos){
+            if (info.getAppSeleted()){
+                selected.add(info);
+            }
+        }
+        return selected;
     }
 
     @Override
@@ -166,8 +173,17 @@ class WhiteListAdapter extends SuperAdapter<AppInfo>{
         checkBox.setChecked(currentItem.getAppSeleted());
         if (mCheckboxVisibility) {
             checkBox.setVisibility(View.VISIBLE);
+
         }else {
             checkBox.setVisibility(View.GONE);
+            holder.findViewById(R.id.act_white_list_rv_app_list_iv_app_icon).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Context context = getContext();
+                    Intent intent = context.getPackageManager().getLaunchIntentForPackage(currentItem.getAppPackageName());
+                    context.startActivity(intent);
+                }
+            });
         }
     }
 }

@@ -1,6 +1,7 @@
 package com.example.team.wang.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,6 +10,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.example.team.wang.debug.TestFloatWindowService;
 import com.example.team.wang_part.R;
 import com.example.team.wang.engine.fragment.class_main.ClassMainModel;
 import com.example.team.wang.ui.SeekBarDialogBuilder;
@@ -102,40 +104,21 @@ public class RefinedClassSettingActivity extends AppCompatActivity implements Re
             @Override
             public void onClick(View v) {
 
+
+/*
+                View decorView = getWindow().getDecorView();
+                int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_FULLSCREEN;
+                decorView.setSystemUiVisibility(uiOptions);
+
+                startService(new Intent(RefinedClassSettingActivity.this, TestFloatWindowService.class));
+*/
+
                 mPresenter.saveClassState(false);
 
                 ClassBehaviorManager builder = new ClassBehaviorManager(RefinedClassSettingActivity.this)
                         .setStartTime(mStartItemView.getDetailText())
                         .setLastTime(mLastItemView.getDetailText()).buildWithText();
-/*
 
-                Calendar calendar = ConvertTools.getTimeInMillisFromAssignedHourAndMinute(mStartItemView.getDetailText().toString());
-
-                Calendar classStopCalendar = (Calendar) calendar.clone();
-
-                classStopCalendar.set(Calendar.MINUTE, classStopCalendar.get(Calendar.MINUTE) +
-                Integer.parseInt(ConvertTools.pickNumberFromString(mLastItemView.getDetailText().toString())));
-*/
-//                mPresenter.saveStopTime(builder.getClassStartCalendar().getTimeInMillis());
-
-//                mPresenter.saveClassStopTime(builder.getClassStopCalendar().getTimeInMillis());
-/*
-
-                Intent serviceIntent = new Intent(getContext(), CountDownService.class);
-
-                if (builder.getClassStartCalendar().getTimeInMillis() > System.currentTimeMillis()) {
-                    serviceIntent.putExtra(CountDownService.TAG_GET_CALENDAR, builder.getClassStartCalendar());
-                }else {
-                    serviceIntent.putExtra(CountDownService.TAG_GET_CALENDAR, builder.getClassStopCalendar());
-                    mPresenter.saveClassState(true);
-                }
-
-                startService(serviceIntent);
-                sendBroadcast(new Intent("update_count_time"));
-
-                Intent intent = new Intent(RefinedClassSettingActivity.this, OnClassActivity.class);
-                startActivity(intent);
-*/
                 builder.triggerCountDown();
 
                 Log.d("RCSA", "class stop time" + builder.getClassStopCalendar().toString() +
