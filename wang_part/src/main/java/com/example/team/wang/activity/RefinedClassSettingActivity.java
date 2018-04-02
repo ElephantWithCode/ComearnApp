@@ -33,7 +33,8 @@ interface RefinedClassSettingView extends IBaseView{
     void showSpotDialog(CharSequence preText);
     void showLastTimeDialog(CharSequence preText);
     void showStartTimeDialog();
-
+    void disableShowButton();
+    void showButton();
 }
 
 class RefinedClassSettingPresenter extends BasePresenter<RefinedClassSettingView>{
@@ -70,6 +71,13 @@ class RefinedClassSettingPresenter extends BasePresenter<RefinedClassSettingView
         mView.showStartTimeDialog();
     }
 
+    public void showFinishButton(){
+        if (mModel.getClassState()){
+            mView.disableShowButton();
+        }else {
+            mView.showButton();
+        }
+    }
 }
 
 @Route(path = "/wang_part/class_setting")
@@ -103,8 +111,6 @@ public class RefinedClassSettingActivity extends AppCompatActivity implements Re
         mFinishButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
 /*
                 View decorView = getWindow().getDecorView();
                 int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_FULLSCREEN;
@@ -112,7 +118,6 @@ public class RefinedClassSettingActivity extends AppCompatActivity implements Re
 
                 startService(new Intent(RefinedClassSettingActivity.this, TestFloatWindowService.class));
 */
-
                 mPresenter.saveClassState(false);
 
                 ClassBehaviorManager builder = new ClassBehaviorManager(RefinedClassSettingActivity.this)
@@ -178,6 +183,8 @@ public class RefinedClassSettingActivity extends AppCompatActivity implements Re
 
         mSpotSection.addTo(mGroupListView);
         mTimeSection.addTo(mGroupListView);
+
+//        mPresenter.showFinishButton();
     }
 
     @Override
@@ -272,6 +279,16 @@ public class RefinedClassSettingActivity extends AppCompatActivity implements Re
         }, true);
         tpd.vibrate(false);
         tpd.show(getFragmentManager(), "time picker dialog");
+    }
+
+    @Override
+    public void disableShowButton() {
+        mFinishButton.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void showButton() {
+        mFinishButton.setVisibility(View.VISIBLE);
     }
 
     @Override

@@ -84,6 +84,8 @@ public class OnClassActivity extends AbstractListActivity implements OnClassView
     private ClassMainFragment mClassMainFragment;
     private IntentProcessor mProcessor = new IntentProcessor(this);
 
+    /*
+
     @SuppressLint("HandlerLeak")
     Handler mWindowHandler = new Handler(){
         @Override
@@ -93,6 +95,7 @@ public class OnClassActivity extends AbstractListActivity implements OnClassView
             }
         }
     };
+*/
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -103,12 +106,12 @@ public class OnClassActivity extends AbstractListActivity implements OnClassView
     @Override
     protected void onResume() {
         super.onResume();
+        //
+//        View decorView = getWindow().getDecorView();
+//        int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_FULLSCREEN;
+//        decorView.setSystemUiVisibility(uiOptions);
 
-        View decorView = getWindow().getDecorView();
-        int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_FULLSCREEN;
-        decorView.setSystemUiVisibility(uiOptions);
-
-        mWindowHandler.sendEmptyMessageDelayed(123, 1000);
+//        mWindowHandler.sendEmptyMessageDelayed(123, 1000);
     }
 
     @Override
