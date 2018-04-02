@@ -67,10 +67,15 @@ public class ClassDetailInformationFragment extends Fragment implements View.OnC
 
         } else if (i == R.id.arrow_member) {
             Intent intent = new Intent(getContext(), SelectActivity.class);
+            intent.putExtra("mode","member");
+            intent.putExtra("permission","creator");
+            //三种权限：creator(+可设置和删除成员),admin(+可删除成员),visitor
             startActivity(intent);
 
         } else if (i == R.id.arrow_manager) {
             Intent intent2 = new Intent(getContext(), SelectActivity.class);
+            intent2.putExtra("mode","manager");
+            intent2.putExtra("permission","creator");
             startActivity(intent2);
 
         }

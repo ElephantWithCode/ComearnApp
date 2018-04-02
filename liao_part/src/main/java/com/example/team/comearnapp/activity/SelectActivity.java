@@ -1,6 +1,7 @@
 package com.example.team.comearnapp.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -47,23 +48,14 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 public class SelectActivity extends AppCompatActivity implements SideBar.OnTouchingLetterChangedListener, AdapterView.OnItemClickListener, TextWatcher {
 
     ClearEditText mClearEditText;
-
     StickyListHeadersListView mStickListHeadersListView;
-
     TextView mDialog;
-
     SideBar mSideBar;
-
     ProgressBar mProgressBar;
-
     QMUIRoundButton selectAll;
-
     QMUIRoundButton selectReverse;
-
     QMUIRoundButton confirm;
-
     QMUIRoundButton cancel;
-
     LinearLayout select_layout;
 
 
@@ -75,46 +67,44 @@ public class SelectActivity extends AppCompatActivity implements SideBar.OnTouch
     //根据拼音来排列listView里的数据类
     private PinyinComparator pinyinComparator;
 
+    private String mode;
+    private String permission;
+    private Menu aMenu;         //获取optionmenu
+    private int request;
+    private final int DELETEMEMBER=1;
+    private final int DELETEMANAGER=2;
+    private final int ADDMANAGER=4;
+    private final int ADDMEMBER=3;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_select);
         ButterKnife.bind(this);
-
+        Intent intent=getIntent();
+        mode=intent.getStringExtra("mode");
+        permission=intent.getStringExtra("permission");
         mClearEditText = findViewById(R.id.clearEditText);
-
         mDialog = findViewById(R.id.dialog);
-
         mSideBar = findViewById(R.id.sideBar);
-
         mProgressBar = findViewById(R.id.progressBar);
-
         mStickListHeadersListView = findViewById(R.id.stickListHeadersListView);
-
         selectAll = findViewById(R.id.select_all);
-
         selectReverse = findViewById(R.id.select_reverse);
-
         select_layout = findViewById(R.id.select_layout);
-
         cancel = findViewById(R.id.cancel);
-
         confirm = findViewById(R.id.confirm);
-
         OnClickListenerCompat listener = new OnClickListenerCompat();
-
         selectAll.setOnClickListener(listener);
-
         selectReverse.setOnClickListener(listener);
-
         confirm.setOnClickListener(listener);
-
         cancel.setOnClickListener(listener);
 
         StatusBarUtil.setColor(SelectActivity.this, getResources().getColor(R.color.green), 50);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("1602019班");
+        getSupportActionBar().setTitle("演示班级");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         characterParser = CharacterParser.getInstance();
@@ -209,12 +199,28 @@ public class SelectActivity extends AppCompatActivity implements SideBar.OnTouch
             cityAdapter.notifyDataSetChanged();
 
         } else if (i == R.id.confirm) {
-            showDeleteDialog();
+            switch(request){
+                case DELETEMEMBER:
+                    showDeleteMemberDialog();
+                    break;
+                case DELETEMANAGER:
+                    showDeleteManagerDialog();
+                    break;
+                case ADDMANAGER:
+                    showAddManagerDialog();
+                    break;
+                case ADDMEMBER:
+                    showAddMemberDialog();
+                    break;
+            }
+
 
         } else if (i == R.id.cancel) {
             cityAdapter.setSelect(false);
             cityAdapter.updateList(cities);
             select_layout.setVisibility(View.INVISIBLE);
+            getSupportActionBar().setTitle("演示班级");
+
 
         }
     }
@@ -278,8 +284,16 @@ public class SelectActivity extends AppCompatActivity implements SideBar.OnTouch
             finish();
 
         } else if (i == R.id.edit_icon) {
-            showBottomSheet();
-
+            if(permission.equals("admin")){
+                showMemberAdminBottomSheet();
+            }
+            if(permission.equals("creator")){
+                if(mode.equals("member")){
+                    showMemberCreatorBottomSheet();
+                }else{
+                    showManagerCreatorBottomSheet();
+                }
+            }
         }
         return super.onOptionsItemSelected(item);
     }
@@ -288,26 +302,32 @@ public class SelectActivity extends AppCompatActivity implements SideBar.OnTouch
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.edit_icon, menu);
+        aMenu = menu;
+        aMenu.getItem(0).setVisible(false);
+        if(mode.equals("member")&&!permission.equals("visitor")){
+            aMenu.getItem(0).setVisible(true);
+        }
+        if(mode.equals("manager")&&permission.equals("creator")){
+            aMenu.getItem(0).setVisible(true);
+        }
+
         return true;
     }
 
-    private void showBottomSheet() {
+    private void showManagerCreatorBottomSheet(){
         new QMUIBottomSheet.BottomListSheetBuilder(SelectActivity.this)
-                .addItem("邀请好友")
-                .addItem("设置管理员")
-                .addItem("删除成员")
+                .addItem("删除管理员")
                 .setOnSheetItemClickListener(new QMUIBottomSheet.BottomListSheetBuilder.OnSheetItemClickListener() {
                     @Override
                     public void onClick(QMUIBottomSheet dialog, View itemView, int position, String tag) {
                         switch (position) {
                             case 0:
-                                break;
-                            case 1:
-                                break;
-                            case 2:
                                 select_layout.setVisibility(View.VISIBLE);
                                 cityAdapter.setSelect(true);
                                 cityAdapter.updateList(cities);
+                                request=DELETEMANAGER;
+                                getSupportActionBar().setTitle("删除管理员");
+
                                 break;
                             default:
                                 break;
@@ -317,9 +337,81 @@ public class SelectActivity extends AppCompatActivity implements SideBar.OnTouch
                 })
                 .build().show();
     }
-    private void showDeleteDialog() {
+    private void showMemberAdminBottomSheet() {
+        new QMUIBottomSheet.BottomListSheetBuilder(SelectActivity.this)
+                .addItem("邀请成员")
+                .addItem("删除成员")
+                .setOnSheetItemClickListener(new QMUIBottomSheet.BottomListSheetBuilder.OnSheetItemClickListener() {
+                    @Override
+                    public void onClick(QMUIBottomSheet dialog, View itemView, int position, String tag) {
+                        switch (position) {
+                            case 0:
+                                select_layout.setVisibility(View.VISIBLE);
+                                cityAdapter.setSelect(true);
+                                cityAdapter.updateList(cities);
+                                request=ADDMEMBER;
+                                getSupportActionBar().setTitle("邀请成员");
+
+                                break;
+                            case 1:
+                                select_layout.setVisibility(View.VISIBLE);
+                                cityAdapter.setSelect(true);
+                                cityAdapter.updateList(cities);
+                                request=DELETEMEMBER;
+                                getSupportActionBar().setTitle("删除成员");
+
+                                break;
+                            default:
+                                break;
+                        }
+                        dialog.dismiss();
+                    }
+                })
+                .build().show();
+    }
+    private void showMemberCreatorBottomSheet() {
+        new QMUIBottomSheet.BottomListSheetBuilder(SelectActivity.this)
+                .addItem("邀请好友")
+                .addItem("删除成员")
+                .addItem("设置管理员")
+                .setOnSheetItemClickListener(new QMUIBottomSheet.BottomListSheetBuilder.OnSheetItemClickListener() {
+                    @Override
+                    public void onClick(QMUIBottomSheet dialog, View itemView, int position, String tag) {
+                        switch (position) {
+                            case 0:
+                                select_layout.setVisibility(View.VISIBLE);
+                                cityAdapter.setSelect(true);
+                                cityAdapter.updateList(cities);
+                                request=ADDMEMBER;
+                                getSupportActionBar().setTitle("邀请成员");
+                                break;
+                            case 1:
+                                select_layout.setVisibility(View.VISIBLE);
+                                cityAdapter.setSelect(true);
+                                cityAdapter.updateList(cities);
+                                request=DELETEMEMBER;
+                                getSupportActionBar().setTitle("删除成员");
+                                break;
+                            case 2:
+                                select_layout.setVisibility(View.VISIBLE);
+                                cityAdapter.setSelect(true);
+                                cityAdapter.updateList(cities);
+                                request=ADDMANAGER;
+                                getSupportActionBar().setTitle("设置管理员");
+                                break;
+                            default:
+                                break;
+                        }
+                        dialog.dismiss();
+                    }
+                })
+                .build().show();
+    }
+
+
+    private void showDeleteMemberDialog() {
         new QMUIDialog.MessageDialogBuilder(SelectActivity.this)
-                .setTitle("删除好友")
+                .setTitle("删除成员")
                 .setMessage("确定要删除吗？")
                 .addAction("取消", new QMUIDialogAction.ActionListener() {
                     @Override
@@ -337,5 +429,66 @@ public class SelectActivity extends AppCompatActivity implements SideBar.OnTouch
                 })
                 .show();
     }
+    private void showDeleteManagerDialog() {
+        new QMUIDialog.MessageDialogBuilder(SelectActivity.this)
+                .setTitle("删除管理员")
+                .setMessage("确定要删除吗？")
+                .addAction("取消", new QMUIDialogAction.ActionListener() {
+                    @Override
+                    public void onClick(QMUIDialog dialog, int index) {
+                        dialog.dismiss();
+                    }
+                })
+                .addAction(0, "删除", QMUIDialogAction.ACTION_PROP_NEGATIVE, new QMUIDialogAction.ActionListener() {
+                    @Override
+                    public void onClick(QMUIDialog dialog, int index) {
+                        Toast.makeText(SelectActivity.this, "删除成功", Toast.LENGTH_SHORT).show();
+                        dialog.dismiss();
+                        finish();
+                    }
+                })
+                .show();
+    }
+    private void showAddManagerDialog() {
+        new QMUIDialog.MessageDialogBuilder(SelectActivity.this)
+                .setTitle("设置管理员")
+                .setMessage("确定要设置吗？")
+                .addAction("取消", new QMUIDialogAction.ActionListener() {
+                    @Override
+                    public void onClick(QMUIDialog dialog, int index) {
+                        dialog.dismiss();
+                    }
+                })
+                .addAction(0, "设置", QMUIDialogAction.ACTION_PROP_NEGATIVE, new QMUIDialogAction.ActionListener() {
+                    @Override
+                    public void onClick(QMUIDialog dialog, int index) {
+                        Toast.makeText(SelectActivity.this, "设置成功", Toast.LENGTH_SHORT).show();
+                        dialog.dismiss();
+                        finish();
+                    }
+                })
+                .show();
+    }
+    private void showAddMemberDialog() {
+        new QMUIDialog.MessageDialogBuilder(SelectActivity.this)
+                .setTitle("邀请成员")
+                .setMessage("确定要邀请吗？")
+                .addAction("取消", new QMUIDialogAction.ActionListener() {
+                    @Override
+                    public void onClick(QMUIDialog dialog, int index) {
+                        dialog.dismiss();
+                    }
+                })
+                .addAction(0, "邀请", QMUIDialogAction.ACTION_PROP_NEGATIVE, new QMUIDialogAction.ActionListener() {
+                    @Override
+                    public void onClick(QMUIDialog dialog, int index) {
+                        Toast.makeText(SelectActivity.this, "邀请成功", Toast.LENGTH_SHORT).show();
+                        dialog.dismiss();
+                        finish();
+                    }
+                })
+                .show();
+    }
+
 
 }
