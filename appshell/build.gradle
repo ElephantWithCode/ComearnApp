@@ -1,0 +1,42 @@
+apply plugin: 'com.android.application'
+
+configurations {
+    all*.exclude group: 'com.android.support', module: 'support-v13'
+}
+
+android {
+    compileSdkVersion 27
+
+
+
+    defaultConfig {
+        applicationId "com.example.team.appshell"
+        minSdkVersion 19
+        targetSdkVersion 27
+        versionCode 1
+        versionName "1.0"
+
+        multiDexEnabled true
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation project(':commonlibrary')
+    if (isModule.toBoolean()) {
+        implementation project(':wang_part')
+        implementation project(':liao_part')
+    }
+}

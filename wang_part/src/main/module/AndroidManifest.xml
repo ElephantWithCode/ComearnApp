@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.team.wang_part">
+
+    <application android:theme="@style/AppTheme">
+        <activity android:name="com.example.team.wang.activity.MainActivity"></activity>
+
+        <!-- 两个Service的声明已经被删去 -->
+        <service
+            android:name="com.example.team.monitorlib.components.MonitorService"
+            android:enabled="true"
+            android:exported="false" />
+
+        <activity
+            android:name="com.example.team.wang.test.MockActivity"
+            android:launchMode="singleTask" />
+        <activity
+            android:name="com.example.team.wang.test.SecondMockActivity"
+            android:launchMode="singleTask" />
+        <activity android:name="com.example.team.wang.test.ThirdMockActivity" />
+        <activity android:name="com.example.team.wang.activity.PersonalInfoActivity" />
+        <activity android:name="com.example.team.wang.activity.WhiteListActivity" />
+        <activity android:name="com.example.team.wang.activity.ClassSettingActivity" />
+        <activity
+            android:name="com.example.team.wang.activity.OnClassActivity"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTask"></activity>
+        <activity android:name="com.example.team.wang.activity.RefinedClassSettingActivity" />
+
+        <service
+            android:name="com.example.team.wang.service.CountDownService"
+            android:enabled="true"
+            android:exported="false" />
+
+        <receiver
+            android:name="com.example.team.wang.service.CountDownService$StartCountDownForServiceReceiver"
+            android:enabled="true"
+            android:exported="false" />
+        <receiver
+            android:name="com.example.team.wang.receiver.UpdateCountDownReceiver"
+            android:enabled="true"
+            android:exported="false" />
+
+        <activity android:name="com.example.team.wang.engine.inter.InterActivity"></activity>
+    </application>
+
+</manifest>

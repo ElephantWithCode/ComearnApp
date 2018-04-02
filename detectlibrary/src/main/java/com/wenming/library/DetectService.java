@@ -35,7 +35,11 @@ public class DetectService extends AccessibilityService {
      */
     @Override
     public void onAccessibilityEvent(AccessibilityEvent event) {
+        if (event.getEventType() == AccessibilityEvent.TYPE_NOTIFICATION_STATE_CHANGED){
+            Log.d("__AAB", "Detected Notification");
+        }
         if (event.getEventType() == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED) {
+            Log.d("__AAA__", "Detected Window");
             mForegroundPackageName = event.getPackageName().toString();
         }
     }

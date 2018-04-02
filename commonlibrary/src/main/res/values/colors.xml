@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--来自app-->
+    <color name="colorPrimary">#4caf50</color>
+    <color name="colorPrimaryDark">#4caf50</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <!--来自liao_part-->
+    <color name="blue">#303F9F</color>
+    <color name="accent_color">@color/blue</color>
+    <color name="statusBarColor">@color/blue</color>
+    <color name="navigationBarColor">@android:color/black</color>
+    <color name="drawerArrowColor">@android:color/white</color>
+    <color name="app_color_theme_4">#9FD661</color> <!-- Grass -->
+
+    <color name="app_theme_color">#4CAF50</color>
+    <color name="app_theme_color_dark">#009688</color>
+
+    <color name="primary_color">#9C27B0</color>
+    <color name="head_number_color">#99727272</color>
+    <color name="side_bar_color">#999E9E9E</color>
+    <color name="white">#ffffff</color>
+
+    <!--来自personalspacelib-->
+    <color name="divider_light_grey">#dcdcdc</color>
+
+</resources>

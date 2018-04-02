@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.liaoinstan.springview.widget.SpringView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:type="follow"
+    android:id="@+id/springview1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+    <android.support.v7.widget.RecyclerView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/act_class_mode_rv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+    </com.liaoinstan.springview.widget.SpringView>

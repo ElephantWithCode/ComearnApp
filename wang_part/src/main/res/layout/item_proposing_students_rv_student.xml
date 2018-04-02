@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="wrap_content"
+    android:layout_margin="10dp">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:src="@mipmap/ic_launcher"
+        android:id="@+id/frag_proposing_students_civ_portrait"
+        android:layout_width="50dp"
+        android:layout_height="50dp" />
+
+    <TextView
+        android:id="@+id/frag_proposing_students_tv_student_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="18dp"
+        android:layout_toEndOf="@+id/frag_proposing_students_civ_portrait"
+        android:text="菜鸡"
+        android:textColor="#000000"
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/frag_proposing_students_tv_reason"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="我想玩"
+        android:textSize="16sp"
+        android:textColor="#000000"
+        android:layout_alignLeft="@id/frag_proposing_students_tv_student_name"
+        android:layout_below="@id/frag_proposing_students_tv_student_name"/>
+
+    <Button
+        android:id="@+id/frag_proposing_students_btn_agree"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginEnd="11dp"
+        android:text="同意"
+        android:textColor="#000000"
+        android:textSize="18sp" />
+</RelativeLayout>

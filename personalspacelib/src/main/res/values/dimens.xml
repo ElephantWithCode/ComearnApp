@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="height_300_dp_clpstb">300dp</dimen>
+    <dimen name="height_and_width_100_dp_ci">100dp</dimen>
+</resources>

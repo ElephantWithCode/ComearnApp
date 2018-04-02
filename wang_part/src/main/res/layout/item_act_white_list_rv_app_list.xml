@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp">
+    <ImageView
+        android:src="@mipmap/ic_launcher"
+        android:id="@+id/act_white_list_rv_app_list_iv_app_icon"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:contentDescription="应用图标" />
+
+    <TextView
+        android:id="@+id/act_white_list_rv_app_list_tv_app_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="18dp"
+        android:layout_toEndOf="@+id/act_white_list_rv_app_list_iv_app_icon"
+        android:text="Hello World"
+        android:textColor="#000000"
+        android:textSize="@dimen/text_size_normal" />
+
+    <CheckBox
+        android:id="@+id/act_white_list_rv_app_list_cb_app_selected"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="13dp" />
+
+</RelativeLayout>
