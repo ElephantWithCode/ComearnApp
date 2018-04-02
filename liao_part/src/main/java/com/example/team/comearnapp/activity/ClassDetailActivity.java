@@ -75,7 +75,7 @@ public class ClassDetailActivity extends AppCompatActivity {
                 ARouter.getInstance().build("/wang_part/on_class").
                         withLong("stop_time", 8 * 1000 + System.currentTimeMillis())
                         .withString("on_class_mark", "on_class_mark").navigation();*/
-                ARouter.getInstance().build("/wang_part/white_list").navigation();
+                ARouter.getInstance().build("/wang_part/class_setting").navigation();
             }
         });
 
@@ -188,7 +188,7 @@ public class ClassDetailActivity extends AppCompatActivity {
                                 break;
                             case 3:
                                 //TODO:汪工在这里跳转到设置白名单页面
-                                ARouter.getInstance().build("/wang_part/on_class").navigation();
+                                ARouter.getInstance().build("/wang_part/white_list").navigation();
                                 break;
                             case 4:
                                 break;

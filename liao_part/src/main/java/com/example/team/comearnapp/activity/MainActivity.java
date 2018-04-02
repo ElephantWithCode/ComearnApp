@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.example.team.comearnapp.R;
 import com.github.florent37.materialviewpager.MaterialViewPager;
 import com.github.florent37.materialviewpager.header.HeaderDesign;
@@ -45,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
                 public void onClick(View view) {
                     //TODO：汪工在这里实现侧滑栏
                     Toast.makeText(getApplicationContext(), "我是侧滑栏，啦啦啦！", Toast.LENGTH_SHORT).show();
+                    ARouter.getInstance().build("/wang_part/personal_info").navigation();
                 }
             });
         }

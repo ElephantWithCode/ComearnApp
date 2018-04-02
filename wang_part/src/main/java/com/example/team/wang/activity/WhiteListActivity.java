@@ -77,13 +77,13 @@ public class WhiteListActivity extends AppCompatActivity implements WhiteListBas
         mFloatingActionBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(WhiteListActivity.this, RefinedClassSettingActivity.class));
                 new Thread(){
                     @Override
                     public void run() {
                         mWhiteListModel.setAppInfos(mNonSystemList.getInfos());
                     }
                 }.start();
+                finish();
             }
         });
     }

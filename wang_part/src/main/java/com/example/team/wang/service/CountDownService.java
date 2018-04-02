@@ -26,7 +26,7 @@ import java.util.Calendar;
 public class CountDownService extends Service {
 
     private PackageNameMonitor mMonitor;
-    private FloatWindowManager mWindowManager;
+//    private FloatWindowManager mWindowManager;
 
     public class CountDownBinder extends Binder{
         public CountDownService getService(){
@@ -73,9 +73,8 @@ public class CountDownService extends Service {
 
         if (mModel.getClassState()){
             mMonitor.startMonitor();
-
-            mWindowManager = new FloatWindowManager(this);
-            mWindowManager.setContentLayout(R.layout.activity_on_class_float_window_layout).show();
+//            mWindowManager = new FloatWindowManager(this);
+//            mWindowManager.setContentLayout(R.layout.activity_on_class_float_window_layout).show();
         }
 
         return START_STICKY;
@@ -150,7 +149,7 @@ public class CountDownService extends Service {
                     });
                     mMonitor.stopMonitor();
 
-                    mWindowManager.cancel();
+//                    mWindowManager.cancel();
                     stopSelf();
 
                 }else {

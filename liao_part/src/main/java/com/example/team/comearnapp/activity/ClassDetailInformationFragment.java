@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.example.team.comearnapp.R;
 import com.example.team.comearnapp.tool.ToastTools;
 
@@ -64,7 +65,7 @@ public class ClassDetailInformationFragment extends Fragment implements View.OnC
     public void onClick(View var1) {
         int i = var1.getId();
         if (i == R.id.arrow_white_list) {//TODO:汪工在这里跳转到白名单页面
-
+            ARouter.getInstance().build("/wang_part/white_list").navigation();
         } else if (i == R.id.arrow_member) {
             Intent intent = new Intent(getContext(), SelectActivity.class);
             startActivity(intent);

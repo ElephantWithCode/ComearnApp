@@ -10,6 +10,7 @@ import android.util.SparseArray;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.alibaba.android.arouter.facade.annotation.Route;
 import com.example.team.wang_part.R;
 import com.example.team.wang.entity.GroupInfo;
 import com.example.team.wang.ui.CompoundTextLayout;
@@ -24,17 +25,13 @@ import java.util.ArrayList;
 
 class PersonalInfoModel extends BaseModel{
     public GroupInfo[] obtainGroupInfos(){
-        GroupInfo[] infos = new GroupInfo[10];
-        infos[0] = new GroupInfo("哈哈哈01");
-        infos[1] = new GroupInfo("哈哈哈02");
-        infos[2] = new GroupInfo("哈哈哈03");
-        infos[3] = new GroupInfo("哈哈哈03");
-        infos[4] = new GroupInfo("哈哈哈03");
-        infos[5] = new GroupInfo("哈哈哈03");
-        infos[6] = new GroupInfo("哈哈哈03");
-        infos[7] = new GroupInfo("哈哈哈03");
-        infos[8] = new GroupInfo("哈哈哈03");
-        infos[9] = new GroupInfo("哈哈哈03");
+        GroupInfo[] infos = new GroupInfo[6];
+        infos[0] = new GroupInfo("群组01");
+        infos[1] = new GroupInfo("群组02");
+        infos[2] = new GroupInfo("群组03");
+        infos[3] = new GroupInfo("群组03");
+        infos[4] = new GroupInfo("群组03");
+        infos[5] = new GroupInfo("群组03");
         return infos;
     }
 }
@@ -99,6 +96,7 @@ interface PersonalInfoView extends IBaseView{
     void inflateGroupList(GroupInfo[] infos);
 }
 
+@Route(path = "/wang_part/personal_info")
 public class PersonalInfoActivity extends AppCompatActivity implements PersonalInfoView{
 
     private WidgetsManager mViewManager = new WidgetsManager();
@@ -125,7 +123,7 @@ public class PersonalInfoActivity extends AppCompatActivity implements PersonalI
         {
             DefaultCustomCollapsingToolbarLayout mCollapseView = (DefaultCustomCollapsingToolbarLayout) mViewManager.getView("clps");
                 mCollapseView.setContentScrimColor(Color.parseColor("#4caf50"));
-                mCollapseView.setTitle("亮神牛b！");
+                mCollapseView.setTitle("用户姓名");
                 mCollapseView.setSupportActionBar(this);
         }
 
@@ -133,11 +131,11 @@ public class PersonalInfoActivity extends AppCompatActivity implements PersonalI
 
         ArrayList<View> views = new ArrayList<View>();
 
-        views.add(mViewManager.addView("txt_age", new CompoundTextLayout(this, "年龄")));
-        views.add(mViewManager.addView("txt_gender", new CompoundTextLayout(this, "性别")));
-        views.add(mViewManager.addView("txt_university", new CompoundTextLayout(this, "学校")));
-        views.add(mViewManager.addView("txt_school", new CompoundTextLayout(this, "学院")));
-        views.add(mViewManager.addView("txt_major", new CompoundTextLayout(this, "专业")));
+        views.add(mViewManager.addView("txt_age", new CompoundTextLayout(this, "年龄").setContentText("18")));
+        views.add(mViewManager.addView("txt_gender", new CompoundTextLayout(this, "性别").setContentText("男")));
+        views.add(mViewManager.addView("txt_university", new CompoundTextLayout(this, "学校").setContentText("西安电子科技大学")));
+        views.add(mViewManager.addView("txt_school", new CompoundTextLayout(this, "学院").setContentText("通信工程学院")));
+        views.add(mViewManager.addView("txt_major", new CompoundTextLayout(this, "专业").setContentText("通信工程")));
 
         ((DefaultCustomCardView)mViewManager.getView(R.id.act_personal_info_nsv_dccv_hold))
                 .setHeadText("基本信息").addViewList(views);

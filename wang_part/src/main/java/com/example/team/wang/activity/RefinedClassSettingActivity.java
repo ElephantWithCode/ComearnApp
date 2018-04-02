@@ -72,7 +72,7 @@ class RefinedClassSettingPresenter extends BasePresenter<RefinedClassSettingView
 
 }
 
-@Route(path = "/app/class_setting")
+@Route(path = "/wang_part/class_setting")
 public class RefinedClassSettingActivity extends AppCompatActivity implements RefinedClassSettingView{
 
     private RefinedClassSettingPresenter mPresenter = new RefinedClassSettingPresenter();
@@ -120,6 +120,8 @@ public class RefinedClassSettingActivity extends AppCompatActivity implements Re
                         .setLastTime(mLastItemView.getDetailText()).buildWithText();
 
                 builder.triggerCountDown();
+
+                finish();
 
                 Log.d("RCSA", "class stop time" + builder.getClassStopCalendar().toString() +
                         "\n class start time" + builder.getClassStartCalendar().toString());

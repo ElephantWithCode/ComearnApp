@@ -159,6 +159,11 @@ public class OnClassActivity extends AbstractListActivity implements OnClassView
     }
 
     @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
+
+    @Override
     protected void preSet() {
 
         mPresenter.attachView(this);
