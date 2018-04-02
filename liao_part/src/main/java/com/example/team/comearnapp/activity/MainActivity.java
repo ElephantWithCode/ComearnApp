@@ -52,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
+
         mViewPager=(MaterialViewPager)findViewById(R.id.materialViewPager);
 
 
@@ -143,10 +144,12 @@ public class MainActivity extends AppCompatActivity {
                     public void onClick(QMUIBottomSheet dialog, View itemView, int position, String tag) {
                         switch (position) {
                             case 0:
+                                Intent intent=new Intent(MainActivity.this,CreatClassActivity.class);
+                                startActivity(intent);
                                 break;
                             case 1:
-                                Intent intent=new Intent(MainActivity.this,SearchActivity.class);
-                                startActivity(intent);
+                                Intent intent2=new Intent(MainActivity.this,SearchActivity.class);
+                                startActivity(intent2);
                                 break;
                             default:
                                 break;

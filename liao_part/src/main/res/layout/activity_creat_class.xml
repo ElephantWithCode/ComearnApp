@@ -1,9 +1,125 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.example.team.comearnapp.activity.CreatClassActivity">
 
-</android.support.constraint.ConstraintLayout>
+    <android.support.v7.widget.Toolbar
+        android:gravity="center"
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/green"
+        app:met_floatingLabelTextColor="@color/green"
+        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center">
+        <LinearLayout
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center">
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:id="@+id/class_name_met"
+                android:gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="请输入群组名"
+                app:met_floatingLabel="normal"
+                app:met_floatingLabelText="群组名"
+                app:met_errorColor="#000000"
+                app:met_primaryColor="@color/green"
+                app:met_floatingLabelTextColor="@color/green"
+
+                />
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:id="@+id/class_information_met"
+                android:gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="请输入群信息"
+                app:met_floatingLabel="normal"
+                app:met_floatingLabelText="群信息"
+                app:met_errorColor="#000000"
+                app:met_primaryColor="@color/green"
+                app:met_floatingLabelTextColor="@color/green"
+                />
+            <RadioGroup
+                android:id="@+id/rg_mode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:theme="@style/My_CheckBox"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp">
+                <RadioButton
+                    android:id="@+id/rb_Class"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="课堂模式"
+                    android:textSize="18sp"
+                    android:textColor="@android:color/black"
+                    android:layout_marginRight="10dp"/>
+
+                <RadioButton
+                    android:id="@+id/rb_ZiXi"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="自习模式"
+                    android:textSize="18sp"
+                    android:textColor="@android:color/black"
+                    android:checked="true"/>
+
+            </RadioGroup>
+
+            <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
+                android:id="@+id/creat_class_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:paddingBottom="10dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:text="创建群组"
+                android:layout_marginBottom="20dp"
+                app:qmui_isRadiusAdjustBounds="true"
+                android:textColor="@color/s_btn_color"
+                app:qmui_borderColor="@color/s_btn_color"
+                />
+            <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
+                android:id="@+id/face2face_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:paddingBottom="10dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:text="面对面建群"
+                android:layout_marginBottom="20dp"
+                app:qmui_isRadiusAdjustBounds="true"
+                android:textColor="@color/s_btn_color"
+                app:qmui_borderColor="@color/s_btn_color"
+                />
+        </LinearLayout>
+    </LinearLayout>
+
+
+
+</LinearLayout>
+
+
+
+
