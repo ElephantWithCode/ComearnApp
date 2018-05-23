@@ -16,6 +16,7 @@ public class ClassMainModel extends BaseModel {
     public static final String TAG_STOP_TIME = "get_stop_time";
     public static final String TAG_CLASS_STOP_TIME = "get_class_stop_time";
     public static final String TAG_CLASS_STATE = "get_class_state";
+    private static final String TAG_FROM_QUIT_BTN = "from_quit_btn";
 
     private Context mContext;
 
@@ -44,6 +45,17 @@ public class ClassMainModel extends BaseModel {
     public boolean getClassState(){
         SharedPreferences preferences = mContext.getSharedPreferences(TAG_PREFERENCES, Context.MODE_PRIVATE);
         return preferences.getBoolean(TAG_CLASS_STATE, false);
+    }
+    public void saveFromQuitBtn(boolean state){
+        SharedPreferences preferences = mContext.getSharedPreferences(TAG_PREFERENCES, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean(TAG_FROM_QUIT_BTN, state);
+        editor.apply();
+    }
+
+    public boolean getFromQuitBtn(){
+        SharedPreferences preferences = mContext.getSharedPreferences(TAG_PREFERENCES, Context.MODE_PRIVATE);
+        return preferences.getBoolean(TAG_FROM_QUIT_BTN, false);
     }
 
     public long getStopTime(){

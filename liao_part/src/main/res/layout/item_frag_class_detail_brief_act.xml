@@ -69,7 +69,7 @@
                     android:gravity="center"
                     android:id="@+id/type_top_title1" />
                 <TextView
-                    android:text="魔法电子技术"
+                    android:text="模拟电子技术"
                     android:textSize="13sp"
                     android:maxLines="5"
                     android:ellipsize="end"

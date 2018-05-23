@@ -57,7 +57,7 @@
                             android:layout_height="wrap_content"
                             android:ellipsize="end"
                             android:maxLines="5"
-                            android:text="本群创建于2018年2月10日\n一人结扎,全班光荣; 一人网恋,全班结扎. 在班内要积极学习,对于长期潜水者管理员将视为溺毙处理。"
+                            android:text="本群创建于2018年2月10日\n 群体信息。"
                             android:textColor="#303131"
                             android:textSize="16sp"
                             android:gravity="center"

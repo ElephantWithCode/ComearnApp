@@ -16,13 +16,12 @@
             app:isShowMinute="true"
             app:isShowSecond="true"
             app:isShowHour="true"
-            app:isShowDay="true"
             app:isShowMillisecond="false"
             app:isTimeTextBold="true"
-            app:suffixMinute="min"
-            app:suffixSecond="sec"
-            app:suffixDay="d"
-            app:suffixHour="h"
+            app:suffixMinute="分"
+            app:suffixSecond="秒"
+            app:suffixDay="天"
+            app:suffixHour="时"
             app:timeTextSize="30sp"
             app:suffixTextSize="15sp"
             app:suffixGravity="bottom"
@@ -38,8 +37,11 @@
             android:layout_marginTop="44dp"
             android:text="现在的状态是:" />
 
-        <Button
-            android:text="申请退出"
+        <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
+            android:padding="10dp"
+            android:text="结束课堂"
+            app:qmui_borderColor="@color/colorPrimary"
+            android:textColor="@color/colorPrimary"
             android:id="@+id/frag_class_main_btn_quit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

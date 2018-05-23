@@ -12,11 +12,11 @@ import java.util.ArrayList;
 public class FragmentProposingStudentsModel extends BaseModel {
     public ArrayList<PersonInfo> receiveQuitRequests(){
         ArrayList<PersonInfo> personInfos = new ArrayList<>();
-        personInfos.add(new PersonInfo().setName("邹神"));
-        personInfos.add(new PersonInfo().setName("邹神"));
-        personInfos.add(new PersonInfo().setName("邹神"));
-        personInfos.add(new PersonInfo().setName("邹神"));
-        personInfos.add(new PersonInfo().setName("邹神"));
+        personInfos.add(new PersonInfo().setName("用户名"));
+        personInfos.add(new PersonInfo().setName("用户名"));
+        personInfos.add(new PersonInfo().setName("用户名"));
+        personInfos.add(new PersonInfo().setName("用户名"));
+        personInfos.add(new PersonInfo().setName("用户名"));
         return personInfos;
     }
 }

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -18,11 +19,14 @@ import com.example.team.wang.utils.ClassBehaviorManager;
 import com.example.team.comearnlib.base.mvp_mode.base_presenter.BasePresenter;
 import com.example.team.comearnlib.base.mvp_mode.base_view.IBaseView;
 import com.example.team.comearnlib.utils.ConvertTools;
+import com.jaeger.library.StatusBarUtil;
 import com.qmuiteam.qmui.widget.dialog.QMUIDialog;
 import com.qmuiteam.qmui.widget.dialog.QMUIDialogAction;
 import com.qmuiteam.qmui.widget.grouplist.QMUICommonListItemView;
 import com.qmuiteam.qmui.widget.grouplist.QMUIGroupListView;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
+
+import java.util.Calendar;
 
 interface RefinedClassSettingView extends IBaseView{
     void setSpot(CharSequence spot);
@@ -35,6 +39,7 @@ interface RefinedClassSettingView extends IBaseView{
     void showStartTimeDialog();
     void disableShowButton();
     void showButton();
+    void setToolbar();
 }
 
 class RefinedClassSettingPresenter extends BasePresenter<RefinedClassSettingView>{
@@ -71,6 +76,8 @@ class RefinedClassSettingPresenter extends BasePresenter<RefinedClassSettingView
         mView.showStartTimeDialog();
     }
 
+    public void setToolbar(){mView.setToolbar();}
+
     public void showFinishButton(){
         if (mModel.getClassState()){
             mView.disableShowButton();
@@ -103,7 +110,10 @@ public class RefinedClassSettingActivity extends AppCompatActivity implements Re
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_refined_class_setting);
 
+
+
         mPresenter.attachView(this);
+        mPresenter.setToolbar();
 
         mGroupListView = findViewById(R.id.act_refined_class_setting_QMUIGLV);
         mFinishButton = findViewById(R.id.act_refined_class_setting_QMUIRB);
@@ -111,13 +121,7 @@ public class RefinedClassSettingActivity extends AppCompatActivity implements Re
         mFinishButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-/*
-                View decorView = getWindow().getDecorView();
-                int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_FULLSCREEN;
-                decorView.setSystemUiVisibility(uiOptions);
 
-                startService(new Intent(RefinedClassSettingActivity.this, TestFloatWindowService.class));
-*/
                 mPresenter.saveClassState(false);
 
                 ClassBehaviorManager builder = new ClassBehaviorManager(RefinedClassSettingActivity.this)
@@ -139,7 +143,9 @@ public class RefinedClassSettingActivity extends AppCompatActivity implements Re
 
         mStartItemView = mGroupListView.createItemView("开始时间");
         mStartItemView.setText("开始时间");
-        mStartItemView.setDetailText("10:00");
+
+        Calendar current_calendar = Calendar.getInstance();
+        mStartItemView.setDetailText(ConvertTools.parseTime(current_calendar.get(Calendar.HOUR)) + ":" + ConvertTools.parseTime(current_calendar.get(Calendar.MINUTE)));
 
         View.OnClickListener onSpotItemClickListener = new View.OnClickListener() {
             @Override
@@ -184,7 +190,14 @@ public class RefinedClassSettingActivity extends AppCompatActivity implements Re
         mSpotSection.addTo(mGroupListView);
         mTimeSection.addTo(mGroupListView);
 
-//        mPresenter.showFinishButton();
+        mPresenter.showFinishButton();
+    }
+
+    public void setToolbar() {
+        StatusBarUtil.setColor(RefinedClassSettingActivity.this, getResources().getColor(R.color.colorPrimary), 50);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     @Override
@@ -284,11 +297,13 @@ public class RefinedClassSettingActivity extends AppCompatActivity implements Re
     @Override
     public void disableShowButton() {
         mFinishButton.setVisibility(View.GONE);
+        mGroupListView.setClickable(false);
     }
 
     @Override
     public void showButton() {
         mFinishButton.setVisibility(View.VISIBLE);
+        mGroupListView.setClickable(true);
     }
 
     @Override

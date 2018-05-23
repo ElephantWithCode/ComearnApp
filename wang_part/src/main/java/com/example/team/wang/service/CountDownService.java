@@ -11,6 +11,7 @@ import android.os.Binder;
 import android.os.IBinder;
 import android.util.Log;
 
+import com.example.team.wang.receiver.MonitorRecentClickReceiver;
 import com.example.team.wang_part.R;
 import com.example.team.wang.activity.OnClassActivity;
 import com.example.team.wang.engine.fragment.class_main.ClassMainModel;
@@ -53,19 +54,25 @@ public class CountDownService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        initStartClassReceiver();
         mMonitor = new PackageNameMonitor();
         mMonitor.getMonitor().setDetectListener(new AppMonitor.DetectListener() {
             @Override
             public void afterDetect(Context context) {
-                context.startActivity(new Intent(context, OnClassActivity.class));
+                Intent intent = new Intent(context, OnClassActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(intent);
             }
         });
         mMonitor.attach(this);
+
+
     }
+
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        mModel.saveFromQuitBtn(false);
+        initStartClassReceiver();
 
         startForeground(101, new Notification());
 
@@ -93,9 +100,9 @@ public class CountDownService extends Service {
             if (mManager != null) {
                 mManager.cancel(pi);
                 mManager.setExact(AlarmManager.RTC_WAKEUP, mCalendar.getTimeInMillis(), pi);
-                ToastTools.showToast(this, "本课堂将在   "
-                        + mCalendar.get(Calendar.HOUR_OF_DAY) + ":" + mCalendar.get(Calendar.MINUTE)
-                        + "开始");
+//                ToastTools.showToast(this, "本课堂将在   "
+//                        + mCalendar.get(Calendar.HOUR_OF_DAY) + ":" + mCalendar.get(Calendar.MINUTE)
+//                        + "开始");
 
             }
         }
@@ -109,7 +116,6 @@ public class CountDownService extends Service {
 
     @Override
     public void onDestroy() {
-        unregisterReceiver(mReceiver);
         mMonitor.detach();
         super.onDestroy();
     }
@@ -133,13 +139,14 @@ public class CountDownService extends Service {
 
                 Intent activityIntent = new Intent(context, OnClassActivity.class);
                 activityIntent.setAction("refresh_on_class_activity");
+                activityIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
                 if (mModel.getClassState()){
                     mModel.saveClassState(false);
 
                     context.startActivity(activityIntent);
 
-                    ToastTools.showToast(CountDownService.this, "From Service");
+                    ToastTools.showToast(CountDownService.this, "课堂结束");
 
                     mMonitor.getMonitor().setDetectListener(new AppMonitor.DetectListener() {
                         @Override
@@ -148,20 +155,25 @@ public class CountDownService extends Service {
                         }
                     });
                     mMonitor.stopMonitor();
+                    unregisterReceiver(this);
 
 //                    mWindowManager.cancel();
                     stopSelf();
 
                 }else {
-                    mModel.saveClassState(true);
+                    if (!mModel.getFromQuitBtn()) {
+                        mModel.saveClassState(true);
 
-                    Intent serviceIntent = new Intent(context, CountDownService.class);
-                    serviceIntent.putExtra(TAG_GET_CALENDAR, ConvertTools.constructFromTimeInMilis(mModel.getClassStopTime()));
-                    startService(serviceIntent);
+                        Intent serviceIntent = new Intent(context, CountDownService.class);
+                        serviceIntent.putExtra(TAG_GET_CALENDAR, ConvertTools.constructFromTimeInMilis(mModel.getClassStopTime()));
+                        startService(serviceIntent);
 
-                    mMonitor.startMonitor();
+                        mMonitor.startMonitor();
 
-                    context.startActivity(activityIntent);
+                        context.startActivity(activityIntent);
+                    }else {
+                        mModel.saveFromQuitBtn(true);
+                    }
                 }
             }
         }

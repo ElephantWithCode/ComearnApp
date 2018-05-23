@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/act_on_class_item_edit"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/ic_action_menu"
         app:showAsAction="always"
         android:orderInCategory="100"
         android:title="edit" />
