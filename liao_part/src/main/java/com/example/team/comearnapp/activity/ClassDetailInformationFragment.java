@@ -4,18 +4,14 @@ package com.example.team.comearnapp.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.NestedScrollView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.example.team.comearnapp.R;
-import com.example.team.comearnapp.tool.ToastTools;
 
 /**
  * 已加入的群组信息页面的信息Fragment

@@ -15,8 +15,8 @@ import android.view.MenuItem;
 import android.view.View;
 import com.example.team.comearnapp.R;
 import com.example.team.comearnapp.bean.SearchUser;
-import com.example.team.comearnapp.tool.RecyclerViewCommonTool.CommonAdapter;
-import com.example.team.comearnapp.tool.RecyclerViewCommonTool.ViewHolder;
+import com.example.team.comearnapp.util.RecyclerViewCommonTool.CommonAdapter;
+import com.example.team.comearnapp.util.RecyclerViewCommonTool.ViewHolder;
 import com.example.team.comearnapp.ui.ClearEditText;
 import com.github.florent37.materialviewpager.header.MaterialViewPagerHeaderDecorator;
 import com.jaeger.library.StatusBarUtil;
@@ -24,7 +24,6 @@ import com.qmuiteam.qmui.widget.grouplist.QMUIGroupListView;
 
 import java.util.ArrayList;
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
 /**
  * 搜索页面
