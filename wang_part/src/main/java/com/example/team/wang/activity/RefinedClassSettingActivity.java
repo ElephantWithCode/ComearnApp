@@ -4,12 +4,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.example.team.comearnlib.utils.ToastTools;
 import com.example.team.wang.debug.TestFloatWindowService;
 import com.example.team.wang_part.R;
 import com.example.team.wang.engine.fragment.class_main.ClassMainModel;
@@ -18,11 +21,14 @@ import com.example.team.wang.utils.ClassBehaviorManager;
 import com.example.team.comearnlib.base.mvp_mode.base_presenter.BasePresenter;
 import com.example.team.comearnlib.base.mvp_mode.base_view.IBaseView;
 import com.example.team.comearnlib.utils.ConvertTools;
+import com.jaeger.library.StatusBarUtil;
 import com.qmuiteam.qmui.widget.dialog.QMUIDialog;
 import com.qmuiteam.qmui.widget.dialog.QMUIDialogAction;
 import com.qmuiteam.qmui.widget.grouplist.QMUICommonListItemView;
 import com.qmuiteam.qmui.widget.grouplist.QMUIGroupListView;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
+
+import java.util.Calendar;
 
 interface RefinedClassSettingView extends IBaseView{
     void setSpot(CharSequence spot);
@@ -103,6 +109,14 @@ public class RefinedClassSettingActivity extends AppCompatActivity implements Re
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_refined_class_setting);
 
+        StatusBarUtil.setColor(RefinedClassSettingActivity.this, getResources().getColor(R.color.green), 50);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+
+
         mPresenter.attachView(this);
 
         mGroupListView = findViewById(R.id.act_refined_class_setting_QMUIGLV);
@@ -126,6 +140,8 @@ public class RefinedClassSettingActivity extends AppCompatActivity implements Re
 
                 builder.triggerCountDown();
 
+                ToastTools.showToast(RefinedClassSettingActivity.this, "设置完毕");
+
                 finish();
 
                 Log.d("RCSA", "class stop time" + builder.getClassStopCalendar().toString() +
@@ -139,7 +155,12 @@ public class RefinedClassSettingActivity extends AppCompatActivity implements Re
 
         mStartItemView = mGroupListView.createItemView("开始时间");
         mStartItemView.setText("开始时间");
-        mStartItemView.setDetailText("10:00");
+
+        Calendar currentTime = Calendar.getInstance();
+        int hour = currentTime.get(Calendar.HOUR_OF_DAY);
+        int minute = currentTime.get(Calendar.MINUTE);
+
+        mStartItemView.setDetailText(hour + ":" + minute);
 
         View.OnClickListener onSpotItemClickListener = new View.OnClickListener() {
             @Override
@@ -186,6 +207,16 @@ public class RefinedClassSettingActivity extends AppCompatActivity implements Re
 
 //        mPresenter.showFinishButton();
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int i = item.getItemId();
+        if (i == android.R.id.home) {
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 
     @Override
     public Context getContext() {

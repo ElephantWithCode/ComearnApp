@@ -7,30 +7,14 @@
 
     <application
         android:theme="@style/AppTheme">
-
-
-        <activity android:name=".activity.MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <activity android:name=".activity.MainActivity" />
         <activity android:name=".activity.ClassDetailActivity" />
         <!-- <activity android:name=".activity.SelectActivity" /> -->
         <activity
             android:name=".activity.SelectActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
-        <activity android:name=".activity.SearchActivity">
-
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
-
-
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intent-filter> -->
-        </activity>
+        <activity android:name=".activity.SearchActivity" />
 
         <meta-data
             android:name="io.fabric.ApiKey"
@@ -39,7 +23,16 @@
         <activity android:name=".activity.CheckActivity" />
         <activity android:name=".activity.SearchResultActivity" />
         <activity android:name=".activity.MoreClassActivity" />
-        <activity android:name=".activity.CreatClassActivity"></activity>
+        <activity android:name=".activity.CreatClassActivity" />
+        <activity android:name=".activity.LoginActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".activity.RegisterActivity" />
+        <activity android:name=".activity.ForgetPasswordActivity" />
     </application>
 
 </manifest>

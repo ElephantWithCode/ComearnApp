@@ -1,4 +1,4 @@
-package com.example.team.comearnapp.tool.RecyclerViewCommonTool;
+package com.example.team.comearnapp.util.RecyclerViewCommonTool;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;

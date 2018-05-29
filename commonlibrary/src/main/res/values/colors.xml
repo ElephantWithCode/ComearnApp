@@ -24,4 +24,11 @@
     <!--来自personalspacelib-->
     <color name="divider_light_grey">#dcdcdc</color>
 
+    <!--Zou add-->
+    <color name="transparent">#00000000</color>
+    <color name="white_gray">#F8F9F8</color>
+    <color name="theme_color">#8FD0AF</color>
+    <color name="black">#000000</color>
+    <color name="hint_color_gray">#bebdbe</color>
+
 </resources>
