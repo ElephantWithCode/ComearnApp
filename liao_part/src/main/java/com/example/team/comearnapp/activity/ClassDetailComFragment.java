@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,21 +13,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.team.comearnapp.R;
-import com.example.team.comearnapp.tool.RecyclerViewCommonTool.CommonAdapter;
-import com.example.team.comearnapp.tool.RecyclerViewCommonTool.ViewHolder;
-import com.example.team.comearnapp.tool.ToastTools;
+import com.example.team.comearnapp.util.RecyclerViewCommonTool.CommonAdapter;
+import com.example.team.comearnapp.util.RecyclerViewCommonTool.ViewHolder;
 import com.github.florent37.materialviewpager.header.MaterialViewPagerHeaderDecorator;
 import com.qmuiteam.qmui.widget.dialog.QMUIDialog;
 import com.qmuiteam.qmui.widget.dialog.QMUIDialogAction;
 import com.suke.widget.SwitchButton;
 
 import java.util.ArrayList;
-import java.util.Collections;
+
 /**
  * 已加入的群组信息页面的综合Fragment
  * 可以修改本群昵称

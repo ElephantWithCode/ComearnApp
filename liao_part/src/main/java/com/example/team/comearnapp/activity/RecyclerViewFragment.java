@@ -17,18 +17,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.team.comearnapp.R;
-import com.example.team.comearnapp.tool.RecyclerViewCommonTool.CommonAdapter;
-import com.example.team.comearnapp.tool.RecyclerViewCommonTool.ViewHolder;
+import com.example.team.comearnapp.util.RecyclerViewCommonTool.CommonAdapter;
+import com.example.team.comearnapp.util.RecyclerViewCommonTool.ViewHolder;
 import com.github.florent37.materialviewpager.header.MaterialViewPagerHeaderDecorator;
 import com.liaoinstan.springview.container.DefaultFooter;
-import com.liaoinstan.springview.container.DefaultHeader;
 import com.liaoinstan.springview.widget.SpringView;
 import com.qmuiteam.qmui.widget.pullRefreshLayout.QMUIFollowRefreshOffsetCalculator;
 import com.qmuiteam.qmui.widget.pullRefreshLayout.QMUIPullRefreshLayout;
 
 import java.util.ArrayList;
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -139,7 +137,7 @@ public class RecyclerViewFragment extends Fragment {
 //                new Handler().postDelayed(new Runnable() {
 //                    @Override
 //                    public void run() {
-//                        Toast.makeText(getContext(),"正在刷新中",Toast.LENGTH_LONG).show();
+//                        Toast.makeText(getGlobalContext(),"正在刷新中",Toast.LENGTH_LONG).show();
 //                        springView.onFinishFreshAndLoad();
 //                    }
 //                }, 200);
@@ -157,7 +155,7 @@ public class RecyclerViewFragment extends Fragment {
             }
         });
 
-//        springView.setHeader(new AliHeader(getContext()){
+//        springView.setHeader(new AliHeader(getGlobalContext()){
 //            @Override
 //            public int getDragSpringHeight(View rootView) {
 //                return super.getDragSpringHeight(rootView);

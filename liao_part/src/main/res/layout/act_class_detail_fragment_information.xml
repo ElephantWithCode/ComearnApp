@@ -57,7 +57,7 @@
                             android:layout_height="wrap_content"
                             android:ellipsize="end"
                             android:maxLines="5"
-                            android:text="本群创建于2018年2月10日\n 群体信息。"
+                            android:text="本群创建于2018年2月10日\n学习最光荣！"
                             android:textColor="#303131"
                             android:textSize="16sp"
                             android:gravity="center"

@@ -166,7 +166,7 @@ public class OnClassActivity extends AbstractListActivity implements OnClassView
                 .setModel(new FragmentWhiteListModelForOnline())
                 .setCheckboxVisibility(false));
 
-        mFragments.add(ProposingStudentsFragment.newInstance());
+//        mFragments.add(ProposingStudentsFragment.newInstance());
     }
 
     @Override
@@ -185,7 +185,7 @@ public class OnClassActivity extends AbstractListActivity implements OnClassView
     protected void initIndicators() {
         mIndicators.add("课堂");
         mIndicators.add("当前白名单");
-        mIndicators.add("想玩手机的同学");
+//        mIndicators.add("想玩手机的同学");
     }
 
     @Override

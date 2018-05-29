@@ -1,13 +1,25 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        google()
+        jcenter()
+    }
+
+    dependencies {
+        classpath "com.jakewharton:butterknife-gradle-plugin:8.4.0"
+    }
+}
 if (isModule.toBoolean()) {
     apply plugin: 'com.android.library'
-}else{
+    apply plugin: 'com.jakewharton.butterknife'
+} else {
     apply plugin: 'com.android.application'
 }
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     defaultConfig {
-        if (! isModule.toBoolean()) {
+        if (!isModule.toBoolean()) {
             applicationId "com.example.team.comearnapp"
         }
         minSdkVersion rootProject.ext.minSdkVersion
@@ -19,7 +31,7 @@ android {
 
         javaCompileOptions {
             annotationProcessorOptions {
-                arguments = [ moduleName : project.getName() ]
+                arguments = [moduleName: project.getName()]
             }
         }
     }
@@ -37,11 +49,11 @@ android {
     //这一段的目的是强制让所有模块都用相同的支持库版本。
 
 
-    sourceSets{
-        main{
-            if (isModule.toBoolean()){
+    sourceSets {
+        main {
+            if (isModule.toBoolean()) {
                 manifest.srcFile 'src/main/module/AndroidManifest.xml'
-            }else{
+            } else {
                 manifest.srcFile 'src/main/AndroidManifest.xml'
             }
         }
@@ -57,7 +69,16 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-
     implementation project(':commonlibrary')
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     annotationProcessor 'com.github.mzule.activityrouter:compiler:1.1.7'
+    implementation 'com.github.bumptech.glide:glide:4.0.0'
+    implementation 'com.android.support:recyclerview-v7:27.1.0'
+    implementation 'de.hdodenhof:circleimageview:2.2.0'
+    implementation 'com.jakewharton:butterknife:8.4.0'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'
+    implementation 'com.squareup.okhttp:okhttp:2.7.2'
+    implementation 'com.squareup.retrofit2:retrofit:2.1.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.1.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.3.0'
 }

@@ -17,8 +17,8 @@ import android.widget.TextView;
 
 import com.example.team.comearnapp.R;
 import com.example.team.comearnapp.bean.Class;
-import com.example.team.comearnapp.tool.RecyclerViewCommonTool.CommonAdapter;
-import com.example.team.comearnapp.tool.RecyclerViewCommonTool.ViewHolder;
+import com.example.team.comearnapp.util.RecyclerViewCommonTool.CommonAdapter;
+import com.example.team.comearnapp.util.RecyclerViewCommonTool.ViewHolder;
 import com.example.team.comearnapp.ui.DefaultFooter;
 import com.example.team.comearnapp.ui.DefaultHeader;
 import com.github.florent37.materialviewpager.header.MaterialViewPagerHeaderDecorator;

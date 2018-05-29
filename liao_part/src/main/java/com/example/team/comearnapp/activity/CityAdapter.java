@@ -10,12 +10,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.team.comearnapp.R;
-import com.example.team.comearnapp.tool.ToastTools;
 
 import java.util.HashMap;
 import java.util.List;
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 

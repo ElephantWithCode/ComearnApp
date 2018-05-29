@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.example.team.comearnlib.utils.ToastTools;
 import com.example.team.wang.engine.fragment.white_list.FragmentWhiteListModelForOnline;
 import com.example.team.wang_part.R;
 import com.example.team.wang.engine.fragment.white_list.WhiteListFragment;
@@ -83,6 +84,7 @@ public class WhiteListActivity extends AppCompatActivity implements WhiteListBas
                         mWhiteListModel.setAppInfos(mNonSystemList.getInfos());
                     }
                 }.start();
+                ToastTools.showToast(WhiteListActivity.this, "设置白名单完成");
                 finish();
             }
         });

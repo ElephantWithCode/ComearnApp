@@ -27,9 +27,9 @@ android {
 dependencies {
     api fileTree(include: ['*.jar'], dir: 'libs')
 
-    testApi 'junit:junit:4.12'
-    androidTestApi 'com.android.support.test:runner:1.0.1'
-    androidTestApi('com.android.support.test.espresso:espresso-core:2.2.2', {
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.1'
+    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     api 'com.android.support:appcompat-v7:27.1.0'
@@ -54,10 +54,10 @@ dependencies {
     api 'com.wdullaer:materialdatetimepicker:3.5.1'
     api 'com.xw.repo:bubbleseekbar:3.14'
     api 'com.github.iwgang:countdownview:2.1.6'
-    api 'com.jakewharton:butterknife:8.6.0'
+    api 'com.jakewharton:butterknife:8.4.0'
     api 'com.rengwuxian.materialedittext:library:2.1.4'
 
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.6.0'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'
 
     api rootProject.ext.router_api
 }
