@@ -1,6 +1,7 @@
 package com.example.team.comearnapp.activity;
 
 import android.content.Intent;
+import android.os.DropBoxManager;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -22,6 +23,7 @@ import com.example.team.comearnapp.util.MapGenerator;
 import com.example.team.comearnapp.util.Retrofit.RetroHttpUtil;
 import com.example.team.comearnapp.util.Retrofit.callback.AbstractLoginHttpCallback;
 import com.example.team.comearnapp.util.ToastUtil;
+import com.example.team.commonlibrary.base.MyApp;
 import com.squareup.okhttp.Response;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -60,12 +62,21 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
+        checkLoginState();
         setContentView(R.layout.activity_login);
         initViews();
     }
 
-
-
+    /**
+     * 检查用户是否已经登陆过，登陆过直接跳转主界面
+     */
+    private void checkLoginState(){
+        if(DbUtil.contains(MyApp.getGlobalContext(),"isLogined")){
+            DbUtil.delete(MyApp.getGlobalContext(),"isLogined");
+            startActivity(new Intent(LoginActivity.this,MainActivity.class));
+            finish();
+        }
+}
     /**
      * 这里尝试用ButterKnife初始化控件
      */
@@ -104,7 +115,21 @@ public class LoginActivity extends AppCompatActivity {
             RetroHttpUtil.sendRequest(loginCall, new AbstractLoginHttpCallback<BaseResponse<LoginResponseData>>() {
                 @Override
                 public void onSuccess(BaseResponse<LoginResponseData> result) {
+                    System.out.println("用户的cloud_token为:"+result.getData().getCloud_token());
                     ToastUtil.ToastShortShow("登录成功！", LoginActivity.this);
+                    /**
+                     * 每次登录时更新token和cloud_token,存储到数据库
+                     */
+                    DbUtil.setString(MyApp.getGlobalContext(),"token",result.getData().getToken());
+                    DbUtil.setString(MyApp.getGlobalContext(),"cloud_token",result.getData().getCloud_token());
+                    /**
+                     * 存储用户的id
+                     */
+                    DbUtil.setString(MyApp.getGlobalContext(),"user_id",result.getData().getUser().getId());
+                    /**
+                     * 记录登录状态
+                     */
+                    DbUtil.setString(MyApp.getGlobalContext(),"isLogined","true");
                     Intent intent = new Intent(LoginActivity.this,MainActivity.class);
                     startActivity(intent);
                     finish();

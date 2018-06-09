@@ -18,13 +18,14 @@ import com.github.florent37.materialviewpager.header.HeaderDesign;
 import com.qmuiteam.qmui.widget.dialog.QMUIBottomSheet;
 
 import butterknife.ButterKnife;
+
 public class MainActivity extends AppCompatActivity {
     /**
      * 主页面
      * 包含两个Fragment：MainRecycleViewFragment
      * 此活动包含侧滑栏（给汪工）
      * 此活动的菜单可跳转到SearchActivity（加群组好友）和创建群组（待完成）
-     * */
+     */
 
 
     MaterialViewPager mViewPager;
@@ -36,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         setTitle("");
         ButterKnife.bind(this);
 
-        mViewPager=(MaterialViewPager)findViewById(R.id.materialViewPager);
+        mViewPager = (MaterialViewPager) findViewById(R.id.materialViewPager);
         final Toolbar toolbar = mViewPager.getToolbar();
         if (toolbar != null) {
             setSupportActionBar(toolbar);
@@ -52,9 +53,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-
-        mViewPager=(MaterialViewPager)findViewById(R.id.materialViewPager);
-
+        mViewPager = (MaterialViewPager) findViewById(R.id.materialViewPager);
 
 
         mViewPager.getViewPager().setAdapter(new FragmentStatePagerAdapter(getSupportFragmentManager()) {
@@ -67,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
                         return MainRecyclerViewFragment.newInstance();
                 }
             }
+
             @Override
             public int getCount() {
                 return 2;
@@ -79,6 +79,7 @@ public class MainActivity extends AppCompatActivity {
                         return "课堂模式";
                     case 1:
                         return "自习模式";
+                    default:
                 }
                 return "";
             }
@@ -96,6 +97,7 @@ public class MainActivity extends AppCompatActivity {
                         return HeaderDesign.fromColorResAndUrl(
                                 R.color.green,
                                 "http://www.xidian.edu.cn/_mediafile/xadzkjdx2/2015/05/29/2lvaaswucd.jpg");
+                    default:
                 }
 
                 return null;
@@ -118,7 +120,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //生成菜单
-    @Override public boolean onCreateOptionsMenu(Menu menu) {
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.add_icon, menu);
         return true;
     }
@@ -144,11 +147,17 @@ public class MainActivity extends AppCompatActivity {
                     public void onClick(QMUIBottomSheet dialog, View itemView, int position, String tag) {
                         switch (position) {
                             case 0:
-                                Intent intent=new Intent(MainActivity.this,CreatClassActivity.class);
+                                /**
+                                 * 创建群组活动
+                                 */
+                                Intent intent = new Intent(MainActivity.this, CreatClassActivity.class);
                                 startActivity(intent);
                                 break;
                             case 1:
-                                Intent intent2=new Intent(MainActivity.this,SearchActivity.class);
+                                /**
+                                 * 添加好友活动
+                                 */
+                                Intent intent2 = new Intent(MainActivity.this, SearchActivity.class);
                                 startActivity(intent2);
                                 break;
                             default:

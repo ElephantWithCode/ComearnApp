@@ -62,7 +62,7 @@ public class MainRecyclerViewFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
 
-       mRecyclerView=(RecyclerView) rootView.findViewById(R.id.act_class_mode_rv);
+        mRecyclerView=(RecyclerView) rootView.findViewById(R.id.act_class_mode_rv);
         mRecyclerView.addItemDecoration(new MaterialViewPagerHeaderDecorator());
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         DividerItemDecoration mDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
@@ -134,5 +134,4 @@ public class MainRecyclerViewFragment extends Fragment {
         });
     }
 
-    }
-
+}
