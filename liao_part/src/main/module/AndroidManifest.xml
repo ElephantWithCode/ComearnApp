@@ -5,9 +5,14 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
-    <application
-        android:theme="@style/AppTheme">
-        <activity android:name=".activity.MainActivity" />
+    <application android:theme="@style/AppTheme">
+        <activity android:name=".activity.MainActivity">
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN" />-->
+
+                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
+        </activity>
         <activity android:name=".activity.ClassDetailActivity" />
         <!-- <activity android:name=".activity.SelectActivity" /> -->
         <activity
@@ -23,16 +28,44 @@
         <activity android:name=".activity.CheckActivity" />
         <activity android:name=".activity.SearchResultActivity" />
         <activity android:name=".activity.MoreClassActivity" />
-        <activity android:name=".activity.CreatClassActivity" />
-        <activity android:name=".activity.LoginActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+        <activity android:name=".activity.CreatClassActivity" >
+        <intent-filter>
+            <action android:name="android.intent.action.VIEW" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            <category android:name="android.intent.category.DEFAULT" />
+
+            <data
+                android:host="com.example.team.comearnapp"
+                android:pathPrefix="/conversation/"
+                android:scheme="rong" />
+        </intent-filter>
+        </activity>
+        <activity android:name=".activity.LoginActivity">
+
+             <intent-filter>
+             <action android:name="android.intent.action.MAIN" />
+
+
+             <category android:name="android.intent.category.LAUNCHER" />
+             </intent-filter>
         </activity>
         <activity android:name=".activity.RegisterActivity" />
         <activity android:name=".activity.ForgetPasswordActivity" />
+        <activity android:name=".activity.RongYunTestActivity" />
+        <activity android:name=".activity.HomeActivity" />
+        <activity android:name=".activity.ConversationActivity">
+        </activity>
+        <!--配置群组对应的融云活动-->
+        <activity android:name=".activity.groupActivity.GroupActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data
+                    android:host="com.example.team.comearnapp"
+                    android:pathPrefix="/conversation/"
+                    android:scheme="rong"/>
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

@@ -16,6 +16,10 @@ public class LoginResponseData implements Serializable {
      * 返回给前端的token, 用于请求验证
      */
     private String token;
+    /**
+     * 用于融云的token
+     */
+    private String cloud_token;
 
     public User getUser() {
         return user;
@@ -32,4 +36,12 @@ public class LoginResponseData implements Serializable {
     public void setToken(String token) {
         this.token = token;
     }
+    public String getCloud_token() {
+        return cloud_token;
+    }
+
+    public void setCloud_token(String cloud_token) {
+        this.cloud_token = cloud_token;
+    }
+
 }

@@ -1,6 +1,7 @@
 package com.example.team.comearnapp.interfaces;
 
 import com.example.team.comearnapp.bean.BaseResponse;
+import com.example.team.comearnapp.bean.Group;
 import com.example.team.comearnapp.bean.LoginResponseData;
 import com.example.team.comearnapp.util.MapGenerator;
 
@@ -77,4 +78,14 @@ public interface HttpRequestInterface {
      */
     @POST(FORGETPASSWORD_URL)
     Call<BaseResponse<Object>> forgetPasswordCall(@Body MapGenerator foregetPasswordData);
+
+    /**
+     * 群组相关操作界面
+     */
+    String CREATEGROUP_URL = "groups";
+    /**
+     * 群组创建的post方法
+     */
+    @POST(CREATEGROUP_URL)
+    Call<BaseResponse<Group>> createGroupCall(@Body MapGenerator groupData);
 }
