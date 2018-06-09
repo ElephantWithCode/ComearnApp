@@ -112,6 +112,7 @@ public class OnClassActivity extends AbstractListActivity implements OnClassView
         Log.d("_MRCR", "On Class Activity Paused");
     }
 
+    //TODO 注意这里可以通过判定onWindowFocusChanged的来源来判断是否为用户打开最近任务栏。并且可以通过外挂设备管理器达到黑屏的效果。
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
