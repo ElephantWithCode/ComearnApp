@@ -137,4 +137,11 @@ public class DbUtil {
             editor.apply();
         }
     }
+    /**
+     * 查询数据库中某键值对是否存在
+     */
+    public static boolean contains(Context ctx,String key){
+        SharedPreferences sp = ctx.getSharedPreferences("config",Context.MODE_PRIVATE);
+        return sp.contains(key);
+    }
 }

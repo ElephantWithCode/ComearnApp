@@ -39,6 +39,7 @@ public class SearchResultActivity extends AppCompatActivity {
             case android.R.id.home:
                 finish();
                 break;
+                default:
         }
         return super.onOptionsItemSelected(item);
     }
