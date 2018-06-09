@@ -37,11 +37,12 @@
                 android:textStyle="bold"
                 android:layout_margin="@dimen/margin_left_and_right_10dp_ci"
                 android:id="@+id/act_personal_info_nsv_btn_bottom"
-                android:text="添加好友"
+                android:text="注销"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:background="@drawable/wyy_activity_personal_info_btn_background"/>
+
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
     <android.support.design.widget.AppBarLayout

@@ -10,7 +10,7 @@ import java.util.Calendar;
  * Created by Ellly on 2018/2/22.
  */
 public class ClassMainPresenter extends BasePresenter<ClassMainView> {
-    private ClassMainModel mModel;
+    public ClassMainModel mModel;
 
     @Override
     public void attachView(ClassMainView view) {

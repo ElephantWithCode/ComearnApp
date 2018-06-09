@@ -34,6 +34,10 @@ class PersonalInfoModel extends BaseModel{
         infos[5] = new GroupInfo("群组03");
         return infos;
     }
+
+    public void signOut(){
+
+    }
 }
 
 class PersonalInfoPresenter extends BasePresenter<PersonalInfoView>{
@@ -42,6 +46,11 @@ class PersonalInfoPresenter extends BasePresenter<PersonalInfoView>{
     public void fetchGroupInfos(){
         GroupInfo[] infos = mInfoModel.obtainGroupInfos();
         mView.inflateGroupList(infos);
+    }
+
+    public void signOut(){
+        mInfoModel.signOut(); //TODO 邹神这里写网络逻辑
+        mView.signOut();  // TODO 视图交互逻辑
     }
 
 }
@@ -94,6 +103,7 @@ class WidgetsManager{
 
 interface PersonalInfoView extends IBaseView{
     void inflateGroupList(GroupInfo[] infos);
+    void signOut();
 }
 
 @Route(path = "/wang_part/personal_info")
@@ -113,10 +123,21 @@ public class PersonalInfoActivity extends AppCompatActivity implements PersonalI
 
         initUI();
 
+        initListeners();
         mPresenter.fetchGroupInfos();
     }
 
+    private void initListeners() {
+        mViewManager.getView(R.id.act_personal_info_nsv_btn_bottom).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPresenter.signOut();
+            }
+        });
+    }
+
     private void initUI() {
+
         mViewManager.addView("clps_bg", View.inflate(this, R.layout.activity_personal_info_collapse_background, null));
         mViewManager.addView("clps", new DefaultCustomCollapsingToolbarLayout(this, mViewManager.getView("clps_bg")));
 
@@ -174,5 +195,10 @@ public class PersonalInfoActivity extends AppCompatActivity implements PersonalI
 
         ((DefaultCustomCardView)mViewManager.getView(R.id.act_personal_info_nsv_dccv_group_list))
                 .setHeadText("加入的群组").addViewList(views);
+    }
+
+    @Override
+    public void signOut() {
+
     }
 }

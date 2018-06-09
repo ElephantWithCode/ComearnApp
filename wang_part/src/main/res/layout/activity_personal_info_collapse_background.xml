@@ -17,7 +17,7 @@
         android:layout_alignBottom="@id/act_personal_info_c_bg_ci_portrait"
         android:layout_alignParentEnd="true"
         android:layout_toEndOf="@id/act_personal_info_c_bg_ci_portrait"
-        android:text="哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈"
+        android:text="用户信息"
         android:ellipsize="end"
         android:textColor="#ffffff"
         android:textSize="@dimen/text_size_normal" />

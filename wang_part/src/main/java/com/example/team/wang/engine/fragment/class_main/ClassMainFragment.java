@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.IBinder;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -107,7 +108,20 @@ public class ClassMainFragment extends Fragment implements ClassMainView, Update
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "quit button clicked");
+                if (getContext() != null) {
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (ClassMainFragment.this.getActivity() != null) {
+                                mPresenter.mModel.saveFromQuitBtn(true);
+                                getContext().sendBroadcast(new Intent("start_count_down"));
 
+                                ToastTools.showToast(ClassMainFragment.this.getContext(), "管理员结束课堂");
+                                ClassMainFragment.this.getActivity().finish();
+                            }
+                        }
+                    }, 300);
+                }
             }
         });
 

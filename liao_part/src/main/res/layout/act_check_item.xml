@@ -19,7 +19,7 @@
         android:dividerPadding="10dp"
         android:showDividers="middle">
         <TextView
-            android:text="魔法电子技术"
+            android:text="模拟电子技术"
             android:layout_gravity="center"
             android:textSize="18sp"
             android:textStyle="bold"

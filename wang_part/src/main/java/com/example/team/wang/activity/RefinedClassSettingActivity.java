@@ -41,6 +41,7 @@ interface RefinedClassSettingView extends IBaseView{
     void showStartTimeDialog();
     void disableShowButton();
     void showButton();
+    void setToolbar();
 }
 
 class RefinedClassSettingPresenter extends BasePresenter<RefinedClassSettingView>{
@@ -77,6 +78,8 @@ class RefinedClassSettingPresenter extends BasePresenter<RefinedClassSettingView
         mView.showStartTimeDialog();
     }
 
+    public void setToolbar(){mView.setToolbar();}
+
     public void showFinishButton(){
         if (mModel.getClassState()){
             mView.disableShowButton();
@@ -109,15 +112,10 @@ public class RefinedClassSettingActivity extends AppCompatActivity implements Re
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_refined_class_setting);
 
-        StatusBarUtil.setColor(RefinedClassSettingActivity.this, getResources().getColor(R.color.green), 50);
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
 
 
         mPresenter.attachView(this);
+        mPresenter.setToolbar();
 
         mGroupListView = findViewById(R.id.act_refined_class_setting_QMUIGLV);
         mFinishButton = findViewById(R.id.act_refined_class_setting_QMUIRB);
@@ -125,13 +123,7 @@ public class RefinedClassSettingActivity extends AppCompatActivity implements Re
         mFinishButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-/*
-                View decorView = getWindow().getDecorView();
-                int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_FULLSCREEN;
-                decorView.setSystemUiVisibility(uiOptions);
 
-                startService(new Intent(RefinedClassSettingActivity.this, TestFloatWindowService.class));
-*/
                 mPresenter.saveClassState(false);
 
                 ClassBehaviorManager builder = new ClassBehaviorManager(RefinedClassSettingActivity.this)
@@ -139,8 +131,6 @@ public class RefinedClassSettingActivity extends AppCompatActivity implements Re
                         .setLastTime(mLastItemView.getDetailText()).buildWithText();
 
                 builder.triggerCountDown();
-
-                ToastTools.showToast(RefinedClassSettingActivity.this, "设置完毕");
 
                 finish();
 
@@ -156,11 +146,8 @@ public class RefinedClassSettingActivity extends AppCompatActivity implements Re
         mStartItemView = mGroupListView.createItemView("开始时间");
         mStartItemView.setText("开始时间");
 
-        Calendar currentTime = Calendar.getInstance();
-        int hour = currentTime.get(Calendar.HOUR_OF_DAY);
-        int minute = currentTime.get(Calendar.MINUTE);
-
-        mStartItemView.setDetailText(hour + ":" + minute);
+        Calendar current_calendar = Calendar.getInstance();
+        mStartItemView.setDetailText(ConvertTools.parseTime(current_calendar.get(Calendar.HOUR)) + ":" + ConvertTools.parseTime(current_calendar.get(Calendar.MINUTE)));
 
         View.OnClickListener onSpotItemClickListener = new View.OnClickListener() {
             @Override
@@ -205,18 +192,15 @@ public class RefinedClassSettingActivity extends AppCompatActivity implements Re
         mSpotSection.addTo(mGroupListView);
         mTimeSection.addTo(mGroupListView);
 
-//        mPresenter.showFinishButton();
+        mPresenter.showFinishButton();
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int i = item.getItemId();
-        if (i == android.R.id.home) {
-            finish();
-        }
-        return super.onOptionsItemSelected(item);
+    public void setToolbar() {
+        StatusBarUtil.setColor(RefinedClassSettingActivity.this, getResources().getColor(R.color.colorPrimary), 50);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
-
 
     @Override
     public Context getContext() {
@@ -315,11 +299,13 @@ public class RefinedClassSettingActivity extends AppCompatActivity implements Re
     @Override
     public void disableShowButton() {
         mFinishButton.setVisibility(View.GONE);
+        mGroupListView.setClickable(false);
     }
 
     @Override
     public void showButton() {
         mFinishButton.setVisibility(View.VISIBLE);
+        mGroupListView.setClickable(true);
     }
 
     @Override

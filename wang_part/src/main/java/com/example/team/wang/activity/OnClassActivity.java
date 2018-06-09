@@ -3,6 +3,7 @@ package com.example.team.wang.activity;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -14,6 +15,7 @@ import android.view.View;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.example.team.wang.debug.TestFloatWindowService;
+import com.example.team.wang.receiver.MonitorRecentClickReceiver;
 import com.example.team.wang.utils.ClassBehaviorManager;
 import com.example.team.wang.utils.FloatWindowManager;
 import com.example.team.wang_part.R;
@@ -104,14 +106,26 @@ public class OnClassActivity extends AbstractListActivity implements OnClassView
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+
+        Log.d("_MRCR", "On Class Activity Paused");
+    }
+
+    //TODO 注意这里可以通过判定onWindowFocusChanged的来源来判断是否为用户打开最近任务栏。并且可以通过外挂设备管理器达到黑屏的效果。
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+
+        Log.d("_MRCR", "On Class Window Focus Changed");
+
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
-        //
-//        View decorView = getWindow().getDecorView();
-//        int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_FULLSCREEN;
-//        decorView.setSystemUiVisibility(uiOptions);
 
-//        mWindowHandler.sendEmptyMessageDelayed(123, 1000);
+        Log.d("_MRCR", "On Class Activity Resumed");
     }
 
     @Override
@@ -127,11 +141,6 @@ public class OnClassActivity extends AbstractListActivity implements OnClassView
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        /*switch (keyCode){
-            case KeyEvent.KEYCODE_MENU:
-            case KeyEvent.KEYCODE_BACK:
-                return true;
-        }*/
         return super.onKeyDown(keyCode, event);
     }
 
