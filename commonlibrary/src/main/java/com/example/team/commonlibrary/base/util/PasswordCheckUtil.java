@@ -1,7 +1,7 @@
-package com.example.team.comearnapp.util;
+package com.example.team.commonlibrary.base.util;
 
-import com.example.team.comearnapp.R;
-import com.example.team.commonlibrary.base.MyApp;
+import com.example.team.commonlibrary.R;
+import com.example.team.commonlibrary.base.application.MyApp;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 

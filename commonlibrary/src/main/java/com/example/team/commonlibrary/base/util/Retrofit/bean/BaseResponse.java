@@ -1,4 +1,4 @@
-package com.example.team.comearnapp.bean;
+package com.example.team.commonlibrary.base.util.Retrofit.bean;
 
 import java.io.Serializable;
 

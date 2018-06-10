@@ -1,4 +1,4 @@
-package com.example.team.comearnapp.util.Retrofit.callback;
+package com.example.team.commonlibrary.base.util.Retrofit.callback;
 
 import retrofit2.Call;
 import retrofit2.Response;

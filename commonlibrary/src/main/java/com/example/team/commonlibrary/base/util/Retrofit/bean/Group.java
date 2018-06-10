@@ -1,4 +1,6 @@
-package com.example.team.comearnapp.bean;
+package com.example.team.commonlibrary.base.util.Retrofit.bean;
+
+import com.example.team.commonlibrary.base.util.Retrofit.bean.User;
 
 import java.util.List;
 

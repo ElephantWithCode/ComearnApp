@@ -7,12 +7,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.example.team.comearnapp.R;
-import com.example.team.comearnapp.bean.Friend;
-import com.example.team.comearnapp.util.ToastUtil;
-import com.example.team.commonlibrary.base.MyApp;
+import com.example.team.commonlibrary.base.util.Retrofit.bean.Friend;
+import com.example.team.commonlibrary.base.util.ToastUtil;
+import com.example.team.commonlibrary.base.application.MyApp;
 
 import java.util.ArrayList;
 import java.util.List;

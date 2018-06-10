@@ -1,26 +1,22 @@
 package com.example.team.comearnapp.activity;
 
-import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.example.team.comearnapp.R;
-import com.example.team.comearnapp.activity.groupActivity.GroupActivity;
-import com.example.team.comearnapp.bean.BaseResponse;
-import com.example.team.comearnapp.bean.Group;
-import com.example.team.comearnapp.interfaces.HttpRequestInterface;
-import com.example.team.comearnapp.util.DbUtil;
-import com.example.team.comearnapp.util.MapGenerator;
-import com.example.team.comearnapp.util.Retrofit.RetroHttpUtil;
-import com.example.team.comearnapp.util.Retrofit.callback.AbstractCommonHttpCallback;
-import com.example.team.comearnapp.util.ToastUtil;
-import com.example.team.commonlibrary.base.MyApp;
+import com.example.team.commonlibrary.base.util.Retrofit.bean.BaseResponse;
+import com.example.team.commonlibrary.base.util.Retrofit.bean.Group;
+import com.example.team.commonlibrary.base.util.DbUtil;
+import com.example.team.commonlibrary.base.util.MapGenerator;
+import com.example.team.commonlibrary.base.util.Retrofit.RetroHttpUtil;
+import com.example.team.commonlibrary.base.util.Retrofit.callback.AbstractCommonHttpCallback;
+import com.example.team.commonlibrary.base.util.ToastUtil;
+import com.example.team.commonlibrary.base.application.MyApp;
 import com.jaeger.library.StatusBarUtil;
 import com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton;
 import com.rengwuxian.materialedittext.MaterialEditText;

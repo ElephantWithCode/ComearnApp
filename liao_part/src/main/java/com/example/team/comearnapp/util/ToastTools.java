@@ -3,7 +3,7 @@ package com.example.team.comearnapp.util;
 
 import android.widget.Toast;
 
-import com.example.team.commonlibrary.base.MyApp;
+import com.example.team.commonlibrary.base.application.MyApp;
 
 
 /**

@@ -57,10 +57,13 @@ dependencies {
     api 'com.github.iwgang:countdownview:2.1.6'
     api 'com.jakewharton:butterknife:8.4.0'
     api 'com.rengwuxian.materialedittext:library:2.1.4'
-
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'
-
     api rootProject.ext.router_api
 //    以下为冰淇淋导入的融云组件
     compile project(':IMKit')
+    api 'com.squareup.okhttp:okhttp:2.7.2'
+    api 'com.squareup.retrofit2:retrofit:2.1.0'
+    api 'com.squareup.retrofit2:converter-gson:2.1.0'
+    api 'com.squareup.okhttp3:logging-interceptor:3.3.0'
+    api 'com.jakewharton:butterknife:8.4.0'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'
 }
