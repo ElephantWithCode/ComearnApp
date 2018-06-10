@@ -9,10 +9,10 @@ import android.widget.RadioButton;
 import android.widget.Toast;
 
 import com.example.team.comearnapp.R;
+import com.example.team.commonlibrary.base.util.Retrofit.bean.UserTest;
 import com.example.team.commonlibrary.base.util.Retrofit.bean.BaseResponse;
 import com.example.team.commonlibrary.base.util.Retrofit.bean.Group;
 import com.example.team.commonlibrary.base.util.DbUtil;
-import com.example.team.commonlibrary.base.util.MapGenerator;
 import com.example.team.commonlibrary.base.util.Retrofit.RetroHttpUtil;
 import com.example.team.commonlibrary.base.util.Retrofit.callback.AbstractCommonHttpCallback;
 import com.example.team.commonlibrary.base.util.ToastUtil;
@@ -85,32 +85,41 @@ public class CreatClassActivity extends AppCompatActivity implements View.OnClic
                 /**
                  * 先向cto的服务器提出创建群组请求，再向融云服务器提出群组请求
                  * userList那里可能出现问题
+                 * @param userIdList:已经注册用户的id集合
                  */
-                /**
-                 * 已经注册用户的id集合
-                 * TODO:待添加
-                 */
-                List<String> userIdList = new ArrayList<>();
+                List<UserTest.UserTempBean> userIdList = new ArrayList<>();
+                UserTest.UserTempBean user1 = new UserTest.UserTempBean();
+                user1.setId("5ac38bbe60b27023703e0ec7");
+                userIdList.add(user1);
+                UserTest.UserTempBean user2 = new UserTest.UserTempBean();
+                user2.setId("5b152f34e996eebc7422412b");
+                userIdList.add(user2);
+                UserTest userTest = new UserTest();
+                userTest.setUuid("5ab6738260b20797b26114e7");
+                userTest.setGroupName(class_name.getText().toString());
+                userTest.setGroupInformation(class_information.getText().toString());
+                userTest.setUserTemps(userIdList);
                 if (DbUtil.contains(MyApp.getGlobalContext(), "user_id")) {
-                    final Call<BaseResponse<Group>> groupCall = RetroHttpUtil.build().createGroupCall(MapGenerator.generate()
-                            .add("uuid", DbUtil.getString(MyApp.getGlobalContext(), "user_id", "null"))
-                            .add("groupName", class_name.getText().toString())
-                            .add("groupInformation", class_information.getText().toString())
-                            .add("userList", userIdList));
+                    //MapGenerator.generate()
+//                            .add("uuid", DbUtil.getString(MyApp.getGlobalContext(), "user_id", "null"))
+//                            .add("groupName", class_name.getText().toString())
+//                            .add("groupInformation", class_information.getText().toString())
+//                            .add("userTemp", userIdList)
+                    final Call<BaseResponse<Group>> groupCall = RetroHttpUtil.build().createGroupCall(userTest);
                     RetroHttpUtil.sendRequest(groupCall, new AbstractCommonHttpCallback<BaseResponse<Group>>() {
                         @Override
                         public void onSuccess(BaseResponse<Group> result) {
                             groupId = result.getData().getGroupId();
                             if (RongIM.getInstance() != null) {
-                                //第一个参数必须是配置了AndroidManifest.xml参数的，实现Fragment的隐式跳转
-                                RongIM.getInstance().startGroupChat(CreatClassActivity.this,groupId,"西电家装公司（仅供测试）");
+                                //第一个参数必须是配置了AndroidManifest.xml参数的活动，实现Fragment的隐式跳转
+                                RongIM.getInstance().startGroupChat(CreatClassActivity.this,groupId,class_name.getText().toString());
                             }
                             Toast.makeText(getApplicationContext(), "创建成功", Toast.LENGTH_SHORT).show();
                         }
 
                         @Override
                         public void onFail() {
-                            ToastUtil.ToastShortShow("建群失败！",MyApp.getGlobalContext());
+                            ToastUtil.ToastShortShow("建群失败",CreatClassActivity.this);
                         }
                     });
 
@@ -133,3 +142,10 @@ public class CreatClassActivity extends AppCompatActivity implements View.OnClic
 
     }
 }
+/**
+ * 内测用户id信息
+ * Zou:5ab6738260b20797b26114e7
+ * Wang:5ac38bbe60b27023703e0ec7
+ * Peng:5b152f34e996eebc7422412b
+ */
+
