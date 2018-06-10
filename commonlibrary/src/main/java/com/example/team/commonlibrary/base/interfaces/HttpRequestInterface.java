@@ -4,10 +4,16 @@ import com.example.team.commonlibrary.base.util.Retrofit.bean.BaseResponse;
 import com.example.team.commonlibrary.base.util.Retrofit.bean.Group;
 import com.example.team.commonlibrary.base.util.Retrofit.bean.LoginResponseData;
 import com.example.team.commonlibrary.base.util.MapGenerator;
+import com.example.team.commonlibrary.base.util.Retrofit.bean.User;
+import com.example.team.commonlibrary.base.util.Retrofit.bean.UserTest;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 
 /**
  * Created by 邹特强 on 2018/4/2.
@@ -73,6 +79,7 @@ public interface HttpRequestInterface {
      * 忘记密码界面
      */
     String FORGETPASSWORD_URL = "reset";
+
     /**
      * 修改密码的post方法
      */
@@ -83,9 +90,25 @@ public interface HttpRequestInterface {
      * 群组相关操作界面
      */
     String CREATEGROUP_URL = "groups";
+
     /**
      * 群组创建的post方法
      */
     @POST(CREATEGROUP_URL)
-    Call<BaseResponse<Group>> createGroupCall(@Body MapGenerator groupData);
+    Call<BaseResponse<Group>> createGroupCall(@Body UserTest userTest);
+
+    /**
+     * 用户搜索界面;TODO：这个等待cto改url
+     * TODO:BaseResponse<List<User>>可能出问题
+     */
+    String SEARCHUSERS_URL = "users/{name}";
+    @GET(SEARCHUSERS_URL)
+    Call<BaseResponse<List<User>>> searchUsersCall(@Path("name") String nickname);
+
+    /**
+     * 群组搜索界面
+     */
+    String SEARCHGROUPS_URL = "groups/{groupName}";
+    @GET(SEARCHGROUPS_URL)
+    Call<BaseResponse<List<Group>>> searchGroupsCall(@Path("groupName")String groupName);
 }

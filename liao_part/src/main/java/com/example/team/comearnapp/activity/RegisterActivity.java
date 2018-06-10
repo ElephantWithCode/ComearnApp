@@ -56,7 +56,8 @@ public class RegisterActivity extends AppCompatActivity {
     private boolean isEyeImgOpened = false;
     @BindView(R2.id.register_eye_img)
     ImageView imgRegisterEye;
-
+    @BindView(R2.id.register_nickname_edt)
+    EditText edtNickname;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,9 +84,8 @@ public class RegisterActivity extends AppCompatActivity {
     private void getVertificationCode() {
         /**
          * TODO:这里接入后端，获取验证码
-         * TODO:卧槽，这里是异步获取信息，线程是并行的，可能response还没获取到，你就将信息返回了，这里有潜在的延迟问题
          */
-        Call<BaseResponse<Object>> verificationCodeCall = RetroHttpUtil.build().verificationCodeCall(MapGenerator.generate().add("email", account));
+        Call<BaseResponse<Object>> verificationCodeCall = RetroHttpUtil.build().verificationCodeCall(MapGenerator.generate().add("email", account).add("username",edtNickname.getText().toString()));
         RetroHttpUtil.sendRequest(verificationCodeCall, new AbstractRegisterHttpCallback<BaseResponse<Object>>() {
             @Override
             public void onSuccess(BaseResponse<Object> result) {
@@ -122,6 +122,9 @@ public class RegisterActivity extends AppCompatActivity {
             return false;
         } else if (TextUtils.isEmpty(verificationCode)) {
             ToastUtil.ToastShortShow(getString(R.string.vercode_empty_error), this);
+            return false;
+        } else if(edtNickname.getText().length() == 0){
+            ToastUtil.ToastShortShow("请输入用户名",this);
             return false;
         }
         return true;

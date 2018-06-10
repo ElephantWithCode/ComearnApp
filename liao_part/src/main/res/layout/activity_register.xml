@@ -31,7 +31,7 @@
             android:layout_gravity="center_horizontal"
             android:background="@drawable/round_rect_2"
             android:orientation="horizontal"
-            android:layout_marginTop="80dp">
+            android:layout_marginTop="60dp">
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:layout_width="43dp"
@@ -48,6 +48,31 @@
                 android:elevation="10dp"
                 android:focusable="true"
                 android:hint="邮箱"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:singleLine="true"
+                android:textColor="@color/black"
+                android:textColorHint="@color/hint_color_gray"
+                android:textSize="15sp" />
+        </LinearLayout>
+        <!--用户名控件部分-->
+        <LinearLayout
+            android:layout_width="270dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/round_rect_2"
+            android:orientation="horizontal"
+            android:layout_marginTop="20dp">
+            <EditText
+                android:id="@+id/register_nickname_edt"
+                android:layout_width="227dp"
+                android:layout_height="43dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@null"
+                android:digits="@string/register_login_digits"
+                android:elevation="10dp"
+                android:focusable="true"
+                android:hint="用户名"
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp"
                 android:singleLine="true"
