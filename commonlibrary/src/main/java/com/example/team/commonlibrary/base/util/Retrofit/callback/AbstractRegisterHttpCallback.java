@@ -1,7 +1,7 @@
-package com.example.team.comearnapp.util.Retrofit.callback;
+package com.example.team.commonlibrary.base.util.Retrofit.callback;
 
-import com.example.team.comearnapp.util.ToastUtil;
-import com.example.team.commonlibrary.base.MyApp;
+import com.example.team.commonlibrary.base.util.ToastUtil;
+import com.example.team.commonlibrary.base.application.MyApp;
 
 import retrofit2.Call;
 import retrofit2.Response;

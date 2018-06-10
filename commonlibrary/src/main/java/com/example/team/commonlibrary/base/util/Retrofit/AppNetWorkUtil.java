@@ -1,4 +1,4 @@
-package com.example.team.comearnapp.util.Retrofit;
+package com.example.team.commonlibrary.base.util.Retrofit;
 
 import android.content.Context;
 import android.net.ConnectivityManager;

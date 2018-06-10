@@ -1,4 +1,4 @@
-package com.example.team.comearnapp.util;
+package com.example.team.commonlibrary.base.util;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

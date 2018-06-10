@@ -1,4 +1,4 @@
-package com.example.team.comearnapp.util;
+package com.example.team.commonlibrary.base.util;
 
 import android.content.Context;
 import android.widget.Toast;

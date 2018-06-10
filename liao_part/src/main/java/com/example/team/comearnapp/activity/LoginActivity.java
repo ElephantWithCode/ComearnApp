@@ -1,32 +1,29 @@
 package com.example.team.comearnapp.activity;
 
 import android.content.Intent;
-import android.os.DropBoxManager;
-import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
-import android.util.Log;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import com.alibaba.android.arouter.facade.annotation.Route;
 import com.example.team.comearnapp.R;
 import com.example.team.comearnapp.R2;
-import com.example.team.comearnapp.bean.BaseResponse;
-import com.example.team.comearnapp.bean.LoginResponseData;
-import com.example.team.comearnapp.util.DbUtil;
-import com.example.team.comearnapp.util.EmailCheckUtil;
-import com.example.team.comearnapp.util.MapGenerator;
-import com.example.team.comearnapp.util.Retrofit.RetroHttpUtil;
-import com.example.team.comearnapp.util.Retrofit.callback.AbstractLoginHttpCallback;
-import com.example.team.comearnapp.util.ToastUtil;
-import com.example.team.commonlibrary.base.MyApp;
-import com.squareup.okhttp.Response;
-import org.json.JSONArray;
-import org.json.JSONObject;
+import com.example.team.commonlibrary.base.util.Retrofit.bean.BaseResponse;
+import com.example.team.commonlibrary.base.util.Retrofit.bean.LoginResponseData;
+import com.example.team.commonlibrary.base.util.DbUtil;
+import com.example.team.commonlibrary.base.util.EmailCheckUtil;
+import com.example.team.commonlibrary.base.util.MapGenerator;
+import com.example.team.commonlibrary.base.util.Retrofit.RetroHttpUtil;
+import com.example.team.commonlibrary.base.util.Retrofit.callback.AbstractLoginHttpCallback;
+import com.example.team.commonlibrary.base.util.ToastUtil;
+import com.example.team.commonlibrary.base.application.MyApp;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -37,6 +34,7 @@ import retrofit2.Call;
  * @author 邹特强
  *         登录对应活动,TODO：正则表达式记得研究
  */
+@Route(path = "/liao_part/login_activity")
 public class LoginActivity extends AppCompatActivity {
     @BindView(R2.id.login_head_civ)
     CircleImageView civLoginHeadPortrait;

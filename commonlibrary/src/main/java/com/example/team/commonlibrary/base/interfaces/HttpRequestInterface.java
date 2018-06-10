@@ -1,9 +1,9 @@
-package com.example.team.comearnapp.interfaces;
+package com.example.team.commonlibrary.base.interfaces;
 
-import com.example.team.comearnapp.bean.BaseResponse;
-import com.example.team.comearnapp.bean.Group;
-import com.example.team.comearnapp.bean.LoginResponseData;
-import com.example.team.comearnapp.util.MapGenerator;
+import com.example.team.commonlibrary.base.util.Retrofit.bean.BaseResponse;
+import com.example.team.commonlibrary.base.util.Retrofit.bean.Group;
+import com.example.team.commonlibrary.base.util.Retrofit.bean.LoginResponseData;
+import com.example.team.commonlibrary.base.util.MapGenerator;
 
 import retrofit2.Call;
 import retrofit2.http.Body;

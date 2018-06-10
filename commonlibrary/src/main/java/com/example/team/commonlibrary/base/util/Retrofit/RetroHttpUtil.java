@@ -1,11 +1,11 @@
-package com.example.team.comearnapp.util.Retrofit;
+package com.example.team.commonlibrary.base.util.Retrofit;
 
 import android.content.Context;
 
-import com.example.team.comearnapp.BuildConfig;
-import com.example.team.comearnapp.interfaces.HttpRequestInterface;
-import com.example.team.comearnapp.util.ToastUtil;
-import com.example.team.commonlibrary.base.MyApp;
+import com.example.team.commonlibrary.BuildConfig;
+import com.example.team.commonlibrary.base.interfaces.HttpRequestInterface;
+import com.example.team.commonlibrary.base.util.ToastUtil;
+import com.example.team.commonlibrary.base.application.MyApp;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import java.io.File;

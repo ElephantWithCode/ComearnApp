@@ -1,4 +1,4 @@
-package com.example.team.comearnapp.bean;
+package com.example.team.commonlibrary.base.util.Retrofit.bean;
 
 /**
  * Created by 邹特强 on 2018/6/3.

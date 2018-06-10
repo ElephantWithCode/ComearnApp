@@ -1,4 +1,4 @@
-package com.example.team.commonlibrary.base;
+package com.example.team.commonlibrary.base.application;
 
 import android.app.Application;
 

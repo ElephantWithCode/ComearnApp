@@ -1,9 +1,10 @@
-package com.example.team.commonlibrary.base;
+package com.example.team.commonlibrary.base.application;
 
 import android.app.ActivityManager;
 import android.content.Context;
 
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.example.team.commonlibrary.base.application.BaseApplication;
 
 import io.rong.imkit.RongIM;
 
