@@ -13,12 +13,19 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
+
 import com.example.team.comearnapp.R;
+import com.example.team.commonlibrary.base.application.MyApp;
+import com.example.team.commonlibrary.base.util.Retrofit.RetroHttpUtil;
+import com.example.team.commonlibrary.base.util.Retrofit.bean.BaseResponse;
 import com.example.team.commonlibrary.base.util.Retrofit.bean.Group;
 import com.example.team.commonlibrary.base.util.Retrofit.bean.User;
 import com.example.team.comearnapp.util.RecyclerViewCommonTool.CommonAdapter;
 import com.example.team.comearnapp.util.RecyclerViewCommonTool.ViewHolder;
 import com.example.team.comearnapp.ui.ClearEditText;
+import com.example.team.commonlibrary.base.util.Retrofit.callback.AbstractCommonHttpCallback;
+import com.example.team.commonlibrary.base.util.ToastUtil;
 import com.github.florent37.materialviewpager.header.MaterialViewPagerHeaderDecorator;
 import com.jaeger.library.StatusBarUtil;
 import com.qmuiteam.qmui.widget.grouplist.QMUIGroupListView;
@@ -27,6 +34,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.ButterKnife;
+import retrofit2.Call;
+
 /**
  * 搜索页面
  * 是查看用户信息（？）的入口
@@ -124,29 +133,7 @@ searchResults();
                          * 暂时只写用昵称搜索到的结果
                          * @param checksArrayList:搜索得到的用户列表
                          */
-                        List<User> checksArrayList=new ArrayList<User>();
-                        checksArrayList = getSearchUsers(mClearEditText.getText().toString());
-                        /**
-                         * 配置搜索个人用户的列表
-                         */
-                        adapter_user=new CommonAdapter<User>(SearchActivity.this, R.layout.user_item, checksArrayList){
-                            @Override
-                            public void onBindViewHolder(ViewHolder viewHolder, int position) {
-                                super.onBindViewHolder(viewHolder, position);
-                            }
-                            @Override
-                            public void convert(ViewHolder holder, User user) {
-                                holder.getItemView().setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View view) {
-                                        Intent intent=new Intent(SearchActivity.this,SearchResultActivity.class);
-                                        startActivity(intent);
-                                        //TODO：汪工在这里跳转到他人用户信息页面
-                                    }
-                                });
-                            }
-                        };
-                        mRecyclerView.setAdapter(adapter_user);
+                        doSearchUsers(mClearEditText.getText().toString());
                     }
                 })
                 .addItemView(mAboutGroupListView.createItemView("查找班级群组"), new View.OnClickListener() {
@@ -154,28 +141,7 @@ searchResults();
                     public void onClick(View v) {
                         mAboutGroupListView.setVisibility(View.GONE);
                         //搜索得到的群组列表
-                        List<Group> checksArrayList=new ArrayList<Group>();
-                        checksArrayList = getSearchClassGroups(mClearEditText.getText().toString());
-                        adapter_class=new CommonAdapter<Group>(SearchActivity.this, R.layout.class_item, checksArrayList){
-                            @Override
-                            public void onBindViewHolder(ViewHolder viewHolder, int position) {
-                                super.onBindViewHolder(viewHolder, position);
-                            }
-
-                            @Override
-                            public void convert(ViewHolder holder, Group user) {
-
-
-                                holder.getItemView().setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View view) {
-                                        Intent intent=new Intent(SearchActivity.this,SearchResultActivity.class);
-                                        startActivity(intent);
-                                    }
-                                });
-                            }
-                        };
-
+                        doSearchClassGroups(mClearEditText.getText().toString());
                         mRecyclerView.setAdapter(adapter_class);
                     }
                 })
@@ -217,20 +183,82 @@ searchResults();
      * @param searchstr 关键词
      * @return 用户列表
      */
-    private List<User> getSearchUsers(String searchstr){
-        List<User> resultUsers = new ArrayList<>();
-        //TODO:网络
-        return resultUsers;
+    private void doSearchUsers(String searchstr){
+        Call<BaseResponse<List<User>>> searchUserCall = RetroHttpUtil.build().searchUsersCall(searchstr);
+        RetroHttpUtil.sendRequest(searchUserCall, new AbstractCommonHttpCallback<BaseResponse<List<User>>>() {
+            @Override
+            public void onSuccess(final BaseResponse<List<User>> result) {
+                ToastUtil.ToastShortShow("查询成功！",MyApp.getGlobalContext());
+                /**
+                 * 配置搜索个人用户的列表
+                 * TODO:这里应该设置无匹配项时的页面
+                 */
+                adapter_user=new CommonAdapter<User>(SearchActivity.this, R.layout.user_item, result.getData()){
+                    @Override
+                    public void onBindViewHolder(ViewHolder viewHolder, int position) {
+                        super.onBindViewHolder(viewHolder, position);
+                    }
+                    @Override
+                    public void convert(ViewHolder holder, User user) {
+                        TextView nicknameTv = holder.getItemView().findViewById(R.id.type_top_title6);
+                        nicknameTv.setText(user.getUsername());
+                        holder.getItemView().setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Intent intent=new Intent(SearchActivity.this,SearchResultActivity.class);
+                                startActivity(intent);
+                                //TODO：汪工在这里跳转到他人用户信息页面
+                            }
+                        });
+                    }
+                };
+                mRecyclerView.setAdapter(adapter_user);
+            }
+
+            @Override
+            public void onFail() {
+                ToastUtil.ToastShortShow("查询失败！请重试！",MyApp.getGlobalContext());
+            }
+        });
     }
     /**
      * 从服务器查询带有指定关键词的用户
      * @param searchstr 关键词
      * @return 用户列表
      */
-    private List<Group> getSearchClassGroups(String searchstr){
-        List<Group> resultUsers = new ArrayList<>();
+    private void doSearchClassGroups(String searchstr){
+        Call<BaseResponse<List<Group>>> searchGroupsCall = RetroHttpUtil.build().searchGroupsCall(searchstr);
+        RetroHttpUtil.sendRequest(searchGroupsCall, new AbstractCommonHttpCallback<BaseResponse<List<Group>>>() {
+            @Override
+            public void onSuccess(BaseResponse<List<Group>> result) {
+                adapter_class=new CommonAdapter<Group>(SearchActivity.this, R.layout.class_item,result.getData()){
+                    @Override
+                    public void onBindViewHolder(ViewHolder viewHolder, int position) {
+                        super.onBindViewHolder(viewHolder, position);
+                    }
 
-        return resultUsers;
+                    @Override
+                    public void convert(ViewHolder holder, Group group) {
+                        //TODO:未完待续
+                        TextView groupNameTv = holder.getItemView().findViewById(R.id.act_class_mode_rv_class_name_tv);
+                        groupNameTv.setText(group.getGroupName());
+                        holder.getItemView().setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Intent intent=new Intent(SearchActivity.this,SearchResultActivity.class);
+                                startActivity(intent);
+                            }
+                        });
+                    }
+                };
+            }
+
+            @Override
+            public void onFail() {
+
+            }
+        });
+
     }
     /**
      * 从服务器查询带有指定关键词的用户

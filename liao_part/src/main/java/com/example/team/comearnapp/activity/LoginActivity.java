@@ -56,6 +56,7 @@ public class LoginActivity extends AppCompatActivity {
      * 眼睛图片是否被点击
      */
     private boolean isEyeImgOpened = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,13 +69,14 @@ public class LoginActivity extends AppCompatActivity {
     /**
      * 检查用户是否已经登陆过，登陆过直接跳转主界面
      */
-    private void checkLoginState(){
-        if(DbUtil.contains(MyApp.getGlobalContext(),"isLogined")){
-            DbUtil.delete(MyApp.getGlobalContext(),"isLogined");
-            startActivity(new Intent(LoginActivity.this,MainActivity.class));
+    private void checkLoginState() {
+        if (DbUtil.contains(MyApp.getGlobalContext(), "isLogined")) {
+            DbUtil.delete(MyApp.getGlobalContext(), "isLogined");
+            startActivity(new Intent(LoginActivity.this, MainActivity.class));
             finish();
         }
-}
+    }
+
     /**
      * 这里尝试用ButterKnife初始化控件
      */
@@ -104,7 +106,7 @@ public class LoginActivity extends AppCompatActivity {
         if (!EmailCheckUtil.checkEmail(account)) {
             Toast.makeText(LoginActivity.this, R.string.input_right_email, Toast.LENGTH_SHORT).show();
         } else if (password.length() == 0) {
-            ToastUtil.ToastShortShow("密码为空！",LoginActivity.this);
+            ToastUtil.ToastShortShow("密码为空！", LoginActivity.this);
         } else {
             /**
              * 登录方法
@@ -113,22 +115,23 @@ public class LoginActivity extends AppCompatActivity {
             RetroHttpUtil.sendRequest(loginCall, new AbstractLoginHttpCallback<BaseResponse<LoginResponseData>>() {
                 @Override
                 public void onSuccess(BaseResponse<LoginResponseData> result) {
-                    System.out.println("用户的cloud_token为:"+result.getData().getCloud_token());
+                    System.out.println("用户的cloud_token为:" + result.getData().getCloud_token());
+                    System.out.println("用户的id为："+result.getData().getUser().getId());
                     ToastUtil.ToastShortShow("登录成功！", LoginActivity.this);
                     /**
                      * 每次登录时更新token和cloud_token,存储到数据库
                      */
-                    DbUtil.setString(MyApp.getGlobalContext(),"token",result.getData().getToken());
-                    DbUtil.setString(MyApp.getGlobalContext(),"cloud_token",result.getData().getCloud_token());
+                    DbUtil.setString(MyApp.getGlobalContext(), "token", result.getData().getToken());
+                    DbUtil.setString(MyApp.getGlobalContext(), "cloud_token", result.getData().getCloud_token());
                     /**
                      * 存储用户的id
                      */
-                    DbUtil.setString(MyApp.getGlobalContext(),"user_id",result.getData().getUser().getId());
+                    DbUtil.setString(MyApp.getGlobalContext(), "user_id", result.getData().getUser().getId());
                     /**
                      * 记录登录状态
                      */
-                    DbUtil.setString(MyApp.getGlobalContext(),"isLogined","true");
-                    Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+                    DbUtil.setString(MyApp.getGlobalContext(), "isLogined", "true");
+                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intent);
                     finish();
                 }
@@ -149,7 +152,6 @@ public class LoginActivity extends AppCompatActivity {
                 }
             });
         }
-
 
     }
 
@@ -189,6 +191,5 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
-
 
 }
