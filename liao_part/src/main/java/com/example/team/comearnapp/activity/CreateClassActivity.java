@@ -30,7 +30,7 @@ import retrofit2.Call;
 /**
  * 创建群组页面
  */
-public class CreatClassActivity extends AppCompatActivity implements View.OnClickListener {
+public class CreateClassActivity extends AppCompatActivity implements View.OnClickListener {
 
     private RadioButton rb_Class;
     private RadioButton rb_ZiXi;
@@ -47,7 +47,7 @@ public class CreatClassActivity extends AppCompatActivity implements View.OnClic
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_creat_class);
-        StatusBarUtil.setColor(CreatClassActivity.this, getResources().getColor(R.color.green), 50);
+        StatusBarUtil.setColor(CreateClassActivity.this, getResources().getColor(R.color.green), 50);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("创建群组");
@@ -112,14 +112,14 @@ public class CreatClassActivity extends AppCompatActivity implements View.OnClic
                             groupId = result.getData().getGroupId();
                             if (RongIM.getInstance() != null) {
                                 //第一个参数必须是配置了AndroidManifest.xml参数的活动，实现Fragment的隐式跳转
-                                RongIM.getInstance().startGroupChat(CreatClassActivity.this,groupId,class_name.getText().toString());
+                                RongIM.getInstance().startGroupChat(CreateClassActivity.this,groupId,class_name.getText().toString());
                             }
                             Toast.makeText(getApplicationContext(), "创建成功", Toast.LENGTH_SHORT).show();
                         }
 
                         @Override
                         public void onFail() {
-                            ToastUtil.ToastShortShow("建群失败",CreatClassActivity.this);
+                            ToastUtil.ToastShortShow("建群失败",CreateClassActivity.this);
                         }
                     });
 

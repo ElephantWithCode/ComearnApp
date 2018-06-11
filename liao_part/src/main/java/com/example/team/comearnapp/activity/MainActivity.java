@@ -150,7 +150,7 @@ public class MainActivity extends AppCompatActivity {
                                 /**
                                  * 创建群组活动
                                  */
-                                Intent intent = new Intent(MainActivity.this, CreatClassActivity.class);
+                                Intent intent = new Intent(MainActivity.this, CreateClassActivity.class);
                                 startActivity(intent);
                                 break;
                             case 1:
