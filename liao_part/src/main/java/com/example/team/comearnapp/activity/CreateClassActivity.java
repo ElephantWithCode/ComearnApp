@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.rong.imkit.RongIM;
+import io.rong.imlib.model.Conversation;
 import retrofit2.Call;
 
 /**
@@ -112,7 +113,8 @@ public class CreateClassActivity extends AppCompatActivity implements View.OnCli
                             groupId = result.getData().getGroupId();
                             if (RongIM.getInstance() != null) {
                                 //第一个参数必须是配置了AndroidManifest.xml参数的活动，实现Fragment的隐式跳转
-                                RongIM.getInstance().startGroupChat(CreateClassActivity.this,groupId,class_name.getText().toString());
+                                RongIM.getInstance().startConversation(CreateClassActivity.this, Conversation.ConversationType.GROUP,groupId,class_name.getText().toString());
+//                                RongIM.getInstance().startGroupChat(MyApp.getGlobalContext(),groupId,class_name.getText().toString());
                             }
                             Toast.makeText(getApplicationContext(), "创建成功", Toast.LENGTH_SHORT).show();
                         }

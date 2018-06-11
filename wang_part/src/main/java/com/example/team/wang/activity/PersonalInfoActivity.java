@@ -76,7 +76,7 @@ class PersonalInfoPresenter extends BasePresenter<PersonalInfoView> {
     }
 
     public void addFriend(){
-        QMUIDialog.EditTextDialogBuilder editTextDialogBuilder = new QMUIDialog.EditTextDialogBuilder(PersonalInfoActivity.this);
+        QMUIDialog.EditTextDialogBuilder editTextDialogBuilder = new QMUIDialog.EditTextDialogBuilder(MyApp.getGlobalContext());//TODO暂时这样写
         final String text = editTextDialogBuilder.getEditText().getText().toString();
         editTextDialogBuilder
                 .setTitle("填写验证信息")
