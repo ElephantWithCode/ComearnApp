@@ -8,11 +8,14 @@ import android.support.design.widget.AppBarLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.SparseArray;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.example.team.comearnlib.utils.ToastTools;
 import com.example.team.commonlibrary.base.application.MyApp;
 import com.example.team.commonlibrary.base.util.DbUtil;
 import com.example.team.wang_part.R;
@@ -24,23 +27,38 @@ import com.example.team.comearnlib.base.mvp_mode.base_presenter.BasePresenter;
 import com.example.team.comearnlib.base.mvp_mode.base_view.IBaseView;
 import com.example.team.personalspacelib.test.DefaultCustomCardView;
 import com.example.team.personalspacelib.test.DefaultCustomCollapsingToolbarLayout;
+import com.qmuiteam.qmui.widget.dialog.QMUIDialog;
+import com.qmuiteam.qmui.widget.dialog.QMUIDialogAction;
 
 import java.util.ArrayList;
 
 class PersonalInfoModel extends BaseModel {
     public GroupInfo[] obtainGroupInfos() {
-        GroupInfo[] infos = new GroupInfo[6];
+        GroupInfo[] infos = new GroupInfo[1];
         infos[0] = new GroupInfo("群组01");
-        infos[1] = new GroupInfo("群组02");
-        infos[2] = new GroupInfo("群组03");
-        infos[3] = new GroupInfo("群组03");
-        infos[4] = new GroupInfo("群组03");
-        infos[5] = new GroupInfo("群组03");
         return infos;
+    }
+
+    public String getTargetUerId(Intent intent){
+        if (intent != null){
+            Bundle infoFromNavi = intent.getExtras();
+            if (infoFromNavi != null) {
+                return infoFromNavi.getString("target_user_id", "");
+            }
+        }
+        return "";
     }
 
     public void signOut() {
 
+    }
+
+    public void refreshName(String text) {
+        //TODO 邹神在这里处理修改用户名的网络端
+    }
+
+    public void sendOutMessage(String text) {
+        //TODO 邹神在这里发送验证消息
     }
 }
 
@@ -57,6 +75,30 @@ class PersonalInfoPresenter extends BasePresenter<PersonalInfoView> {
         mView.signOut();  // TODO 视图交互逻辑
     }
 
+    public void addFriend(){
+        QMUIDialog.EditTextDialogBuilder editTextDialogBuilder = new QMUIDialog.EditTextDialogBuilder(PersonalInfoActivity.this);
+        final String text = editTextDialogBuilder.getEditText().getText().toString();
+        editTextDialogBuilder
+                .setTitle("填写验证信息")
+                .addAction("确定", new QMUIDialogAction.ActionListener() {
+                    @Override
+                    public void onClick(QMUIDialog dialog, int index) {
+                        ToastTools.showToast(mContext, text);
+                        mInfoModel.sendOutMessage(text);
+                        dialog.dismiss();
+                    }
+                })
+                .show();
+    }
+
+    public void refreshName(String text) {
+        mView.refreshName(text);
+        mInfoModel.refreshName(text);
+    }
+
+    public void refreshBtn(String mTargetUserId) {
+        mView.refreshBtn(mTargetUserId.equals(mInfoModel.getThisUerId()));
+    }
 }
 
 class WidgetsManager {
@@ -110,13 +152,20 @@ interface PersonalInfoView extends IBaseView {
     void inflateGroupList(GroupInfo[] infos);
 
     void signOut();
+
+    void refreshName(String text);
+
+    void refreshBtn(boolean equals);
 }
 
 @Route(path = "/wang_part/personal_info")
 public class PersonalInfoActivity extends AppCompatActivity implements PersonalInfoView {
 
+    private PersonalInfoModel mInfoModel = new PersonalInfoModel();
     private WidgetsManager mViewManager = new WidgetsManager();
     private PersonalInfoPresenter mPresenter = new PersonalInfoPresenter();
+
+    private String mTargetUserId = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -130,14 +179,45 @@ public class PersonalInfoActivity extends AppCompatActivity implements PersonalI
         initUI();
 
         initListeners();
+
+        mTargetUserId = mInfoModel.getTargetUerId(getIntent());
+
         mPresenter.fetchGroupInfos();
+
+        mPresenter.refreshBtn(mTargetUserId);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        return super.onCreateOptionsMenu(menu);
     }
 
     private void initListeners() {
         mViewManager.getView(R.id.act_personal_info_nsv_btn_bottom).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPresenter.signOut();
+                if (mTargetUserId.equals(mInfoModel.getThisUerId())) {
+                    mPresenter.signOut();
+                } else {
+                    mPresenter.addFriend();
+                }
+            }
+        });
+        mViewManager.getView(R.id.act_personal_info_fab).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                QMUIDialog.EditTextDialogBuilder editTextDialogBuilder = new QMUIDialog.EditTextDialogBuilder(PersonalInfoActivity.this);
+                final String text = editTextDialogBuilder.getEditText().getText().toString();
+                editTextDialogBuilder
+                        .setTitle("修改昵称")
+                        .addAction("确定", new QMUIDialogAction.ActionListener() {
+                            @Override
+                            public void onClick(QMUIDialog dialog, int index) {
+                                mPresenter.refreshName(text);
+                                dialog.dismiss();
+                            }
+                        })
+                        .show();
             }
         });
     }
@@ -210,5 +290,21 @@ public class PersonalInfoActivity extends AppCompatActivity implements PersonalI
         }
         ARouter.getInstance().build("/liao_part/login_activity").navigation();
         finish();
+    }
+
+    @Override
+    public void refreshName(String text) {
+        DefaultCustomCollapsingToolbarLayout mCollapseView = (DefaultCustomCollapsingToolbarLayout) mViewManager.getView("clps");
+        mCollapseView.setTitle(text);
+    }
+
+    @Override
+    public void refreshBtn(boolean equals) {
+        Button bottomBtn = (Button) mViewManager.getView(R.id.act_personal_info_nsv_btn_bottom);
+        if (!equals){
+            bottomBtn.setText("添加好友");
+        }else {
+            bottomBtn.setText("注销");
+        }
     }
 }

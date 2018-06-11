@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.example.team.comearnapp.R;
 import com.example.team.commonlibrary.base.application.MyApp;
 import com.example.team.commonlibrary.base.util.Retrofit.RetroHttpUtil;
@@ -202,11 +203,13 @@ searchResults();
                     public void convert(ViewHolder holder, User user) {
                         TextView nicknameTv = holder.getItemView().findViewById(R.id.type_top_title6);
                         nicknameTv.setText(user.getUsername());
+                        final String id = user.getId();
                         holder.getItemView().setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
                                 Intent intent=new Intent(SearchActivity.this,SearchResultActivity.class);
                                 startActivity(intent);
+                                ARouter.getInstance().build("/wang_part/personal_info").withString("target_user_id", id).navigation();
                                 //TODO：汪工在这里跳转到他人用户信息页面
                             }
                         });
