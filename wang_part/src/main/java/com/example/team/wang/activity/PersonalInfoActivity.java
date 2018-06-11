@@ -76,13 +76,13 @@ class PersonalInfoPresenter extends BasePresenter<PersonalInfoView> {
     }
 
     public void addFriend(){
-        QMUIDialog.EditTextDialogBuilder editTextDialogBuilder = new QMUIDialog.EditTextDialogBuilder(PersonalInfoActivity.this);
-        final String text = editTextDialogBuilder.getEditText().getText().toString();
+        final QMUIDialog.EditTextDialogBuilder editTextDialogBuilder = new QMUIDialog.EditTextDialogBuilder(mContext);
         editTextDialogBuilder
                 .setTitle("填写验证信息")
                 .addAction("确定", new QMUIDialogAction.ActionListener() {
                     @Override
                     public void onClick(QMUIDialog dialog, int index) {
+                        final String text = editTextDialogBuilder.getEditText().getText().toString();
                         ToastTools.showToast(mContext, text);
                         mInfoModel.sendOutMessage(text);
                         dialog.dismiss();
@@ -206,13 +206,13 @@ public class PersonalInfoActivity extends AppCompatActivity implements PersonalI
         mViewManager.getView(R.id.act_personal_info_fab).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                QMUIDialog.EditTextDialogBuilder editTextDialogBuilder = new QMUIDialog.EditTextDialogBuilder(PersonalInfoActivity.this);
-                final String text = editTextDialogBuilder.getEditText().getText().toString();
+                final QMUIDialog.EditTextDialogBuilder editTextDialogBuilder = new QMUIDialog.EditTextDialogBuilder(PersonalInfoActivity.this);
                 editTextDialogBuilder
                         .setTitle("修改昵称")
                         .addAction("确定", new QMUIDialogAction.ActionListener() {
                             @Override
                             public void onClick(QMUIDialog dialog, int index) {
+                                final String text = editTextDialogBuilder.getEditText().getText().toString();
                                 mPresenter.refreshName(text);
                                 dialog.dismiss();
                             }
