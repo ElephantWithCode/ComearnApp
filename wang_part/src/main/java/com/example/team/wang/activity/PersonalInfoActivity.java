@@ -53,11 +53,12 @@ class PersonalInfoModel extends BaseModel {
 
     }
 
-    public void refreshName(String text) {
+    public void refreshName(String text, Context context) {
         //TODO 邹神在这里处理修改用户名的网络端
     }
 
-    public void sendOutMessage(String text) {
+    public void sendOutMessage(String text, Context context) {
+
         //TODO 邹神在这里发送验证消息
     }
 }
@@ -84,7 +85,7 @@ class PersonalInfoPresenter extends BasePresenter<PersonalInfoView> {
                     public void onClick(QMUIDialog dialog, int index) {
                         final String text = editTextDialogBuilder.getEditText().getText().toString();
                         ToastTools.showToast(mContext, text);
-                        mInfoModel.sendOutMessage(text);
+                        mInfoModel.sendOutMessage(text, mContext);
                         dialog.dismiss();
                     }
                 })
@@ -93,7 +94,7 @@ class PersonalInfoPresenter extends BasePresenter<PersonalInfoView> {
 
     public void refreshName(String text) {
         mView.refreshName(text);
-        mInfoModel.refreshName(text);
+        mInfoModel.refreshName(text, mContext);
     }
 
     public void refreshBtn(String mTargetUserId) {
