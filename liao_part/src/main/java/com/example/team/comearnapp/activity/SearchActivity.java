@@ -40,9 +40,9 @@ import retrofit2.Call;
 /**
  * 搜索页面
  * 是查看用户信息（？）的入口
- *查看和群组信息（SearchResultActivity）的入口
- * */
-public class SearchActivity extends AppCompatActivity{
+ * 查看和群组信息（SearchResultActivity）的入口
+ */
+public class SearchActivity extends AppCompatActivity {
 
 
     ClearEditText mClearEditText;
@@ -54,20 +54,19 @@ public class SearchActivity extends AppCompatActivity{
     private CommonAdapter adapter_class;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_search_fragment_search);
-initViews();
-setOnClickListeners();
-searchResults();
+        initViews();
+        setOnClickListeners();
+        searchResults();
     }
 
     /**
      * 初始化view布局
      */
-    private void initViews(){
+    private void initViews() {
         ButterKnife.bind(this);
 
         mClearEditText = findViewById(R.id.clearEditText);
@@ -97,14 +96,15 @@ searchResults();
     /**
      * 设置点击事件回调
      */
-    private void setOnClickListeners(){
+    private void setOnClickListeners() {
         mClearEditText.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (mAboutGroupListView.getVisibility()==View.GONE){
+                if (mAboutGroupListView.getVisibility() == View.GONE) {
                     mRecyclerView.setAdapter(null);
                 }
             }
@@ -123,7 +123,7 @@ searchResults();
     /**
      * 根据用户输入的结果在指定范围内进行搜索
      */
-    private void searchResults(){
+    private void searchResults() {
         QMUIGroupListView.newSection(SearchActivity.this)
                 .addItemView(mAboutGroupListView.createItemView("查找学呗用户"), new View.OnClickListener() {
                     @Override
@@ -151,9 +151,9 @@ searchResults();
                     public void onClick(View v) {
                         mAboutGroupListView.setVisibility(View.GONE);
                         //搜索得到的用户列表
-                        List<Group> checksArrayList=new ArrayList<Group>();
+                        List<Group> checksArrayList = new ArrayList<Group>();
                         checksArrayList = getSearchStudyByOnselfGroups(mClearEditText.getText().toString());
-                        adapter_class=new CommonAdapter<Group>(SearchActivity.this, R.layout.class_item, checksArrayList){
+                        adapter_class = new CommonAdapter<Group>(SearchActivity.this, R.layout.class_item, checksArrayList) {
                             @Override
                             public void onBindViewHolder(ViewHolder viewHolder, int position) {
                                 super.onBindViewHolder(viewHolder, position);
@@ -166,7 +166,7 @@ searchResults();
                                 holder.getItemView().setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View view) {
-                                        Intent intent=new Intent(SearchActivity.this,SearchResultActivity.class);
+                                        Intent intent = new Intent(SearchActivity.this, SearchResultActivity.class);
                                         startActivity(intent);
                                     }
                                 });
@@ -181,24 +181,26 @@ searchResults();
 
     /**
      * 从服务器查询带有指定关键词的用户
+     *
      * @param searchstr 关键词
      * @return 用户列表
      */
-    private void doSearchUsers(String searchstr){
+    private void doSearchUsers(String searchstr) {
         Call<BaseResponse<List<User>>> searchUserCall = RetroHttpUtil.build().searchUsersCall(searchstr);
         RetroHttpUtil.sendRequest(searchUserCall, new AbstractCommonHttpCallback<BaseResponse<List<User>>>() {
             @Override
             public void onSuccess(final BaseResponse<List<User>> result) {
-                ToastUtil.ToastShortShow("查询成功！",MyApp.getGlobalContext());
+                ToastUtil.ToastShortShow("查询成功！", MyApp.getGlobalContext());
                 /**
                  * 配置搜索个人用户的列表
                  * TODO:这里应该设置无匹配项时的页面
                  */
-                adapter_user=new CommonAdapter<User>(SearchActivity.this, R.layout.user_item, result.getData()){
+                adapter_user = new CommonAdapter<User>(SearchActivity.this, R.layout.user_item, result.getData()) {
                     @Override
                     public void onBindViewHolder(ViewHolder viewHolder, int position) {
                         super.onBindViewHolder(viewHolder, position);
                     }
+
                     @Override
                     public void convert(ViewHolder holder, User user) {
                         TextView nicknameTv = holder.getItemView().findViewById(R.id.type_top_title6);
@@ -207,8 +209,6 @@ searchResults();
                         holder.getItemView().setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                Intent intent=new Intent(SearchActivity.this,SearchResultActivity.class);
-                                startActivity(intent);
                                 ARouter.getInstance().build("/wang_part/personal_info").withString("target_user_id", id).navigation();
                                 //TODO：汪工在这里跳转到他人用户信息页面
                             }
@@ -220,21 +220,23 @@ searchResults();
 
             @Override
             public void onFail() {
-                ToastUtil.ToastShortShow("查询失败！请重试！",MyApp.getGlobalContext());
+                ToastUtil.ToastShortShow("查询失败！请重试！", MyApp.getGlobalContext());
             }
         });
     }
+
     /**
      * 从服务器查询带有指定关键词的用户
+     *
      * @param searchstr 关键词
      * @return 用户列表
      */
-    private void doSearchClassGroups(String searchstr){
+    private void doSearchClassGroups(String searchstr) {
         Call<BaseResponse<List<Group>>> searchGroupsCall = RetroHttpUtil.build().searchGroupsCall(searchstr);
         RetroHttpUtil.sendRequest(searchGroupsCall, new AbstractCommonHttpCallback<BaseResponse<List<Group>>>() {
             @Override
             public void onSuccess(BaseResponse<List<Group>> result) {
-                adapter_class=new CommonAdapter<Group>(SearchActivity.this, R.layout.class_item,result.getData()){
+                adapter_class = new CommonAdapter<Group>(SearchActivity.this, R.layout.class_item, result.getData()) {
                     @Override
                     public void onBindViewHolder(ViewHolder viewHolder, int position) {
                         super.onBindViewHolder(viewHolder, position);
@@ -248,7 +250,7 @@ searchResults();
                         holder.getItemView().setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                Intent intent=new Intent(SearchActivity.this,SearchResultActivity.class);
+                                Intent intent = new Intent(SearchActivity.this, SearchResultActivity.class);
                                 startActivity(intent);
                             }
                         });
@@ -263,23 +265,26 @@ searchResults();
         });
 
     }
+
     /**
      * 从服务器查询带有指定关键词的用户
+     *
      * @param searchstr 关键词
      * @return 用户列表
      */
-    private List<Group> getSearchStudyByOnselfGroups(String searchstr){
+    private List<Group> getSearchStudyByOnselfGroups(String searchstr) {
         List<Group> resultUsers = new ArrayList<Group>();
 
         return resultUsers;
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
                 break;
-                default:
+            default:
         }
         return super.onOptionsItemSelected(item);
     }

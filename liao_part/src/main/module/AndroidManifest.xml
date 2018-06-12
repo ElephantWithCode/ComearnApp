@@ -52,7 +52,7 @@
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <data
-                    android:host="com.example.team.comearnapp"
+                    android:host="com.example.team.appshell"
                     android:pathPrefix="/conversation/"
                     android:scheme="rong" />
             </intent-filter>
