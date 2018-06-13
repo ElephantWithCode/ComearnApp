@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.support.design.widget.AppBarLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.SparseArray;
 import android.view.Menu;
 import android.view.View;
@@ -18,6 +19,10 @@ import com.alibaba.android.arouter.launcher.ARouter;
 import com.example.team.comearnlib.utils.ToastTools;
 import com.example.team.commonlibrary.base.application.MyApp;
 import com.example.team.commonlibrary.base.util.DbUtil;
+import com.example.team.commonlibrary.base.util.Retrofit.RetroHttpUtil;
+import com.example.team.commonlibrary.base.util.Retrofit.bean.BaseResponse;
+import com.example.team.commonlibrary.base.util.Retrofit.callback.AbstractCommonHttpCallback;
+import com.example.team.commonlibrary.base.util.ToastUtil;
 import com.example.team.wang_part.R;
 import com.example.team.wang.entity.GroupInfo;
 import com.example.team.wang.ui.CompoundTextLayout;
@@ -32,6 +37,8 @@ import com.qmuiteam.qmui.widget.dialog.QMUIDialogAction;
 
 import java.util.ArrayList;
 
+import retrofit2.Call;
+
 class PersonalInfoModel extends BaseModel {
     public GroupInfo[] obtainGroupInfos() {
         GroupInfo[] infos = new GroupInfo[1];
@@ -39,8 +46,8 @@ class PersonalInfoModel extends BaseModel {
         return infos;
     }
 
-    public String getTargetUerId(Intent intent){
-        if (intent != null){
+    public String getTargetUerId(Intent intent) {
+        if (intent != null) {
             Bundle infoFromNavi = intent.getExtras();
             if (infoFromNavi != null) {
                 return infoFromNavi.getString("target_user_id", "");
@@ -52,10 +59,26 @@ class PersonalInfoModel extends BaseModel {
     public void signOut() {
 
     }
+    
+    /**
+     * 修改用户名
+     * @param newName 更改后的用户名
+     */
+    public void refreshName(String newName,Context context) {
+        Call<BaseResponse<Object>> changeUsernameCall = RetroHttpUtil.build().changeUsernameCall(newName);
+        RetroHttpUtil.sendRequest(changeUsernameCall, new AbstractCommonHttpCallback<BaseResponse<Object>>() {
+            @Override
+            public void onSuccess(BaseResponse<Object> result) {
+                ToastUtil.ToastShortShow("修改成功", MyApp.getGlobalContext());
+            }
 
-    public void refreshName(String text, Context context) {
-        //TODO 邹神在这里处理修改用户名的网络端
+            @Override
+            public void onFail() {
+                ToastUtil.ToastShortShow("修改失败", MyApp.getGlobalContext());
+            }
+        });
     }
+
 
     public void sendOutMessage(String text, Context context) {
 
@@ -76,7 +99,8 @@ class PersonalInfoPresenter extends BasePresenter<PersonalInfoView> {
         mView.signOut();  // TODO 视图交互逻辑
     }
 
-    public void addFriend(){
+    public void addFriend() {
+
         final QMUIDialog.EditTextDialogBuilder editTextDialogBuilder = new QMUIDialog.EditTextDialogBuilder(mContext);
         editTextDialogBuilder
                 .setTitle("填写验证信息")
@@ -302,9 +326,9 @@ public class PersonalInfoActivity extends AppCompatActivity implements PersonalI
     @Override
     public void refreshBtn(boolean equals) {
         Button bottomBtn = (Button) mViewManager.getView(R.id.act_personal_info_nsv_btn_bottom);
-        if (!equals){
+        if (!equals) {
             bottomBtn.setText("添加好友");
-        }else {
+        } else {
             bottomBtn.setText("注销");
         }
     }

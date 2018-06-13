@@ -10,7 +10,11 @@
         android:id="@+id/group_name_tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="18sp"/>
+        android:textSize="18sp"
+
+        android:text="西电家装公司"
+        android:gravity="center_horizontal"
+        android:background="@color/white"/>
     <!--群组对话界面-->
     <fragment
         android:id="@+id/group_fragment"

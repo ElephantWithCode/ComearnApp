@@ -111,4 +111,11 @@ public interface HttpRequestInterface {
     String SEARCHGROUPS_URL = "groups/{groupName}";
     @GET(SEARCHGROUPS_URL)
     Call<BaseResponse<List<Group>>> searchGroupsCall(@Path("groupName")String groupName);
+
+    /**
+     * 以下为个人中心界面（个人中心界面api都写在这)
+     */
+    String CHANGENAME_URL = "users/{id}/information";
+    @POST(CHANGENAME_URL)
+    Call<BaseResponse<Object>> changeUsernameCall(@Path("id")String newUsername);
 }
