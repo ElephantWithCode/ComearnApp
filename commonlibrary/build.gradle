@@ -57,6 +57,11 @@ dependencies {
     api 'com.github.iwgang:countdownview:2.1.6'
     api 'com.jakewharton:butterknife:8.4.0'
     api 'com.rengwuxian.materialedittext:library:2.1.4'
+
+    api("com.mikepenz:materialdrawer:6.0.7@aar") {
+        transitive = true
+    }
+
     api rootProject.ext.router_api
 //    以下为冰淇淋导入的融云组件
     compile project(':IMKit')
