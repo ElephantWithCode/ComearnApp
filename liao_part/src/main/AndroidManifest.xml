@@ -40,7 +40,7 @@
         <activity android:name=".activity.CheckActivity" />
         <activity android:name=".activity.SearchResultActivity" />
         <activity android:name=".activity.MoreClassActivity" />
-        <activity android:name=".activity.CreatClassActivity"/>
+        <activity android:name=".activity.CreateClassActivity"/>
     </application>
 
 </manifest>

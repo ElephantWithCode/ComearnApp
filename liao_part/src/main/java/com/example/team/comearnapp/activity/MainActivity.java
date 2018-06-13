@@ -14,6 +14,9 @@ import android.widget.Toast;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.example.team.comearnapp.R;
+import com.example.team.commonlibrary.base.application.MyApp;
+import com.example.team.commonlibrary.base.util.DbUtil;
+import com.example.team.commonlibrary.base.util.ToastUtil;
 import com.github.florent37.materialviewpager.MaterialViewPager;
 import com.github.florent37.materialviewpager.header.HeaderDesign;
 import com.mikepenz.materialdrawer.AccountHeader;
@@ -30,6 +33,8 @@ import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 import com.qmuiteam.qmui.widget.dialog.QMUIBottomSheet;
 
 import butterknife.ButterKnife;
+import io.rong.imkit.RongIM;
+import io.rong.imlib.RongIMClient;
 
 public class MainActivity extends AppCompatActivity {
     /**
@@ -47,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_main);
+        connectRongServer();
         setTitle("");
         ButterKnife.bind(this);
 
@@ -136,6 +142,27 @@ public class MainActivity extends AppCompatActivity {
             });
         }
     }
+    private void connectRongServer() {
+        System.out.println("cloud_token为:"+ DbUtil.getString(MyApp.getGlobalContext(),"cloud_token","null"));
+        RongIM.connect(DbUtil.getString(MyApp.getGlobalContext(), "cloud_token", "null"), new RongIMClient.ConnectCallback() {
+            @Override
+            public void onTokenIncorrect() {
+                System.out.println("token错误!");
+            }
+
+            @Override
+            public void onSuccess(String s) {
+                ToastUtil.ToastShortShow("连接融云成功！", MyApp.getGlobalContext());
+                System.out.println("连接融云成功！");
+            }
+
+            @Override
+            public void onError(RongIMClient.ErrorCode errorCode) {
+                ToastUtil.ToastShortShow("连接融云失败！", MyApp.getGlobalContext());
+                System.out.println("连接融云失败！");
+            }
+        });
+    }
 
     private void initDrawer(Toolbar toolbar) {
         ProfileDrawerItem profileDrawerItem = new ProfileDrawerItem().withName("User").withIdentifier(9).withIcon(R.drawable.test_head_img);
@@ -209,7 +236,7 @@ public class MainActivity extends AppCompatActivity {
                                 /**
                                  * 创建群组活动
                                  */
-                                Intent intent = new Intent(MainActivity.this, CreatClassActivity.class);
+                                Intent intent = new Intent(MainActivity.this, CreateClassActivity.class);
                                 startActivity(intent);
                                 break;
                             case 1:

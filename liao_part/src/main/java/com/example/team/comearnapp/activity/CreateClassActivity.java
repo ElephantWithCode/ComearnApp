@@ -1,5 +1,6 @@
 package com.example.team.comearnapp.activity;
 
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -9,6 +10,8 @@ import android.widget.RadioButton;
 import android.widget.Toast;
 
 import com.example.team.comearnapp.R;
+import com.example.team.commonlibrary.base.util.Retrofit.bean.Friend;
+import com.example.team.commonlibrary.base.util.Retrofit.bean.User;
 import com.example.team.commonlibrary.base.util.Retrofit.bean.UserTest;
 import com.example.team.commonlibrary.base.util.Retrofit.bean.BaseResponse;
 import com.example.team.commonlibrary.base.util.Retrofit.bean.Group;
@@ -25,12 +28,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.rong.imkit.RongIM;
+import io.rong.imlib.RongIMClient;
+import io.rong.imlib.model.Conversation;
+import io.rong.imlib.model.UserInfo;
 import retrofit2.Call;
 
 /**
  * 创建群组页面
  */
-public class CreatClassActivity extends AppCompatActivity implements View.OnClickListener {
+public class CreateClassActivity extends AppCompatActivity implements View.OnClickListener, RongIM.UserInfoProvider {
 
     private RadioButton rb_Class;
     private RadioButton rb_ZiXi;
@@ -38,6 +44,7 @@ public class CreatClassActivity extends AppCompatActivity implements View.OnClic
     private QMUIRoundButton face2face_btn;
     private MaterialEditText class_name;
     private MaterialEditText class_information;
+    private List<User> userList;
     /**
      * 建立的群组id
      */
@@ -47,7 +54,8 @@ public class CreatClassActivity extends AppCompatActivity implements View.OnClic
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_creat_class);
-        StatusBarUtil.setColor(CreatClassActivity.this, getResources().getColor(R.color.green), 50);
+        initUserInfo();
+        StatusBarUtil.setColor(CreateClassActivity.this, getResources().getColor(R.color.green), 50);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("创建群组");
@@ -112,14 +120,16 @@ public class CreatClassActivity extends AppCompatActivity implements View.OnClic
                             groupId = result.getData().getGroupId();
                             if (RongIM.getInstance() != null) {
                                 //第一个参数必须是配置了AndroidManifest.xml参数的活动，实现Fragment的隐式跳转
-                                RongIM.getInstance().startGroupChat(CreatClassActivity.this,groupId,class_name.getText().toString());
+//                                RongIM.getInstance().startConversation(CreateClassActivity.this, Conversation.ConversationType.GROUP,groupId,class_name.getText().toString());
+//                                RongIM.getInstance().startGroupChat(MyApp.getGlobalContext(),groupId,class_name.getText().toString());
+                                RongIM.getInstance().startPrivateChat(CreateClassActivity.this, "5ac38bbe60b27023703e0ec7", "title");
                             }
                             Toast.makeText(getApplicationContext(), "创建成功", Toast.LENGTH_SHORT).show();
                         }
 
                         @Override
                         public void onFail() {
-                            ToastUtil.ToastShortShow("建群失败",CreatClassActivity.this);
+                            ToastUtil.ToastShortShow("建群失败", CreateClassActivity.this);
                         }
                     });
 
@@ -141,6 +151,36 @@ public class CreatClassActivity extends AppCompatActivity implements View.OnClic
 
 
     }
+
+    private void initUserInfo() {
+        userList = new ArrayList<>();
+        User user1 = new User();
+        user1.setId("5ab6738260b20797b26114e7");
+        userList.add(user1);
+        User user2 = new User();
+        user2.setId("5ac38bbe60b27023703e0ec7");
+        userList.add(user2);
+        RongIM.setUserInfoProvider(this, true);
+    }
+
+    /**
+     * s代表userId
+     *
+     * @param s
+     * @return
+     */
+    @Override
+    public UserInfo getUserInfo(String s) {
+        int k = 0;
+        for (User i : userList) {
+            if (i.getId().equals(s)) {
+                k++;
+                return new UserInfo(i.getId(), "汪神" + k + "", Uri.parse("http://www.51zxw.net/bbs/UploadFile/2013-4/201341122335711220.jpg"));
+            }
+        }
+        return null;
+    }
+
 }
 /**
  * 内测用户id信息
