@@ -70,6 +70,9 @@ android {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation project(':commonlibrary')
+    implementation project(':comearnlib')
+
+
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     annotationProcessor 'com.github.mzule.activityrouter:compiler:1.1.7'
     implementation 'com.github.bumptech.glide:glide:4.0.0'

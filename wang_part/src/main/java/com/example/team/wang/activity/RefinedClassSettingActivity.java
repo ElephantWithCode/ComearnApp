@@ -105,6 +105,7 @@ public class RefinedClassSettingActivity extends AppCompatActivity implements Re
     private QMUICommonListItemView mSpotItemView;
     private QMUICommonListItemView mStartItemView;
     private QMUICommonListItemView mLastItemView;
+    private QMUICommonListItemView mLectureItemView;
 
 
     @Override
@@ -132,6 +133,8 @@ public class RefinedClassSettingActivity extends AppCompatActivity implements Re
 
                 builder.triggerCountDown();
 
+                setReturnResult();
+
                 finish();
 
                 Log.d("RCSA", "class stop time" + builder.getClassStopCalendar().toString() +
@@ -142,6 +145,9 @@ public class RefinedClassSettingActivity extends AppCompatActivity implements Re
 
         mSpotItemView = mGroupListView.createItemView("地点");
         mSpotItemView.setDetailText("信远楼#311");
+
+        mLectureItemView = mGroupListView.createItemView("名称");
+        mLectureItemView.setDetailText("模拟电子技术");
 
         mStartItemView = mGroupListView.createItemView("开始时间");
         mStartItemView.setText("开始时间");
@@ -176,7 +182,7 @@ public class RefinedClassSettingActivity extends AppCompatActivity implements Re
         };
 
         mSpotSection = new QMUIGroupListView.Section(this);
-        mSpotSection.setTitle("活动地点");
+        mSpotSection.setTitle("活动信息");
         mSpotSection.setDescription("   ");
 
         mTimeSection = new QMUIGroupListView.Section(this);
@@ -193,6 +199,16 @@ public class RefinedClassSettingActivity extends AppCompatActivity implements Re
         mTimeSection.addTo(mGroupListView);
 
         mPresenter.showFinishButton();
+    }
+
+    private void setReturnResult() {
+        Intent lectureInfo = new Intent();
+        lectureInfo.putExtra("spot", mSpotItemView.getText());
+        lectureInfo.putExtra("name", mLectureItemView.getText());
+        lectureInfo.putExtra("start_time", mStartItemView.getText());
+        lectureInfo.putExtra("last_time", mLastItemView.getText());
+
+        RefinedClassSettingActivity.this.setResult(1, lectureInfo);
     }
 
     public void setToolbar() {

@@ -1,5 +1,7 @@
 package com.example.team.comearnapp.activity;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -19,12 +21,16 @@ import android.widget.Toast;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.example.team.comearnapp.R;
+import com.example.team.comearnlib.base.mvp_mode.base_model.BaseModel;
+import com.example.team.comearnlib.base.mvp_mode.base_presenter.BasePresenter;
+import com.example.team.comearnlib.base.mvp_mode.base_view.IBaseView;
 import com.qmuiteam.qmui.widget.dialog.QMUIBottomSheet;
 import com.qmuiteam.qmui.widget.dialog.QMUIDialog;
 import com.qmuiteam.qmui.widget.dialog.QMUIDialogAction;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * 已加入的群组信息页面
@@ -33,7 +39,38 @@ import java.util.List;
  *  是群组更改群名、群公告、群信息、设置白名单、查看验证消息的入口
  * */
 
-public class ClassDetailActivity extends AppCompatActivity {
+
+class ClassDetailModel extends BaseModel{
+
+    public Object getClassDetailInfo() {
+        //TODO 邹神这里返回一个班级信息（包含群名、群公告、群信息、白名单、验证消息、成员（需包含成员身份）、参与度、排名、自习活动（详细信息：包括时间、日期、地点、课名、以及活动的Icon））
+        //TODO PPS：可单独获取，也可以JavaBean形式获得。
+        return null;
+    }
+
+    public void updateClassDetailInfo(){
+
+    }
+}
+
+interface ClassDetailView extends IBaseView {
+
+    void refreshView(Object sth);
+}
+
+class ClassDetailPresenter extends BasePresenter<ClassDetailView>{
+    private ClassDetailModel mModel = new ClassDetailModel();
+
+    void refreshInfo(){
+        mView.refreshView(mModel.getClassDetailInfo());
+    }
+
+    void updateInfo(){
+        mModel.updateClassDetailInfo();
+    }
+}
+
+public class ClassDetailActivity extends AppCompatActivity implements ClassDetailView{
     TextView notice_tv;
     ViewPager viewPager;
     private boolean optionMenuOn = false;  //标示是否要显示optionmenu
@@ -86,6 +123,16 @@ public class ClassDetailActivity extends AppCompatActivity {
 //        for (int i = 0; i < bmb.getPiecePlaceEnum().pieceNumber(); i++) {
 //            bmb.addBuilder(builder);
 //        }
+    }
+
+    @Override
+    public Context getContext() {
+        return this;
+    }
+
+    @Override
+    public void refreshView(Object sth) {
+
     }
 
     static class ViewPagerAdapter extends FragmentPagerAdapter {
@@ -170,7 +217,7 @@ public class ClassDetailActivity extends AppCompatActivity {
                                 break;
                             case 3:
                                 //TODO:汪工在这里跳转到设置白名单页面
-                                ARouter.getInstance().build("/wang_part/white_list").navigation();
+                                ARouter.getInstance().build("/wang_part/white_list").navigation(ClassDetailActivity.this, 1);
                                 break;
                             case 4:
                                 break;
@@ -183,6 +230,19 @@ public class ClassDetailActivity extends AppCompatActivity {
                 .build().show();
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 1 && resultCode == RESULT_OK){
+            Bundle info = data.getExtras();
+            info.getString("spot");
+            info.getString("name");
+            info.getString("start_time");
+            info.getString("last_time");
+
+            //TODO 处理传回来的数据 如刷新，上传至服务器
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
 
     private void showEditNoticeDialog() {
         final QMUIDialog.EditTextDialogBuilder builder = new QMUIDialog.EditTextDialogBuilder(ClassDetailActivity.this);
