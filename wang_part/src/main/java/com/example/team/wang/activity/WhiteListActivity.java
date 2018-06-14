@@ -70,6 +70,7 @@ public class WhiteListActivity extends AppCompatActivity implements WhiteListBas
 
     }
 
+
     private void prepareModel() {
         mWhiteListModel.attach(this);
     }

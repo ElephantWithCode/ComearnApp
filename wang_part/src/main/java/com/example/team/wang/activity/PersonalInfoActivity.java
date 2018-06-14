@@ -32,6 +32,7 @@ import com.example.team.comearnlib.base.mvp_mode.base_presenter.BasePresenter;
 import com.example.team.comearnlib.base.mvp_mode.base_view.IBaseView;
 import com.example.team.personalspacelib.test.DefaultCustomCardView;
 import com.example.team.personalspacelib.test.DefaultCustomCollapsingToolbarLayout;
+import com.jaeger.library.StatusBarUtil;
 import com.qmuiteam.qmui.widget.dialog.QMUIDialog;
 import com.qmuiteam.qmui.widget.dialog.QMUIDialogAction;
 
@@ -198,6 +199,9 @@ public class PersonalInfoActivity extends AppCompatActivity implements PersonalI
         setContentView(R.layout.activity_personal_info);
 
 //        QMUIStatusBarHelper.translucent(this); //沉浸式状态栏
+
+
+        StatusBarUtil.setColor(PersonalInfoActivity.this, getResources().getColor(R.color.green), 50);
 
         attachWidgets();
 

@@ -1,6 +1,7 @@
 package com.example.team.comearnapp.activity;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -18,6 +19,17 @@ import com.example.team.commonlibrary.base.util.DbUtil;
 import com.example.team.commonlibrary.base.util.ToastUtil;
 import com.github.florent37.materialviewpager.MaterialViewPager;
 import com.github.florent37.materialviewpager.header.HeaderDesign;
+import com.mikepenz.materialdrawer.AccountHeader;
+import com.mikepenz.materialdrawer.AccountHeaderBuilder;
+import com.mikepenz.materialdrawer.Drawer;
+import com.mikepenz.materialdrawer.DrawerBuilder;
+import com.mikepenz.materialdrawer.model.DividerDrawerItem;
+import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
+import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
+import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
+import com.mikepenz.materialdrawer.model.SectionDrawerItem;
+import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
+import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 import com.qmuiteam.qmui.widget.dialog.QMUIBottomSheet;
 
 import butterknife.ButterKnife;
@@ -34,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     MaterialViewPager mViewPager;
+    private Drawer mDrawer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,8 +56,12 @@ public class MainActivity extends AppCompatActivity {
         setTitle("");
         ButterKnife.bind(this);
 
+
         mViewPager = (MaterialViewPager) findViewById(R.id.materialViewPager);
         final Toolbar toolbar = mViewPager.getToolbar();
+
+        initDrawer(toolbar);
+
         if (toolbar != null) {
             setSupportActionBar(toolbar);
             toolbar.setNavigationIcon(R.drawable.drawer);
@@ -53,7 +70,8 @@ public class MainActivity extends AppCompatActivity {
                 public void onClick(View view) {
                     //TODO：汪工在这里实现侧滑栏
                     Toast.makeText(getApplicationContext(), "我是侧滑栏，啦啦啦！", Toast.LENGTH_SHORT).show();
-                    ARouter.getInstance().build("/wang_part/personal_info").navigation();
+                    mDrawer.openDrawer();
+//                    ARouter.getInstance().build("/wang_part/personal_info").navigation();
                 }
             });
         }
@@ -119,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     mViewPager.notifyHeaderChanged();
-                    Toast.makeText(getApplicationContext(), "骚年，学习不？", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "学习不？", Toast.LENGTH_SHORT).show();
                 }
             });
         }
@@ -144,6 +162,47 @@ public class MainActivity extends AppCompatActivity {
                 System.out.println("连接融云失败！");
             }
         });
+    }
+
+    private void initDrawer(Toolbar toolbar) {
+        ProfileDrawerItem profileDrawerItem = new ProfileDrawerItem().withName("User").withIdentifier(9).withIcon(R.drawable.test_head_img);
+        PrimaryDrawerItem primaryDrawerItem = new PrimaryDrawerItem().withIdentifier(10).withIcon(R.drawable.ic_launcher).withName("Test");
+        AccountHeader accountHeaderBuilder = new AccountHeaderBuilder().withActivity(MainActivity.this).withHeaderBackground(R.drawable.ic_launcher_background).addProfiles(profileDrawerItem)
+                .withOnAccountHeaderProfileImageListener(new AccountHeader.OnAccountHeaderProfileImageListener() {
+                    @Override
+                    public boolean onProfileImageClick(View view, IProfile profile, boolean current) {
+                        ARouter.getInstance().build("/wang_part/personal_info").navigation();
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onProfileImageLongClick(View view, IProfile profile, boolean current) {
+                        return false;
+                    }
+                })
+                .withSelectionListEnabledForSingleProfile(false).build();
+
+        mDrawer = new DrawerBuilder().withActivity(MainActivity.this).withAccountHeader(accountHeaderBuilder).withToolbar(toolbar).build();
+        mDrawer.addItems(primaryDrawerItem, new DividerDrawerItem());
+        SectionDrawerItem sectionDrawerItem = new SectionDrawerItem().withDivider(true).withSelectable(false).withSubItems(
+                new PrimaryDrawerItem().withIdentifier(1).withIcon(R.drawable.ic_launcher).withName("Test"),
+                new PrimaryDrawerItem().withIdentifier(2).withIcon(R.drawable.ic_launcher).withName("Test"),
+                new PrimaryDrawerItem().withIdentifier(3).withIcon(R.drawable.ic_launcher).withName("Test"));
+        mDrawer.addItems(
+                new SecondaryDrawerItem(),
+                new PrimaryDrawerItem().withIdentifier(1).withIcon(R.drawable.ic_launcher).withName("Test"),
+                new PrimaryDrawerItem().withIdentifier(2).withIcon(R.drawable.ic_launcher).withName("Test"),
+                new PrimaryDrawerItem().withIdentifier(3).withIcon(R.drawable.ic_launcher).withName("Test"));
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (mDrawer.isDrawerOpen()){
+            mDrawer.closeDrawer();
+        }else {
+            super.onBackPressed();
+        }
     }
 
     //生成菜单
