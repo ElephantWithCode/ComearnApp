@@ -19,6 +19,7 @@ import com.alibaba.android.arouter.launcher.ARouter;
 import com.example.team.comearnlib.utils.ToastTools;
 import com.example.team.commonlibrary.base.application.MyApp;
 import com.example.team.commonlibrary.base.util.DbUtil;
+import com.example.team.commonlibrary.base.util.MapGenerator;
 import com.example.team.commonlibrary.base.util.Retrofit.RetroHttpUtil;
 import com.example.team.commonlibrary.base.util.Retrofit.bean.BaseResponse;
 import com.example.team.commonlibrary.base.util.Retrofit.callback.AbstractCommonHttpCallback;
@@ -65,7 +66,8 @@ class PersonalInfoModel extends BaseModel {
      * @param newName 更改后的用户名
      */
     public void refreshName(String newName,Context context) {
-        Call<BaseResponse<Object>> changeUsernameCall = RetroHttpUtil.build().changeUsernameCall(newName);
+        Call<BaseResponse<Object>> changeUsernameCall = RetroHttpUtil.build().changeUsernameCall(DbUtil.getString(MyApp.getGlobalContext(),"user_id","null"), MapGenerator.generate().add("username",newName));
+        System.out.println("refreshName:"+DbUtil.getString(MyApp.getGlobalContext(),"user_id","null"));
         RetroHttpUtil.sendRequest(changeUsernameCall, new AbstractCommonHttpCallback<BaseResponse<Object>>() {
             @Override
             public void onSuccess(BaseResponse<Object> result) {

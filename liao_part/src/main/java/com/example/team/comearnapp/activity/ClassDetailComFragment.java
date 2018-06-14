@@ -19,12 +19,20 @@ import android.widget.Toast;
 import com.example.team.comearnapp.R;
 import com.example.team.comearnapp.util.RecyclerViewCommonTool.CommonAdapter;
 import com.example.team.comearnapp.util.RecyclerViewCommonTool.ViewHolder;
+import com.example.team.commonlibrary.base.util.MapGenerator;
+import com.example.team.commonlibrary.base.util.Retrofit.RetroHttpUtil;
+import com.example.team.commonlibrary.base.util.Retrofit.bean.BaseResponse;
+import com.example.team.commonlibrary.base.util.Retrofit.callback.AbstractCommonHttpCallback;
+import com.example.team.commonlibrary.base.util.ToastUtil;
 import com.github.florent37.materialviewpager.header.MaterialViewPagerHeaderDecorator;
 import com.qmuiteam.qmui.widget.dialog.QMUIDialog;
 import com.qmuiteam.qmui.widget.dialog.QMUIDialogAction;
 import com.suke.widget.SwitchButton;
 
 import java.util.ArrayList;
+import java.util.Map;
+
+import retrofit2.Call;
 
 /**
  * 已加入的群组信息页面的综合Fragment
@@ -32,6 +40,7 @@ import java.util.ArrayList;
  * 是查看考勤记录（CheckActivity）的入口
  * 可以设置群组为特别关注
  * 是自习活动的入口
+ * TODO:廖姐姐写的代码是真的丑，命名规范什么的完全没有在意，onCreatView不能积累太多代码没有注意，low
  * */
 public class ClassDetailComFragment extends Fragment implements View.OnClickListener {
 //    RecyclerListAdapter mListAdapter;
@@ -40,7 +49,11 @@ public class ClassDetailComFragment extends Fragment implements View.OnClickList
     static class check{
 
     }
-    TextView user_name_tv;
+
+    /**
+     * 群组名
+     */
+    TextView tvGroupName;
     SwitchButton focus_sb;
     RecyclerView mRecyclerView;
     public ClassDetailComFragment() {
@@ -61,7 +74,8 @@ public class ClassDetailComFragment extends Fragment implements View.OnClickList
         focus_sb = (SwitchButton) view.findViewById(R.id.focus_sb);
         ImageView check_record_iv = (ImageView) view.findViewById(R.id.check_record_iv);
         ImageView change_name_iv = (ImageView) view.findViewById(R.id.change_name_iv);
-        user_name_tv = (TextView) view.findViewById(R.id.user_name_tv);
+        tvGroupName = (TextView) view.findViewById(R.id.group_name_tv);
+        tvGroupName.setText(getActivity().getIntent().getStringExtra("groupName"));
         TextView notice_tv = (TextView) view.findViewById(R.id.notice_tv);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.act_class_detail_activity_rv);
         change_name_iv.setOnClickListener(this);
@@ -145,8 +159,19 @@ public class ClassDetailComFragment extends Fragment implements View.OnClickList
                     public void onClick(QMUIDialog dialog, int index) {
                         CharSequence text = builder.getEditText().getText();
                         if (text != null && text.length() > 0) {
-                            Toast.makeText(getActivity(), "您的昵称: " + text, Toast.LENGTH_SHORT).show();
-                            user_name_tv.setText(text);
+                            Call<BaseResponse<Object>> changeGroupNameCall = RetroHttpUtil.build().changeGroupNameCall(getActivity().getIntent().getStringExtra("groupId"), MapGenerator.generate().add("groupName",text.toString()));
+                            RetroHttpUtil.sendRequest(changeGroupNameCall, new AbstractCommonHttpCallback<BaseResponse<Object>>() {
+                                @Override
+                                public void onSuccess(BaseResponse<Object> result) {
+                                    tvGroupName.setText(builder.getEditText().getText());
+                                    ToastUtil.ToastShortShow("修改成功",getActivity());
+                                }
+
+                                @Override
+                                public void onFail() {
+                                    ToastUtil.ToastShortShow("修改失败",getActivity());
+                                }
+                            });
                             dialog.dismiss();
                         } else {
                             Toast.makeText(getActivity(), "请填入昵称", Toast.LENGTH_SHORT).show();

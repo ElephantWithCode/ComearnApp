@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.example.team.comearnapp.R;
 import com.example.team.commonlibrary.base.application.MyApp;
+import com.example.team.commonlibrary.base.util.MapGenerator;
 import com.example.team.commonlibrary.base.util.Retrofit.RetroHttpUtil;
 import com.example.team.commonlibrary.base.util.Retrofit.bean.BaseResponse;
 import com.example.team.commonlibrary.base.util.Retrofit.bean.Group;
@@ -151,7 +152,7 @@ public class SearchActivity extends AppCompatActivity {
                     public void onClick(View v) {
                         mAboutGroupListView.setVisibility(View.GONE);
                         //搜索得到的用户列表
-                        List<Group> checksArrayList = new ArrayList<Group>();
+                        List<Group> checksArrayList;
                         checksArrayList = getSearchStudyByOnselfGroups(mClearEditText.getText().toString());
                         adapter_class = new CommonAdapter<Group>(SearchActivity.this, R.layout.class_item, checksArrayList) {
                             @Override
@@ -186,7 +187,7 @@ public class SearchActivity extends AppCompatActivity {
      * @return 用户列表
      */
     private void doSearchUsers(String searchstr) {
-        Call<BaseResponse<List<User>>> searchUserCall = RetroHttpUtil.build().searchUsersCall(searchstr);
+        Call<BaseResponse<List<User>>> searchUserCall = RetroHttpUtil.build().searchUsersCall(MapGenerator.generate().add("username",searchstr));
         RetroHttpUtil.sendRequest(searchUserCall, new AbstractCommonHttpCallback<BaseResponse<List<User>>>() {
             @Override
             public void onSuccess(final BaseResponse<List<User>> result) {
@@ -232,7 +233,7 @@ public class SearchActivity extends AppCompatActivity {
      * @return 用户列表
      */
     private void doSearchClassGroups(String searchstr) {
-        Call<BaseResponse<List<Group>>> searchGroupsCall = RetroHttpUtil.build().searchGroupsCall(searchstr);
+        Call<BaseResponse<List<Group>>> searchGroupsCall = RetroHttpUtil.build().searchGroupsCall(MapGenerator.generate().add("groupName",searchstr));
         RetroHttpUtil.sendRequest(searchGroupsCall, new AbstractCommonHttpCallback<BaseResponse<List<Group>>>() {
             @Override
             public void onSuccess(BaseResponse<List<Group>> result) {
