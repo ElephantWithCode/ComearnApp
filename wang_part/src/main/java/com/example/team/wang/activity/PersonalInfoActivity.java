@@ -3,7 +3,9 @@ package com.example.team.wang.activity;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.net.Uri;
 import android.support.design.widget.AppBarLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,6 +15,7 @@ import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
@@ -85,6 +88,10 @@ class PersonalInfoModel extends BaseModel {
 
         //TODO 邹神在这里发送验证消息
     }
+
+    public void uploadHeadPortrait(){
+
+    }
 }
 
 class PersonalInfoPresenter extends BasePresenter<PersonalInfoView> {
@@ -124,6 +131,11 @@ class PersonalInfoPresenter extends BasePresenter<PersonalInfoView> {
 
     public void refreshBtn(String mTargetUserId) {
         mView.refreshBtn(mTargetUserId.equals(mInfoModel.getThisUerId()));
+    }
+
+    public void updateHeadPortrait(){
+        mView.selectHeadImage();
+        mInfoModel.uploadHeadPortrait();
     }
 }
 
@@ -182,11 +194,17 @@ interface PersonalInfoView extends IBaseView {
     void refreshName(String text);
 
     void refreshBtn(boolean equals);
+
+    void selectHeadImage();
+
+    void updatePortrait(Uri uri);
 }
 
 @Route(path = "/wang_part/personal_info")
 public class PersonalInfoActivity extends AppCompatActivity implements PersonalInfoView {
 
+    private static final int FOR_CROP = 100;
+    public static final String PORTRAIT_IMAGE = "portrait_image";
     private PersonalInfoModel mInfoModel = new PersonalInfoModel();
     private WidgetsManager mViewManager = new WidgetsManager();
     private PersonalInfoPresenter mPresenter = new PersonalInfoPresenter();
@@ -249,6 +267,12 @@ public class PersonalInfoActivity extends AppCompatActivity implements PersonalI
                         .show();
             }
         });
+        mViewManager.getView("clps_bg").findViewById(R.id.act_personal_info_c_bg_ci_portrait).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPresenter.updateHeadPortrait();
+            }
+        });
     }
 
     private void initUI() {
@@ -294,6 +318,17 @@ public class PersonalInfoActivity extends AppCompatActivity implements PersonalI
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == FOR_CROP && resultCode == RESULT_OK){
+            if (data != null){
+                Uri uri = data.getParcelableExtra(PORTRAIT_IMAGE);
+                updatePortrait(uri);
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
     public Context getContext() {
         return this;
     }
@@ -335,5 +370,16 @@ public class PersonalInfoActivity extends AppCompatActivity implements PersonalI
         } else {
             bottomBtn.setText("注销");
         }
+    }
+
+    @Override
+    public void selectHeadImage() {
+//        startActivityForResult(new Intent(this, CropperActivity.class), FOR_CROP); TODO: 等待头像裁剪部分接入
+        ToastTools.showToast(this, "修改头像。");
+    }
+
+    @Override
+    public void updatePortrait(Uri uri) {
+        ((ImageView)mViewManager.getView("clps_bg").findViewById(R.id.act_personal_info_c_bg_ci_portrait)).setImageURI(uri);
     }
 }
