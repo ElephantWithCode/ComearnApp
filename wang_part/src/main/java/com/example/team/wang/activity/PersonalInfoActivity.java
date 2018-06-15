@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -53,11 +54,11 @@ class PersonalInfoModel extends BaseModel {
     public String getTargetUerId(Intent intent) {
         if (intent != null) {
             Bundle infoFromNavi = intent.getExtras();
-            if (infoFromNavi != null) {
+            if (infoFromNavi != null && !infoFromNavi.isEmpty()) {
                 return infoFromNavi.getString("target_user_id", "");
             }
         }
-        return "";
+        return getThisUerId();
     }
 
     public void signOut() {
@@ -97,6 +98,9 @@ class PersonalInfoModel extends BaseModel {
 class PersonalInfoPresenter extends BasePresenter<PersonalInfoView> {
     private PersonalInfoModel mInfoModel = new PersonalInfoModel();
 
+    public boolean isUser = true;
+
+
     public void fetchGroupInfos() {
         GroupInfo[] infos = mInfoModel.obtainGroupInfos();
         mView.inflateGroupList(infos);
@@ -129,8 +133,13 @@ class PersonalInfoPresenter extends BasePresenter<PersonalInfoView> {
         mInfoModel.refreshName(text, mContext);
     }
 
+    /**
+     * 同时记录下了是不是本用户
+     * @param mTargetUserId
+     */
     public void refreshBtn(String mTargetUserId) {
-        mView.refreshBtn(mTargetUserId.equals(mInfoModel.getThisUerId()));
+        isUser = mTargetUserId.equals(mInfoModel.getThisUerId());
+        mView.refreshBtn(isUser);
     }
 
     public void updateHeadPortrait(){
@@ -205,6 +214,7 @@ public class PersonalInfoActivity extends AppCompatActivity implements PersonalI
 
     private static final int FOR_CROP = 100;
     public static final String PORTRAIT_IMAGE = "portrait_image";
+    private static final int FOR_INFO = 101;
     private PersonalInfoModel mInfoModel = new PersonalInfoModel();
     private WidgetsManager mViewManager = new WidgetsManager();
     private PersonalInfoPresenter mPresenter = new PersonalInfoPresenter();
@@ -232,11 +242,6 @@ public class PersonalInfoActivity extends AppCompatActivity implements PersonalI
         mPresenter.fetchGroupInfos();
 
         mPresenter.refreshBtn(mTargetUserId);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        return super.onCreateOptionsMenu(menu);
     }
 
     private void initListeners() {
@@ -317,12 +322,39 @@ public class PersonalInfoActivity extends AppCompatActivity implements PersonalI
         mPresenter.detachView();
     }
 
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.act_on_class_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.act_on_class_item_edit){
+            startActivityForResult(new Intent(this, ModifyPersonalInfoActivity.class), FOR_INFO);
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        menu.getItem(0).setVisible(mPresenter.isUser);
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == FOR_CROP && resultCode == RESULT_OK){
             if (data != null){
                 Uri uri = data.getParcelableExtra(PORTRAIT_IMAGE);
                 updatePortrait(uri);
+            }
+        }
+        else if (requestCode == FOR_INFO && resultCode == RESULT_OK){
+            if (data != null){
+                //TODO 获得修改后的信息
             }
         }
         super.onActivityResult(requestCode, resultCode, data);

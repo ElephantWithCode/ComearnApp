@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.example.team.wang.activity.AddFriendActivity">
+    <com.qmuiteam.qmui.widget.QMUITopBar
+        android:id="@+id/act_add_friend_top_bar"
+        app:qmui_topbar_bg_color="@color/colorPrimary"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/qmui_topbar_height">
+    </com.qmuiteam.qmui.widget.QMUITopBar>
+
+    <RelativeLayout
+        android:background="@color/white"
+        android:id="@+id/act_add_friend_rl_personal_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/act_add_friend_top_bar">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/act_add_friend_rl_personal_info_ci"
+            android:layout_width="@dimen/height_and_width_100_dp_ci"
+            android:layout_height="@dimen/height_and_width_100_dp_ci"
+            android:src="@drawable/wyy_example_head"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginBottom="17dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="17dp" />
+
+        <TextView
+            android:id="@+id/act_add_friend_rl_personal_info_tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/act_add_friend_rl_personal_info_ci"
+            android:layout_marginStart="@dimen/list_item_textSize_title"
+            android:layout_toEndOf="@+id/act_add_friend_rl_personal_info_ci"
+            android:text="用户姓名"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_margin="2dp"
+        android:background="@color/hint_color_gray"/>
+
+    <com.rengwuxian.materialedittext.MaterialEditText
+        android:background="@color/white"
+        android:id="@+id/act_add_friend_et_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/act_add_friend_rl_personal_info"
+        android:layout_marginTop="24dp"
+        android:hint="输入验证消息"
+        android:padding="5dp"
+        android:layout_margin="10dp"
+        app:met_primaryColor="@color/hint_color_gray"
+        app:met_underlineColor="@color/white" />
+
+</LinearLayout>
