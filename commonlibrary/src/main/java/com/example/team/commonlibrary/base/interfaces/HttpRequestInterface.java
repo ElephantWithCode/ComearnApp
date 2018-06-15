@@ -13,7 +13,9 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
+import retrofit2.http.QueryMap;
 
 /**
  * Created by 邹特强 on 2018/4/2.
@@ -101,21 +103,42 @@ public interface HttpRequestInterface {
      * 用户搜索界面;TODO：这个等待cto改url
      * TODO:BaseResponse<List<User>>可能出问题
      */
-    String SEARCHUSERS_URL = "users/{name}";
+    String SEARCHUSERS_URL = "selection/users";
+
+    /**
+     * @param userName 传入用户名
+     */
     @GET(SEARCHUSERS_URL)
-    Call<BaseResponse<List<User>>> searchUsersCall(@Path("name") String nickname);
+    Call<BaseResponse<List<User>>> searchUsersCall(@QueryMap MapGenerator userName);
 
     /**
      * 群组搜索界面
      */
-    String SEARCHGROUPS_URL = "groups/{groupName}";
+    String SEARCHGROUPS_URL = "selction/groups";
+
+    /**
+     * @param groupName 传入群组名
+     */
     @GET(SEARCHGROUPS_URL)
-    Call<BaseResponse<List<Group>>> searchGroupsCall(@Path("groupName")String groupName);
+    Call<BaseResponse<List<Group>>> searchGroupsCall(@QueryMap MapGenerator groupName);
+
+    /**
+     * 修改群昵称
+     */
+    String CHANGEGROUPNAME_URL = "groups/{groupId}/name";
+    @PUT(CHANGEGROUPNAME_URL)
+    Call<BaseResponse<Object>> changeGroupNameCall(@Path("groupId") String groupId, @Body MapGenerator groupName);
 
     /**
      * 以下为个人中心界面（个人中心界面api都写在这)
      */
     String CHANGENAME_URL = "users/{id}/information";
+
+    /**
+     * @param userId      用户的id
+     * @param newUserName 用户的新昵称
+     */
     @POST(CHANGENAME_URL)
-    Call<BaseResponse<Object>> changeUsernameCall(@Path("id")String newUsername);
+    Call<BaseResponse<Object>> changeUsernameCall(@Path("id") String userId, @Body MapGenerator newUserName);
+
 }
