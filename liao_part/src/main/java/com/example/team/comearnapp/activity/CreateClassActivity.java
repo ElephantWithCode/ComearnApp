@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.rong.imkit.RongIM;
+import io.rong.imkit.model.GroupUserInfo;
 import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
 import io.rong.imlib.model.UserInfo;
@@ -36,7 +37,7 @@ import retrofit2.Call;
 /**
  * 创建群组页面
  */
-public class CreateClassActivity extends AppCompatActivity implements View.OnClickListener, RongIM.UserInfoProvider {
+public class CreateClassActivity extends AppCompatActivity implements View.OnClickListener, RongIM.UserInfoProvider,RongIM.GroupUserInfoProvider,RongIM.GroupInfoProvider {
 
     private RadioButton rb_Class;
     private RadioButton rb_ZiXi;
@@ -45,6 +46,8 @@ public class CreateClassActivity extends AppCompatActivity implements View.OnCli
     private MaterialEditText class_name;
     private MaterialEditText class_information;
     private List<User> userList;
+    private List<User> groupUserList;
+    private Group mGroup;
     /**
      * 建立的群组id
      */
@@ -108,21 +111,18 @@ public class CreateClassActivity extends AppCompatActivity implements View.OnCli
                 userTest.setGroupInformation(class_information.getText().toString());
                 userTest.setUserTemps(userIdList);
                 if (DbUtil.contains(MyApp.getGlobalContext(), "user_id")) {
-                    //MapGenerator.generate()
-//                            .add("uuid", DbUtil.getString(MyApp.getGlobalContext(), "user_id", "null"))
-//                            .add("groupName", class_name.getText().toString())
-//                            .add("groupInformation", class_information.getText().toString())
-//                            .add("userTemp", userIdList)
                     final Call<BaseResponse<Group>> groupCall = RetroHttpUtil.build().createGroupCall(userTest);
                     RetroHttpUtil.sendRequest(groupCall, new AbstractCommonHttpCallback<BaseResponse<Group>>() {
                         @Override
                         public void onSuccess(BaseResponse<Group> result) {
                             groupId = result.getData().getGroupId();
                             if (RongIM.getInstance() != null) {
-                                //第一个参数必须是配置了AndroidManifest.xml参数的活动，实现Fragment的隐式跳转
-//                                RongIM.getInstance().startConversation(CreateClassActivity.this, Conversation.ConversationType.GROUP,groupId,class_name.getText().toString());
-//                                RongIM.getInstance().startGroupChat(MyApp.getGlobalContext(),groupId,class_name.getText().toString());
-                                RongIM.getInstance().startPrivateChat(CreateClassActivity.this, "5ac38bbe60b27023703e0ec7", "title");
+                                /**
+                                 * 请求融云前设置好群组用户信息提供者
+                                 */
+                                initGroupInfo();
+                                initGroupUserInfo(result.getData());
+                                RongIM.getInstance().startConversation(CreateClassActivity.this, Conversation.ConversationType.GROUP,groupId,class_name.getText().toString());
                             }
                             Toast.makeText(getApplicationContext(), "创建成功", Toast.LENGTH_SHORT).show();
                         }
@@ -152,6 +152,9 @@ public class CreateClassActivity extends AppCompatActivity implements View.OnCli
 
     }
 
+    /**
+     * 初始化用户信息，用于单聊
+     */
     private void initUserInfo() {
         userList = new ArrayList<>();
         User user1 = new User();
@@ -161,6 +164,19 @@ public class CreateClassActivity extends AppCompatActivity implements View.OnCli
         user2.setId("5ac38bbe60b27023703e0ec7");
         userList.add(user2);
         RongIM.setUserInfoProvider(this, true);
+    }
+    /**
+     * 初始化群组id信息
+     */
+    private void initGroupInfo(){
+        RongIM.setGroupInfoProvider(this,true);
+    }
+    /**
+     * 初始化群组用户信息，用于群聊
+     */
+    private void initGroupUserInfo(Group group){
+        groupUserList = group.getUsers();
+        RongIM.setGroupUserInfoProvider(this,true);
     }
 
     /**
@@ -181,6 +197,28 @@ public class CreateClassActivity extends AppCompatActivity implements View.OnCli
         return null;
     }
 
+    @Override
+    public GroupUserInfo getGroupUserInfo(String groupId, String userId) {
+        int k = 0;
+        for(User i:groupUserList){
+            if(i.getId().equals(userId)){
+                k++;
+                return new GroupUserInfo(mGroup.getGroupId(),i.getId(),"汪神"+k+"");
+            }
+        }
+        if(k == 2){
+            return new GroupUserInfo(mGroup.getGroupId(),DbUtil.getString(MyApp.getGlobalContext(),"user_id","null"),"冰淇淋");
+        }
+        return null;
+    }
+
+    @Override
+    public io.rong.imlib.model.Group getGroupInfo(String s) {
+        if(s.equals(mGroup.getGroupId())){
+            return new io.rong.imlib.model.Group(mGroup.getGroupId(),"习近平总群",Uri.parse("https://www.rfa.org/mandarin/pinglun/weijingsheng/weijingsheng-03282018101954.html/2f83a5b9cf.jpg"));
+        }
+        return null;
+    }
 }
 /**
  * 内测用户id信息

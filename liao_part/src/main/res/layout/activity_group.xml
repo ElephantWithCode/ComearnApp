@@ -5,17 +5,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-    <!--群组名-->
-    <TextView
-        android:id="@+id/group_name_tv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="18sp"
-
-        android:text="西电家装公司"
-        android:gravity="center_horizontal"
-        android:background="@color/white"/>
+    <!--&lt;!&ndash;群组名&ndash;&gt;-->
+    <!--<TextView-->
+        <!--android:id="@+id/group_name_tv"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:textSize="18sp"-->
+        <!--android:text="西电家装公司"-->
+        <!--android:gravity="center_horizontal"-->
+        <!--android:background="@color/white"/>-->
     <!--群组对话界面-->
+    <include layout="@layout/rong_actionbar"/>
     <fragment
         android:id="@+id/group_fragment"
         android:name="io.rong.imkit.fragment.ConversationFragment"

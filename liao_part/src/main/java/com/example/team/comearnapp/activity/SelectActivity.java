@@ -212,6 +212,7 @@ public class SelectActivity extends AppCompatActivity implements SideBar.OnTouch
                 case ADDMEMBER:
                     showAddMemberDialog();
                     break;
+                    default:
             }
 
 
