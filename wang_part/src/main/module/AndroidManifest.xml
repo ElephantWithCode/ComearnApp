@@ -3,7 +3,7 @@
     package="com.example.team.wang_part">
 
     <application android:theme="@style/AppTheme">
-        <activity android:name="com.example.team.wang.activity.MainActivity"></activity>
+        <activity android:name="com.example.team.wang.activity.MainActivity" />
 
         <!-- 两个Service的声明已经被删去 -->
         <service
@@ -24,7 +24,7 @@
         <activity
             android:name="com.example.team.wang.activity.OnClassActivity"
             android:excludeFromRecents="true"
-            android:launchMode="singleTask"></activity>
+            android:launchMode="singleTask" />
         <activity android:name="com.example.team.wang.activity.RefinedClassSettingActivity" />
 
         <service
@@ -41,7 +41,9 @@
             android:enabled="true"
             android:exported="false" />
 
-        <activity android:name="com.example.team.wang.engine.inter.InterActivity"></activity>
+        <activity android:name="com.example.team.wang.engine.inter.InterActivity" />
+        <activity android:name="com.example.team.wang.activity.AddFriendActivity" />
+        <activity android:name="com.example.team.wang.activity.ModifyPersonalInfoActivity"></activity>
     </application>
 
 </manifest>
