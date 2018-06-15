@@ -57,6 +57,8 @@ public class LoginActivity extends AppCompatActivity {
      */
     private boolean isEyeImgOpened = false;
 
+    private boolean DEBUG = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -101,6 +103,14 @@ public class LoginActivity extends AppCompatActivity {
      */
     @OnClick(R2.id.login_bt)
     void onClickLoginBt() {
+
+        if (DEBUG){
+            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            startActivity(intent);
+            finish();
+            return;
+        }
+
         account = edtLoginAccount.getText().toString().trim();
         password = edtLoginPassword.getText().toString().trim();
         if (!EmailCheckUtil.checkEmail(account)) {
