@@ -19,6 +19,7 @@ import com.example.team.commonlibrary.base.util.DbUtil;
 import com.example.team.commonlibrary.base.util.ToastUtil;
 import com.github.florent37.materialviewpager.MaterialViewPager;
 import com.github.florent37.materialviewpager.header.HeaderDesign;
+import com.jaeger.library.StatusBarUtil;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.Drawer;
@@ -55,8 +56,9 @@ public class MainActivity extends AppCompatActivity {
         connectRongServer();
         setTitle("");
         ButterKnife.bind(this);
-
-
+        StatusBarUtil.setColor(this, getResources().getColor(R.color.green), 50);
+        Toolbar toolbar1 = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar1);
         mViewPager = (MaterialViewPager) findViewById(R.id.materialViewPager);
         final Toolbar toolbar = mViewPager.getToolbar();
 

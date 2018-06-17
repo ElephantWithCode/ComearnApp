@@ -227,7 +227,7 @@ public class SearchActivity extends AppCompatActivity {
     }
 
     /**
-     * 从服务器查询带有指定关键词的用户
+     * 从服务器查询带有指定关键词的群组
      *
      * @param searchstr 关键词
      * @return 用户列表

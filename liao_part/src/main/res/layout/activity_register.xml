@@ -69,7 +69,6 @@
                 android:layout_height="43dp"
                 android:layout_gravity="center_horizontal"
                 android:background="@null"
-                android:digits="@string/register_login_digits"
                 android:elevation="10dp"
                 android:focusable="true"
                 android:hint="用户名"
