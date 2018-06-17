@@ -3,13 +3,11 @@ package com.example.team.wang.activity;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
 import android.support.design.widget.AppBarLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.util.SparseArray;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -41,8 +39,11 @@ import com.jaeger.library.StatusBarUtil;
 import com.qmuiteam.qmui.widget.dialog.QMUIDialog;
 import com.qmuiteam.qmui.widget.dialog.QMUIDialogAction;
 
+import java.io.File;
 import java.util.ArrayList;
 
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 
 class PersonalInfoModel extends BaseModel {
@@ -86,14 +87,46 @@ class PersonalInfoModel extends BaseModel {
         });
     }
 
-
+    /**
+     * 发送好友请求
+     * @param text 验证消息
+     */
     public void sendOutMessage(String text, Context context) {
 
         //TODO 邹神在这里发送验证消息
     }
 
+    /**
+     * 上传用户头像
+     */
     public void uploadHeadPortrait(){
+        //用户的头像
+        String portraitFilePath= " ";
+        String userId = " ";
+        File portraitFile = new File(portraitFilePath);/**TODO 等待汪神补充**/
+        try{
+            final RequestBody requestBody = RequestBody.create(MediaType.parse("image/png"),portraitFile);
+            Call<BaseResponse<String>> editHeadPortraitCall = RetroHttpUtil.build().editHeadPortraitCall(userId,MapGenerator.generate().add("file",requestBody));
+            RetroHttpUtil.sendRequest(editHeadPortraitCall, new AbstractCommonHttpCallback<BaseResponse<String>>() {
+                @Override
+                public void onSuccess(BaseResponse<String> result) {
+                    ToastUtil.ToastShortShow("修改成功",MyApp.getGlobalContext());
+                    /**
+                     * 从服务器获取修改后的头像网址,并保存在本地
+                     * TODO:汪神记得从本地数据库调用
+                     */
+                    String headPortraitUrl = result.getData();
+                    DbUtil.setString(MyApp.getGlobalContext(),"head_portrait_path",headPortraitUrl);
+                }
 
+                @Override
+                public void onFail() {
+                    ToastUtil.ToastShortShow("修改失败",MyApp.getGlobalContext());
+                }
+            });
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
     }
 }
 

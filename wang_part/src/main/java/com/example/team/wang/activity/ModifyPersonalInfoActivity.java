@@ -13,6 +13,13 @@ import com.example.team.comearnlib.base.mvp_mode.base_model.BaseModel;
 import com.example.team.comearnlib.base.mvp_mode.base_presenter.BasePresenter;
 import com.example.team.comearnlib.base.mvp_mode.base_view.IBaseView;
 import com.example.team.comearnlib.utils.ToastTools;
+import com.example.team.commonlibrary.base.application.MyApp;
+import com.example.team.commonlibrary.base.util.MapGenerator;
+import com.example.team.commonlibrary.base.util.Retrofit.RetroHttpUtil;
+import com.example.team.commonlibrary.base.util.Retrofit.bean.BaseResponse;
+import com.example.team.commonlibrary.base.util.Retrofit.bean.User;
+import com.example.team.commonlibrary.base.util.Retrofit.callback.AbstractCommonHttpCallback;
+import com.example.team.commonlibrary.base.util.ToastUtil;
 import com.example.team.wang_part.R;
 import com.jaeger.library.StatusBarUtil;
 import com.qmuiteam.qmui.widget.QMUITopBar;
@@ -21,6 +28,8 @@ import com.qmuiteam.qmui.widget.dialog.QMUIDialog;
 import com.qmuiteam.qmui.widget.dialog.QMUIDialogAction;
 import com.qmuiteam.qmui.widget.grouplist.QMUICommonListItemView;
 import com.qmuiteam.qmui.widget.grouplist.QMUIGroupListView;
+
+import retrofit2.Call;
 
 
 class PersonalInfo{
@@ -36,6 +45,20 @@ class PersonalInfo{
 class ModifyPersonalInfoModel extends BaseModel{
 
     public void uploadInfo(PersonalInfo info) {
+        User userInfo = new User();//TODO 待汪神添加
+        String userId = " ";//TODO 待汪神添加
+        Call<BaseResponse<Object>> editUserInformationCall = RetroHttpUtil.build().editUserInformationCall(userId,userInfo);
+        RetroHttpUtil.sendRequest(editUserInformationCall, new AbstractCommonHttpCallback<BaseResponse<Object>>() {
+            @Override
+            public void onSuccess(BaseResponse<Object> result) {
+                ToastUtil.ToastShortShow("修改成功", MyApp.getGlobalContext());
+            }
+
+            @Override
+            public void onFail() {
+                ToastUtil.ToastShortShow("修改失败",MyApp.getGlobalContext());
+            }
+        });
         //TODO 邹神这里上传个人信息； info内包含各种信息
     }
 }

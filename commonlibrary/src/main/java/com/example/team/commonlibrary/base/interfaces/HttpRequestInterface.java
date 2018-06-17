@@ -11,9 +11,14 @@ import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
+import retrofit2.http.Multipart;
+import retrofit2.http.PATCH;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
+import retrofit2.http.Part;
+import retrofit2.http.PartMap;
 import retrofit2.http.Path;
 import retrofit2.http.QueryMap;
 
@@ -24,7 +29,7 @@ import retrofit2.http.QueryMap;
 
 public interface HttpRequestInterface {
     /**
-     * 登录界面
+     * 登录注册界面
      */
 
     String LOGIN_URL = "sign_in";
@@ -88,14 +93,16 @@ public interface HttpRequestInterface {
     @POST(FORGETPASSWORD_URL)
     Call<BaseResponse<Object>> forgetPasswordCall(@Body MapGenerator foregetPasswordData);
 
+/**********************************************************************************************/
+
     /**
      * 群组相关操作界面
      */
-    String CREATEGROUP_URL = "groups";
 
     /**
      * 群组创建的post方法
      */
+    String CREATEGROUP_URL = "groups";
     @POST(CREATEGROUP_URL)
     Call<BaseResponse<Group>> createGroupCall(@Body UserTest userTest);
 
@@ -130,7 +137,20 @@ public interface HttpRequestInterface {
     Call<BaseResponse<Object>> changeGroupNameCall(@Path("groupId") String groupId, @Body MapGenerator groupName);
 
     /**
+     * 主动退群
+     */
+    String QUITGROUP_URL = "groups/users/{id}";
+    @DELETE(QUITGROUP_URL)
+    Call<BaseResponse<BaseResponse<Object>>> quitGroupCall(@Path("id")String userId,@Body MapGenerator quitData);
+
+/************************************************************************************************************************/
+
+    /**
      * 以下为个人中心界面（个人中心界面api都写在这)
+     */
+
+    /**
+     * 修改用户昵称
      */
     String CHANGENAME_URL = "users/{id}/information";
 
@@ -141,4 +161,65 @@ public interface HttpRequestInterface {
     @POST(CHANGENAME_URL)
     Call<BaseResponse<Object>> changeUsernameCall(@Path("id") String userId, @Body MapGenerator newUserName);
 
+    /**
+     * 发送好友请求
+     */
+    String ADDFRIEND_URL = "add";
+    @POST(ADDFRIEND_URL)
+    Call<BaseResponse<Object>> addFriendCall(@Body MapGenerator addFriendData);
+
+    /**
+     * 接受好友请求
+     */
+    String ACCEPTFRIEND_URL = "accept";
+    @POST(ACCEPTFRIEND_URL)
+    Call<BaseResponse<Object>> acceptFriendCall(@Body MapGenerator acceptData);
+
+    /**
+     * 拒绝好友请求
+     */
+    String REJECTFRIEND_URL = "reject";
+    @POST(REJECTFRIEND_URL)
+    Call<BaseResponse<Object>> rejectFriendCall(@Body MapGenerator rejectData);
+
+    /**
+     * 获取好友列表
+     */
+    String GETFRIENDLIST_URL = "users/{id}/friends";
+
+    /**
+     *
+     * @param userId 用户Id
+     */
+    @GET(GETFRIENDLIST_URL)
+    Call<BaseResponse<Object>> getFriendListCall(@Path("id") String userId);
+
+    /**
+     * 修改用户信息
+     */
+    String EDTUSERINFORMATION_URL = "users/{id}";
+
+    /**
+     * @param userId 用户Id
+     * @param userInfo 更新的用户信息
+     */
+    @PUT(EDTUSERINFORMATION_URL)
+    Call<BaseResponse<Object>> editUserInformationCall(@Path("id")String userId,@Body User userInfo);
+
+    /**
+     * 修改并上传用户头像,TODO:没上传过图片，可能会出现问题
+     */
+    String EDITHEADPORTRAIT_URL = "users/{id}/avatar";
+    @Multipart
+    @POST(EDITHEADPORTRAIT_URL)
+    Call<BaseResponse<String>> editHeadPortraitCall(@Path("id")String userId, @PartMap()MapGenerator file);
+
+    /**
+     * 查询个人信息
+     */
+    String GETUSERINFORMATION_URL= "users/{id}";
+    @GET(GETUSERINFORMATION_URL)
+    Call<BaseResponse<User>> getUserInfoCall(@Path("id")String userId);
+
+/******************************************************************************************************************/
 }
