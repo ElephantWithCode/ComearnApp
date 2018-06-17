@@ -1,6 +1,7 @@
 package com.example.team.wang.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -44,8 +45,18 @@ class PersonalInfo{
 
 class ModifyPersonalInfoModel extends BaseModel{
 
-    public void uploadInfo(PersonalInfo info) {
-        User userInfo = new User();//TODO 待汪神添加
+    User mUser;
+
+    public User getUser(){
+        return mUser;
+    }
+
+    public void setUser(User user){
+        mUser = user;
+    }
+
+    public void uploadInfo(User info) {
+        User userInfo = info;//TODO 待汪神添加
         String userId = " ";//TODO 待汪神添加
         Call<BaseResponse<Object>> editUserInformationCall = RetroHttpUtil.build().editUserInformationCall(userId,userInfo);
         RetroHttpUtil.sendRequest(editUserInformationCall, new AbstractCommonHttpCallback<BaseResponse<Object>>() {
@@ -66,13 +77,30 @@ class ModifyPersonalInfoModel extends BaseModel{
 class ModifyPersonalInfoPresenter extends BasePresenter<ModifyPersonalInfoView>{
     ModifyPersonalInfoModel mModel = new ModifyPersonalInfoModel();
 
-    public void updatePersonalInfo(PersonalInfo info){
+    public User getUser(){
+        return mModel.getUser();
+    }
+
+    public void setUser(User user){
+        mModel.setUser(user);
+    }
+
+    public void updatePersonalInfo(User info){
         mModel.uploadInfo(info);
     }
+
+    public void processViewWithUserInfo(Intent intent){
+        User user = (User) intent.getSerializableExtra("user_info_extra");
+        setUser(user);
+        mView.refreshInfoView(user);
+    }
+
+
 }
 
 interface ModifyPersonalInfoView extends IBaseView{
 
+    void refreshInfoView(User user);
 }
 
 public class ModifyPersonalInfoActivity extends AppCompatActivity implements ModifyPersonalInfoView{
@@ -197,6 +225,7 @@ public class ModifyPersonalInfoActivity extends AppCompatActivity implements Mod
             @Override
             public void onClick(View v) {
                 final QMUIDialog.EditTextDialogBuilder editTextDialogBuilder = new QMUIDialog.EditTextDialogBuilder(ModifyPersonalInfoActivity.this);
+                editTextDialogBuilder.getEditText().setText(mNickNameView.getDetailText());
                 editTextDialogBuilder
                         .setTitle("修改昵称")
                         .addAction("确定", new QMUIDialogAction.ActionListener() {
@@ -214,6 +243,7 @@ public class ModifyPersonalInfoActivity extends AppCompatActivity implements Mod
             @Override
             public void onClick(View v) {
                 final QMUIDialog.EditTextDialogBuilder editTextDialogBuilder = new QMUIDialog.EditTextDialogBuilder(ModifyPersonalInfoActivity.this);
+                editTextDialogBuilder.getEditText().setText(mInfoView.getDetailText());
                 editTextDialogBuilder
                         .setTitle("修改个人信息")
                         .addAction("确定", new QMUIDialogAction.ActionListener() {
@@ -232,6 +262,7 @@ public class ModifyPersonalInfoActivity extends AppCompatActivity implements Mod
             @Override
             public void onClick(View v) {
                 final QMUIDialog.EditTextDialogBuilder editTextDialogBuilder = new QMUIDialog.EditTextDialogBuilder(ModifyPersonalInfoActivity.this);
+                editTextDialogBuilder.getEditText().setText(mUniversityView.getDetailText());
                 editTextDialogBuilder
                         .setTitle("修改个人信息")
                         .addAction("确定", new QMUIDialogAction.ActionListener() {
@@ -250,6 +281,7 @@ public class ModifyPersonalInfoActivity extends AppCompatActivity implements Mod
             @Override
             public void onClick(View v) {
                 final QMUIDialog.EditTextDialogBuilder editTextDialogBuilder = new QMUIDialog.EditTextDialogBuilder(ModifyPersonalInfoActivity.this);
+                editTextDialogBuilder.getEditText().setText(mSchoolView.getDetailText());
                 editTextDialogBuilder
                         .setTitle("修改个人信息")
                         .addAction("确定", new QMUIDialogAction.ActionListener() {
@@ -267,6 +299,7 @@ public class ModifyPersonalInfoActivity extends AppCompatActivity implements Mod
             @Override
             public void onClick(View v) {
                 final QMUIDialog.EditTextDialogBuilder editTextDialogBuilder = new QMUIDialog.EditTextDialogBuilder(ModifyPersonalInfoActivity.this);
+                editTextDialogBuilder.getEditText().setText(mMajorView.getDetailText());
                 editTextDialogBuilder
                         .setTitle("修改个人信息")
                         .addAction("确定", new QMUIDialogAction.ActionListener() {
@@ -303,5 +336,16 @@ public class ModifyPersonalInfoActivity extends AppCompatActivity implements Mod
     @Override
     public Context getContext() {
         return this;
+    }
+
+    @Override
+    public void refreshInfoView(User user) {
+        mNickNameView.setDetailText(user.getUsername());
+        mInfoView.setDetailText(user.getEmail()); //TODO：信息不对。
+        mAgeView.setDetailText(user.getNumber() + ""); // TODO：信息不对。
+        mGenderView.setDetailText(user.getGender());
+        mMajorView.setDetailText(user.getMajor());
+        mUniversityView.setDetailText(user.getInstitute());
+        mSchoolView.setDetailText(user.getSchool());
     }
 }

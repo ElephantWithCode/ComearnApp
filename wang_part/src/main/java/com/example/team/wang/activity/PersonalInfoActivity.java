@@ -24,6 +24,7 @@ import com.example.team.commonlibrary.base.util.DbUtil;
 import com.example.team.commonlibrary.base.util.MapGenerator;
 import com.example.team.commonlibrary.base.util.Retrofit.RetroHttpUtil;
 import com.example.team.commonlibrary.base.util.Retrofit.bean.BaseResponse;
+import com.example.team.commonlibrary.base.util.Retrofit.bean.User;
 import com.example.team.commonlibrary.base.util.Retrofit.callback.AbstractCommonHttpCallback;
 import com.example.team.commonlibrary.base.util.ToastUtil;
 import com.example.team.wang_part.R;
@@ -47,6 +48,13 @@ import okhttp3.RequestBody;
 import retrofit2.Call;
 
 class PersonalInfoModel extends BaseModel {
+
+    User mUser;
+
+    public User getUser(){
+        return mUser;
+    }
+
     public GroupInfo[] obtainGroupInfos() {
         GroupInfo[] infos = new GroupInfo[1];
         infos[0] = new GroupInfo("群组01");
@@ -57,7 +65,9 @@ class PersonalInfoModel extends BaseModel {
         if (intent != null) {
             Bundle infoFromNavi = intent.getExtras();
             if (infoFromNavi != null && !infoFromNavi.isEmpty()) {
-                return infoFromNavi.getString("target_user_id", "");
+                User target_user = (User) infoFromNavi.getSerializable("target_user_id");
+                mUser = target_user;
+                return target_user != null ? target_user.getId() : null;
             }
         }
         return getThisUerId();
@@ -135,6 +145,10 @@ class PersonalInfoPresenter extends BasePresenter<PersonalInfoView> {
 
     public boolean isUser = true;
 
+
+    public User getUser(){
+        return mInfoModel.getUser();
+    }
 
     public void fetchGroupInfos() {
         GroupInfo[] infos = mInfoModel.obtainGroupInfos();
@@ -367,7 +381,9 @@ public class PersonalInfoActivity extends AppCompatActivity implements PersonalI
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.act_on_class_item_edit){
-            startActivityForResult(new Intent(this, ModifyPersonalInfoActivity.class), FOR_INFO);
+            Intent intent = new Intent(this, ModifyPersonalInfoActivity.class);
+            intent.putExtra("user_info_extra", mPresenter.getUser());
+            startActivityForResult(intent, FOR_INFO);
         }
         return super.onOptionsItemSelected(item);
     }
