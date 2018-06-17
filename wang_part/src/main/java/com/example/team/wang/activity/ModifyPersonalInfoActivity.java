@@ -62,6 +62,9 @@ public class ModifyPersonalInfoActivity extends AppCompatActivity implements Mod
     private QMUICommonListItemView mNickNameView;
     private QMUICommonListItemView mInfoView;
     private ModifyPersonalInfoPresenter mPresenter = new ModifyPersonalInfoPresenter();
+    private QMUICommonListItemView mUniversityView;
+    private QMUICommonListItemView mSchoolView;
+    private QMUICommonListItemView mMajorView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,6 +125,10 @@ public class ModifyPersonalInfoActivity extends AppCompatActivity implements Mod
         mInfoView = mGroupListView.createItemView("个人信息");
         mGenderView = mGroupListView.createItemView("性别");
         mAgeView = mGroupListView.createItemView("年龄");
+
+        mUniversityView = mGroupListView.createItemView("学校");
+        mSchoolView = mGroupListView.createItemView("学院");
+        mMajorView = mGroupListView.createItemView("专业");
 
 
 
@@ -198,13 +205,71 @@ public class ModifyPersonalInfoActivity extends AppCompatActivity implements Mod
             }
         };
 
+        View.OnClickListener uniListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final QMUIDialog.EditTextDialogBuilder editTextDialogBuilder = new QMUIDialog.EditTextDialogBuilder(ModifyPersonalInfoActivity.this);
+                editTextDialogBuilder
+                        .setTitle("修改个人信息")
+                        .addAction("确定", new QMUIDialogAction.ActionListener() {
+                            @Override
+                            public void onClick(QMUIDialog dialog, int index) {
+                                final String text = editTextDialogBuilder.getEditText().getText().toString();
+                                mUniversityView.setDetailText(text);
+                                dialog.dismiss();
+                            }
+                        })
+                        .show();
+            }
+        };
+
+        View.OnClickListener schoolListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final QMUIDialog.EditTextDialogBuilder editTextDialogBuilder = new QMUIDialog.EditTextDialogBuilder(ModifyPersonalInfoActivity.this);
+                editTextDialogBuilder
+                        .setTitle("修改个人信息")
+                        .addAction("确定", new QMUIDialogAction.ActionListener() {
+                            @Override
+                            public void onClick(QMUIDialog dialog, int index) {
+                                final String text = editTextDialogBuilder.getEditText().getText().toString();
+                                mSchoolView.setDetailText(text);
+                                dialog.dismiss();
+                            }
+                        })
+                        .show();
+            }
+        };
+        View.OnClickListener majorListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final QMUIDialog.EditTextDialogBuilder editTextDialogBuilder = new QMUIDialog.EditTextDialogBuilder(ModifyPersonalInfoActivity.this);
+                editTextDialogBuilder
+                        .setTitle("修改个人信息")
+                        .addAction("确定", new QMUIDialogAction.ActionListener() {
+                            @Override
+                            public void onClick(QMUIDialog dialog, int index) {
+                                final String text = editTextDialogBuilder.getEditText().getText().toString();
+                                mMajorView.setDetailText(text);
+                                dialog.dismiss();
+                            }
+                        })
+                        .show();
+            }
+        };
+
         mBasicInfo.addItemView(mNickNameView, nickNameListener);
         mBasicInfo.addItemView(mInfoView, infoListener);
         mBasicInfo.addItemView(mGenderView, genderListener);
         mBasicInfo.addItemView(mAgeView, ageViewListener);
+        mStudyInfo.addItemView(mUniversityView, uniListener);
+        mStudyInfo.addItemView(mSchoolView, schoolListener);
+        mStudyInfo.addItemView(mMajorView, majorListener);
         mBasicInfo.addTo(mGroupListView);
         mStudyInfo.addTo(mGroupListView);
     }
+
+
 
     private EditText generateEditText() {
         EditText editText = new EditText(this);
