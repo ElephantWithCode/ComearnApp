@@ -1,12 +1,14 @@
 package com.example.team.commonlibrary.base.util.Retrofit.bean;
 
+import java.io.Serializable;
+
 /**
  * Created by 邹特强 on 2018/4/2.
  * 每个客户对应的javavbean类
  * @author 邹特强
  */
 
-public class User {
+public class User implements Serializable {
     /**
      * 用户id
      */
@@ -50,7 +52,17 @@ public class User {
     private String school;
 
     /**
-     * 用户班级
+     * 用户学院
+     */
+    private String institute;
+
+    /**
+     * 用户专业
+     */
+    private String major;
+
+    /**
+     * 用户年级
      */
     private String grade;
 
@@ -142,5 +154,29 @@ public class User {
 
     public void setLocation(double[] location) {
         this.location = location;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getInstitute() {
+        return institute;
+    }
+
+    public void setInstitute(String institute) {
+        this.institute = institute;
+    }
+
+    public String getMajor() {
+        return major;
+    }
+
+    public void setMajor(String major) {
+        this.major = major;
     }
 }

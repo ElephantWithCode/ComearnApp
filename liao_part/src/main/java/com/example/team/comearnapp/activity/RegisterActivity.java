@@ -85,7 +85,7 @@ public class RegisterActivity extends AppCompatActivity {
         /**
          * TODO:这里接入后端，获取验证码
          */
-        Call<BaseResponse<Object>> verificationCodeCall = RetroHttpUtil.build().verificationCodeCall(MapGenerator.generate().add("email", account).add("username",edtNickname.getText().toString()));
+        Call<BaseResponse<Object>> verificationCodeCall = RetroHttpUtil.build().verificationCodeCall(MapGenerator.generate().add("email", account));
         RetroHttpUtil.sendRequest(verificationCodeCall, new AbstractRegisterHttpCallback<BaseResponse<Object>>() {
             @Override
             public void onSuccess(BaseResponse<Object> result) {
@@ -139,7 +139,7 @@ public class RegisterActivity extends AppCompatActivity {
             /**
              * 注册网络请求
              */
-            Call<BaseResponse<Object>> registerCall = RetroHttpUtil.build().registerCall(MapGenerator.generate().add("email", account).add("password", password).add("code", verificationCode));
+            Call<BaseResponse<Object>> registerCall = RetroHttpUtil.build().registerCall(MapGenerator.generate().add("email", account).add("password", password).add("code", verificationCode).add("username",edtNickname.getText().toString()));
             RetroHttpUtil.sendRequest(registerCall, new AbstractRegisterHttpCallback<BaseResponse<Object>>() {
                 @Override
                 public void onSuccess(BaseResponse<Object> result) {
