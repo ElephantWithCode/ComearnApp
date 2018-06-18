@@ -206,11 +206,11 @@ public class SearchActivity extends AppCompatActivity {
                     public void convert(ViewHolder holder, User user) {
                         TextView nicknameTv = holder.getItemView().findViewById(R.id.type_top_title6);
                         nicknameTv.setText(user.getUsername());
-                        final String id = user.getId();
+                        final User id = user;
                         holder.getItemView().setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                ARouter.getInstance().build("/wang_part/personal_info").withString("target_user_id", id).navigation();
+                                ARouter.getInstance().build("/wang_part/personal_info").withSerializable("target_user_id", id).navigation();
                                 //TODO：汪工在这里跳转到他人用户信息页面
                             }
                         });
