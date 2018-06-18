@@ -61,6 +61,8 @@ dependencies {
         transitive = true
     }
 
+    api "com.daimajia.swipelayout:library:1.2.0@aar"
+
     api rootProject.ext.router_api
 //    以下为冰淇淋导入的融云组件
     compile project(':IMKit')

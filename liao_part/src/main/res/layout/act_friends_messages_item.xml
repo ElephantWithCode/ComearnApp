@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:swipe="http://schemas.android.com/apk/res-auto">
+
+    <com.daimajia.swipe.SwipeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        swipe:leftEdgeSwipeOffset="0dp"
+        swipe:rightEdgeSwipeOffset="0dp">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:background="#FF5534"
+            android:gravity="center"
+            android:tag="Bottom3"
+            android:weightSum="10">
+            <Button
+                android:id="@+id/receive"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="5"
+                android:text="接受"
+                android:textColor="#fff"
+                android:textSize="17sp" />
+
+            <Button
+                android:id="@+id/delete"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_weight="4"
+                android:background="#ffffff"
+                android:text="删除"
+                android:textColor="#FF5534" />
+        </LinearLayout>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/act_f_m_i_ci"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:src="@drawable/test_head_img"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="23dp"
+                android:layout_marginTop="11dp" />
+
+            <TextView
+                android:id="@+id/act_f_m_i_tv_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/act_f_m_i_ci"
+                android:layout_marginStart="28dp"
+                android:layout_marginTop="15dp"
+                android:layout_toEndOf="@+id/act_f_m_i_ci"
+                android:gravity="center"
+                android:text="廖姐姐"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/act_f_m_i_tv_messages"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignStart="@+id/act_f_m_i_tv_name"
+                android:layout_marginTop="15dp"
+                android:gravity="center"
+                android:text="您好"
+
+                android:layout_below="@id/act_f_m_i_tv_name"
+                android:textSize="16sp" />
+
+            <CheckBox
+                android:visibility="gone"
+                android:theme="@style/My_CheckBox"
+                android:id="@+id/act_f_m_i_cb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="13dp" />
+
+        </RelativeLayout>
+    </com.daimajia.swipe.SwipeLayout>
+
+</RelativeLayout>

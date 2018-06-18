@@ -4,19 +4,28 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.team.comearnapp.activity.wang_in_liao.FriendsMessagesActivity">
-
+    tools:context="com.example.team.comearnapp.activity.wang_in_liao.ChooseFriendsActivity">
     <com.qmuiteam.qmui.widget.QMUITopBar
-        android:id="@+id/act_friends_messages_tb"
+        android:id="@+id/act_c_f_tb"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize">
 
     </com.qmuiteam.qmui.widget.QMUITopBar>
+
     <android.support.v7.widget.RecyclerView
-        android:layout_below="@id/act_friends_messages_tb"
-        android:id="@+id/act_friends_messages_rv"
+        android:id="@+id/act_c_f_rv"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_below="@id/act_c_f_tb">
 
     </android.support.v7.widget.RecyclerView>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/act_c_f_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="25dp"
+        android:layout_marginBottom="72dp" />
 </RelativeLayout>

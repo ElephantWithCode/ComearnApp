@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.example.team.comearnlib.R;
+import com.example.team.comearnlib.base.mvp_mode.base_presenter.BasePresenter;
 import com.qmuiteam.qmui.util.QMUIViewHelper;
 import com.qmuiteam.qmui.widget.QMUITopBar;
 
@@ -33,6 +34,10 @@ public abstract class BaseActivity extends AppCompatActivity {
         mTopBar.setTitle(getTitleString()).setTextColor(getResources().getColor(getTitleColorInt()));
         QMUIViewHelper.setBackgroundColorKeepPadding(mTopBar, getResources().getColor(R.color.colorPrimary));
 
+    }
+
+    protected BasePresenter getPresenter(){
+        return null;
     }
 
     private int getTitleColorInt() {

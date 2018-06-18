@@ -89,6 +89,11 @@ public class CreateClassActivity extends AppCompatActivity implements View.OnCli
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 199 && resultCode == RESULT_OK){
 
+            ArrayList<User> selectedUsers = (ArrayList<User>) data.getSerializableExtra("selected_users");
+
+            //TODO：邹神这里上传获得的选择的用户信息
+
+
             if (class_name.getText().length() == 0 || class_information.getText().length() == 0) {
                 Toast.makeText(getApplicationContext(), "请完善信息", Toast.LENGTH_SHORT).show();
             } else {

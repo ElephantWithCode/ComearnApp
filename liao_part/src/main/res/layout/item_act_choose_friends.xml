@@ -1,0 +1,48 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/act_f_m_i_ci"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:src="@drawable/test_head_img"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="23dp"
+        android:layout_marginTop="11dp" />
+
+    <TextView
+        android:id="@+id/act_f_m_i_tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/act_f_m_i_ci"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="15dp"
+        android:layout_toEndOf="@+id/act_f_m_i_ci"
+        android:gravity="center"
+        android:text="廖姐姐"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/act_f_m_i_tv_messages"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/act_f_m_i_tv_name"
+        android:layout_marginTop="15dp"
+        android:gravity="center"
+        android:text="您好"
+
+        android:layout_below="@id/act_f_m_i_tv_name"
+        android:textSize="16sp" />
+
+    <CheckBox
+        android:theme="@style/My_CheckBox"
+        android:id="@+id/act_f_m_i_cb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="13dp" />
+
+</RelativeLayout>

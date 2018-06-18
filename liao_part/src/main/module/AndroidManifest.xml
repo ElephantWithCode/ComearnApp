@@ -60,7 +60,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.wang_in_liao.FriendsListActivity" />
-        <activity android:name=".activity.wang_in_liao.FriendsMessagesActivity"></activity>
+        <activity android:name=".activity.wang_in_liao.FriendsMessagesActivity" />
+        <activity android:name=".activity.wang_in_liao.ChooseFriendsActivity"></activity>
     </application>
 
 </manifest>
