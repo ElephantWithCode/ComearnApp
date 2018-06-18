@@ -11,6 +11,7 @@ import android.widget.RadioButton;
 import android.widget.Toast;
 
 import com.example.team.comearnapp.R;
+import com.example.team.comearnapp.activity.wang_in_liao.ChooseFriendsActivity;
 import com.example.team.comearnapp.activity.wang_in_liao.FriendsListActivity;
 import com.example.team.commonlibrary.base.util.Retrofit.bean.Friend;
 import com.example.team.commonlibrary.base.util.Retrofit.bean.User;
@@ -151,7 +152,7 @@ public class CreateClassActivity extends AppCompatActivity implements View.OnCli
          */
         if (var1.getId() == R.id.creat_class_btn) {
 
-            startActivityForResult(new Intent(this, FriendsListActivity.class), 199);
+            startActivityForResult(new Intent(this, ChooseFriendsActivity.class), 199);
 
             /*if (class_name.getText().length() == 0 || class_information.getText().length() == 0) {
                 Toast.makeText(getApplicationContext(), "请完善信息", Toast.LENGTH_SHORT).show();
