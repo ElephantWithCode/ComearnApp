@@ -59,7 +59,8 @@
                     android:scheme="rong" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.wang_in_liao.FriendsListActivity"></activity>
+        <activity android:name=".activity.wang_in_liao.FriendsListActivity" />
+        <activity android:name=".activity.wang_in_liao.FriendsMessagesActivity"></activity>
     </application>
 
 </manifest>
