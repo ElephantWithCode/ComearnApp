@@ -28,7 +28,7 @@ public class ClassDetailInformationFragment extends Fragment implements View.OnC
     private android.widget.ImageView arrow_manager;
     private android.widget.ImageView arrow_member;
     private android.widget.ImageView arrow_white_list;
-
+    private com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton exit_class;
     public ClassDetailInformationFragment() {
         // Required empty public constructor
     }
@@ -51,6 +51,7 @@ public class ClassDetailInformationFragment extends Fragment implements View.OnC
         this.recommend_count = (TextView) root.findViewById(R.id.recommend_count);
         this.class_name_tv = (TextView) root.findViewById(R.id.class_name_tv);
         this.class_information_tv = (TextView) root.findViewById(R.id.class_information_tv);
+        this.exit_class= (com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton) root.findViewById(R.id.exit_class);
         arrow_white_list.setOnClickListener(this);
         arrow_member.setOnClickListener(this);
         arrow_manager.setOnClickListener(this);
@@ -74,6 +75,9 @@ public class ClassDetailInformationFragment extends Fragment implements View.OnC
             intent2.putExtra("mode","manager");
             intent2.putExtra("permission","creator");
             startActivity(intent2);
+
+        } else if (i == R.id.exit_class) {
+            //Todo:开始邹工的表演
 
         }
     }

@@ -1,239 +1,274 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="UTF-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#ffffff">
 
 
-
     <android.support.v4.widget.NestedScrollView
         android:id="@+id/scroll_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
-            <android.support.v7.widget.CardView
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="10dp">
+
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_centerHorizontal="true"
-                android:layout_margin="10dp"
-                app:cardCornerRadius="10dp"
-                app:cardElevation="10dp">
+                android:layout_height="match_parent"
+                android:divider="@drawable/divider_bg"
+                android:orientation="vertical"
+                android:showDividers="middle">
+
+
                 <LinearLayout
+                    android:id="@+id/_detail_oversee"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:divider="@drawable/divider_bg"
-                    android:orientation="vertical"
-                    android:showDividers="middle"
-                    >
+                    android:layout_height="wrap_content"
+                    android:minHeight="100dp"
+                    android:orientation="vertical">
 
-                    <LinearLayout
-                        android:id="@+id/_detail_oversee"
-                        android:layout_width="match_parent"
+                    <TextView
+                        android:id="@+id/class_name_tv"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:minHeight="100dp"
-                        >
+                        android:layout_gravity="center"
+                        android:layout_marginTop="10dp"
+                        android:gravity="center"
+                        android:text="演示班级"
+                        android:textColor="#303131"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
 
-                        <TextView
-                            android:id="@+id/class_name_tv"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
-                            android:text="1602019班"
-                            android:textColor="#303131"
-                            android:textSize="20sp"
-                            android:textStyle="bold"
-                            android:gravity="center"
-                            android:layout_gravity="center"
-                            />
-
-                        <TextView
-                            android:id="@+id/class_information_tv"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:ellipsize="end"
-                            android:maxLines="5"
-                            android:text="本群创建于2018年2月10日\n学习最光荣！"
-                            android:textColor="#303131"
-                            android:textSize="16sp"
-                            android:gravity="center"
-                            android:layout_gravity="center"
-                            android:layout_margin="10dp"
-                            />
-                    </LinearLayout>
-                    <LinearLayout
-                        android:id="@+id/various_counts_layout"
-                        android:layout_width="match_parent"
+                    <TextView
+                        android:id="@+id/class_information_tv"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:paddingBottom="10dp"
-                        android:paddingTop="10dp">
+                        android:layout_gravity="center"
+                        android:layout_margin="10dp"
+                        android:ellipsize="end"
+                        android:gravity="center"
+                        android:maxLines="5"
+                        android:text="本群创建于2018年2月10日\n做优良校风学风的传承者、建设者与发展者"
+                        android:textColor="#303131"
+                        android:textSize="16sp" />
 
-                        <RelativeLayout
-                            android:id="@+id/recommend_layout"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1">
-
-                            <TextView
-                                android:id="@+id/recommend_count"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerHorizontal="true"
-                                android:layout_marginBottom="25dp"
-                                android:text="108"
-                                android:textColor="#303131"
-                                android:textSize="16sp" />
-
-                            <TextView
-                                android:id="@+id/recommend_count_text"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentBottom="true"
-                                android:layout_centerHorizontal="true"
-                                android:text="成员"
-                                android:textColor="#303131"
-                                android:textSize="16sp" />
-                        </RelativeLayout>
-
-                        <RelativeLayout
-                            android:id="@+id/read_layout"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1">
-
-                            <TextView
-                                android:id="@+id/read_count"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerHorizontal="true"
-                                android:layout_marginBottom="25dp"
-                                android:text="100"
-                                android:textColor="#303131"
-                                android:textSize="16sp" />
-
-                            <TextView
-                                android:id="@+id/read_count_text"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentBottom="true"
-                                android:layout_centerHorizontal="true"
-                                android:text="参与度"
-                                android:textColor="#303131"
-                                android:textSize="16sp" />
-                        </RelativeLayout>
-
-                        <RelativeLayout
-                            android:id="@+id/fans_layout"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1">
-
-                            <TextView
-                                android:id="@+id/fans_count"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerHorizontal="true"
-                                android:layout_marginBottom="25dp"
-                                android:text="1"
-                                android:textColor="#303131"
-                                android:textSize="16sp" />
-
-                            <TextView
-                                android:id="@+id/fans_count_text"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentBottom="true"
-                                android:layout_centerHorizontal="true"
-                                android:text="排名"
-                                android:textColor="#303131"
-                                android:textSize="16sp" />
-                        </RelativeLayout>
-                    </LinearLayout>
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:paddingBottom="10dp"
-                        android:paddingEnd="20dp"
-                        android:paddingStart="20dp"
-                        android:paddingTop="10dp">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:text="管理员"
-                            android:textColor="#303131"
-                            android:textSize="16sp" />
-                        <ImageView
-                            android:id="@+id/arrow_manager"
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:layout_alignParentEnd="true"
-                            android:layout_centerVertical="true"
-                            android:padding="7dp"
-                            android:src="@drawable/ic_personal_expand_right" />
-                    </RelativeLayout>
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:paddingBottom="10dp"
-                        android:paddingEnd="20dp"
-                        android:paddingStart="20dp"
-                        android:paddingTop="10dp">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:text="群成员"
-                            android:textColor="#303131"
-                            android:textSize="16sp" />
-                        <ImageView
-                            android:id="@+id/arrow_member"
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:layout_alignParentEnd="true"
-                            android:layout_centerVertical="true"
-                            android:padding="7dp"
-                            android:src="@drawable/ic_personal_expand_right" />
-                    </RelativeLayout>
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:paddingBottom="10dp"
-                        android:paddingEnd="20dp"
-                        android:paddingStart="20dp"
-                        android:paddingTop="10dp">
-
-                        <TextView
-                            android:id="@+id/see_category2"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:text="白名单"
-                            android:textColor="#303131"
-                            android:textSize="16sp" />
-                        <ImageView
-                            android:id="@+id/arrow_white_list"
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:layout_alignParentEnd="true"
-                            android:layout_centerVertical="true"
-                            android:padding="7dp"
-                            android:src="@drawable/ic_personal_expand_right" />
-                    </RelativeLayout>
                 </LinearLayout>
-            </android.support.v7.widget.CardView>
 
 
+                <LinearLayout
+                    android:id="@+id/various_counts_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp">
+
+
+                    <RelativeLayout
+                        android:id="@+id/recommend_layout"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1">
+
+                        <TextView
+                            android:id="@+id/recommend_count"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginBottom="10dp"
+                            android:text="108"
+                            android:textColor="#303131"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:id="@+id/recommend_count_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/recommend_count"
+                            android:layout_centerHorizontal="true"
+                            android:text="成员"
+                            android:textColor="#303131"
+                            android:textSize="16sp" />
+
+                    </RelativeLayout>
+
+
+                    <RelativeLayout
+                        android:id="@+id/read_layout"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1">
+
+                        <TextView
+                            android:id="@+id/read_count"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginBottom="10dp"
+                            android:text="100"
+                            android:textColor="#303131"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:id="@+id/read_count_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/read_count"
+                            android:layout_centerHorizontal="true"
+                            android:text="参与度"
+                            android:textColor="#303131"
+                            android:textSize="16sp" />
+
+                    </RelativeLayout>
+
+
+                    <RelativeLayout
+                        android:id="@+id/fans_layout"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1">
+
+                        <TextView
+                            android:id="@+id/fans_count"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginBottom="10dp"
+                            android:text="1"
+                            android:textColor="#303131"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:id="@+id/fans_count_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/fans_count"
+                            android:layout_centerHorizontal="true"
+                            android:text="排名"
+                            android:textColor="#303131"
+                            android:textSize="16sp" />
+
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="10dp"
+                    android:paddingEnd="20dp"
+                    android:paddingStart="20dp"
+                    android:paddingTop="10dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="管理员"
+                        android:textColor="#303131"
+                        android:textSize="16sp" />
+
+                    <ImageView
+                        android:id="@+id/arrow_manager"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:padding="7dp"
+                        android:src="@drawable/ic_personal_expand_right" />
+
+                </RelativeLayout>
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="10dp"
+                    android:paddingEnd="20dp"
+                    android:paddingStart="20dp"
+                    android:paddingTop="10dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="群成员"
+                        android:textColor="#303131"
+                        android:textSize="16sp" />
+
+                    <ImageView
+                        android:id="@+id/arrow_member"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:padding="7dp"
+                        android:src="@drawable/ic_personal_expand_right" />
+
+                </RelativeLayout>
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="10dp"
+                    android:paddingEnd="20dp"
+                    android:paddingStart="20dp"
+                    android:paddingTop="10dp">
+
+                    <TextView
+                        android:id="@+id/see_category2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="白名单"
+                        android:textColor="#303131"
+                        android:textSize="16sp" />
+
+                    <ImageView
+                        android:id="@+id/arrow_white_list"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:padding="7dp"
+                        android:src="@drawable/ic_personal_expand_right" />
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
 
     </android.support.v4.widget.NestedScrollView>
-</LinearLayout>
 
+    <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
+        android:id="@+id/exit_class"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="center"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:paddingBottom="10dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingTop="10dp"
+        android:text="退出班级"
+        android:textColor="@color/s_btn_color"
+        app:qmui_borderColor="@color/s_btn_color"
+        app:qmui_isRadiusAdjustBounds="true" />
 
-
+</RelativeLayout>

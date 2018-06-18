@@ -127,6 +127,7 @@ public class LoginActivity extends AppCompatActivity {
                 public void onSuccess(BaseResponse<LoginResponseData> result) {
                     System.out.println("用户的cloud_token为:" + result.getData().getCloud_token());
                     System.out.println("用户的id为："+result.getData().getUser().getId());
+                    System.out.println("用户的昵称为:"+result.getData().getUser().getUsername());
                     ToastUtil.ToastShortShow("登录成功！", LoginActivity.this);
                     /**
                      * 每次登录时更新token和cloud_token,存储到数据库
