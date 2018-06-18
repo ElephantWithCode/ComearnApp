@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.example.team.comearnapp.R;
+import com.example.team.comearnapp.activity.wang_in_liao.FriendsListActivity;
 import com.example.team.commonlibrary.base.application.MyApp;
 import com.example.team.commonlibrary.base.util.DbUtil;
 import com.example.team.commonlibrary.base.util.ToastUtil;
@@ -192,9 +193,18 @@ public class MainActivity extends AppCompatActivity {
                 new PrimaryDrawerItem().withIdentifier(3).withIcon(R.drawable.ic_launcher).withName("Test"));
         mDrawer.addItems(
                 new SecondaryDrawerItem(),
-                new PrimaryDrawerItem().withIdentifier(1).withIcon(R.drawable.ic_launcher).withName("Test"),
+                new PrimaryDrawerItem().withIdentifier(1).withIcon(R.drawable.ic_launcher).withName("好友列表"),
                 new PrimaryDrawerItem().withIdentifier(2).withIcon(R.drawable.ic_launcher).withName("Test"),
                 new PrimaryDrawerItem().withIdentifier(3).withIcon(R.drawable.ic_launcher).withName("Test"));
+        mDrawer.setOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
+            @Override
+            public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
+                if(drawerItem.getIdentifier() == 1){
+                    startActivity(new Intent(MainActivity.this, FriendsListActivity.class));
+                }
+                return false;
+            }
+        });
 
     }
 

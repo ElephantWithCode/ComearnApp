@@ -12,6 +12,7 @@
 
     <TextView
         android:padding="3dp"
+        android:id="@+id/act_personal_info_c_tv_info"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@id/act_personal_info_c_bg_ci_portrait"

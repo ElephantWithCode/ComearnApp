@@ -57,7 +57,7 @@ public class LoginActivity extends AppCompatActivity {
      */
     private boolean isEyeImgOpened = false;
 
-    private boolean DEBUG = false;
+    private boolean DEBUG = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

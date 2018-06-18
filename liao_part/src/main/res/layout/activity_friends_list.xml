@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.team.comearnapp.activity.wang_in_liao.FriendsListActivity">
+    <com.qmuiteam.qmui.widget.QMUITopBar
+        app:qmui_topbar_bg_color="@color/colorPrimary"
+        android:id="@+id/act_friends_list_tb"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize">
+    </com.qmuiteam.qmui.widget.QMUITopBar>
+    <com.qmuiteam.qmui.widget.pullRefreshLayout.QMUIPullRefreshLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/act_friends_list_prl"
+        android:layout_below="@id/act_friends_list_tb">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/act_friends_list_rv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        </android.support.v7.widget.RecyclerView>
+
+    </com.qmuiteam.qmui.widget.pullRefreshLayout.QMUIPullRefreshLayout>
+</RelativeLayout>
+
