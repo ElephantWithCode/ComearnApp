@@ -19,7 +19,7 @@ public class PasswordCheckUtil {
         /**
          * 如果密码包含空格，直接显示不合格
          */
-        if (password.length() <MIN_PASSWORD_LENGTH && password.length() > MAX_PASSWORD_LENGTH) {
+        if (password.length() < MIN_PASSWORD_LENGTH || password.length() > MAX_PASSWORD_LENGTH) {
             ToastUtil.ToastShortShow(MyApp.getGlobalContext().getText(R.string.input_6to16_password).toString(), MyApp.getGlobalContext());
             return false;
         } else if (password.contains(" ")) {
