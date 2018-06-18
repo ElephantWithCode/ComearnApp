@@ -417,16 +417,20 @@ public class PersonalInfoActivity extends AppCompatActivity implements PersonalI
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.act_on_class_item_edit){
-            Intent intent = new Intent(this, ModifyPersonalInfoActivity.class);
-            intent.putExtra("user_info_extra", mPresenter.getUser());
-            startActivityForResult(intent, FOR_INFO);
+            if (mPresenter.isUser){
+                Intent intent = new Intent(this, ModifyPersonalInfoActivity.class);
+                intent.putExtra("user_info_extra", mPresenter.getUser());
+                startActivityForResult(intent, FOR_INFO);
+            }else {
+                startActivity(new Intent(this, AddFriendActivity.class));
+            }
         }
         return super.onOptionsItemSelected(item);
     }
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        menu.getItem(0).setVisible(mPresenter.isUser);
+//        menu.getItem(0).setVisible(mPresenter.isUser);
         return super.onPrepareOptionsMenu(menu);
     }
 

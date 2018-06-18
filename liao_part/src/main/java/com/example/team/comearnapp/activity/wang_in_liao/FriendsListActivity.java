@@ -1,6 +1,7 @@
 package com.example.team.comearnapp.activity.wang_in_liao;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -162,6 +163,14 @@ public class FriendsListActivity extends AppCompatActivity implements FriendsLis
             }
         });
 
+        Button rightTextButton = mTopBar.addRightTextButton("验证消息", 123);
+        rightTextButton.setTextColor(getResources().getColor(R.color.white));
+        rightTextButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(FriendsListActivity.this, FriendsMessagesActivity.class));
+            }
+        });
 
         mAdapter = new CommonAdapter<User>(FriendsListActivity.this, R.layout.user_item, mList) {
             @Override
