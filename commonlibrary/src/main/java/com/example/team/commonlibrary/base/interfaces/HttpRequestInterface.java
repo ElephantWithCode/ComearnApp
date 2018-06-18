@@ -1,6 +1,7 @@
 package com.example.team.commonlibrary.base.interfaces;
 
 import com.example.team.commonlibrary.base.util.Retrofit.bean.BaseResponse;
+import com.example.team.commonlibrary.base.util.Retrofit.bean.FriendTest;
 import com.example.team.commonlibrary.base.util.Retrofit.bean.Group;
 import com.example.team.commonlibrary.base.util.Retrofit.bean.LoginResponseData;
 import com.example.team.commonlibrary.base.util.MapGenerator;
@@ -192,7 +193,7 @@ public interface HttpRequestInterface {
      * @param userId 用户Id
      */
     @GET(GETFRIENDLIST_URL)
-    Call<BaseResponse<Object>> getFriendListCall(@Path("id") String userId);
+    Call<BaseResponse<List<FriendTest>>> getFriendListCall(@Path("id") String userId);
 
     /**
      * 修改用户信息

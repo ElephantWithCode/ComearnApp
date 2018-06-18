@@ -18,7 +18,14 @@ import com.example.team.comearnlib.base.mvp_mode.base_model.BaseModel;
 import com.example.team.comearnlib.base.mvp_mode.base_presenter.BasePresenter;
 import com.example.team.comearnlib.base.mvp_mode.base_view.IBaseView;
 import com.example.team.comearnlib.utils.ToastTools;
+import com.example.team.commonlibrary.base.application.MyApp;
+import com.example.team.commonlibrary.base.util.DbUtil;
+import com.example.team.commonlibrary.base.util.Retrofit.RetroHttpUtil;
+import com.example.team.commonlibrary.base.util.Retrofit.bean.BaseResponse;
+import com.example.team.commonlibrary.base.util.Retrofit.bean.FriendTest;
 import com.example.team.commonlibrary.base.util.Retrofit.bean.User;
+import com.example.team.commonlibrary.base.util.Retrofit.callback.AbstractCommonHttpCallback;
+import com.example.team.commonlibrary.base.util.ToastUtil;
 import com.jaeger.library.StatusBarUtil;
 import com.qmuiteam.qmui.widget.QMUITopBar;
 import com.qmuiteam.qmui.widget.pullRefreshLayout.QMUIPullRefreshLayout;
@@ -26,30 +33,53 @@ import com.qmuiteam.qmui.widget.pullRefreshLayout.QMUIPullRefreshLayout;
 import java.util.ArrayList;
 import java.util.List;
 
-class FriendsListModel extends BaseModel{
+import retrofit2.Call;
+
+class FriendsListModel extends BaseModel {
+    /**
+     * TODO:返回的好友列表
+     */
+    List<FriendTest> friendTestList = new ArrayList<>();
 
     public ArrayList<User> getUsers() {
+        /**
+         * TODO:暂时从本地数据库拿用户ID
+         */
+        Call<BaseResponse<List<FriendTest>>> getFriendListCall = RetroHttpUtil.build().getFriendListCall(DbUtil.getString(MyApp.getGlobalContext(), "user_id", "null"));
+        RetroHttpUtil.sendRequest(getFriendListCall, new AbstractCommonHttpCallback<BaseResponse<List<FriendTest>>>() {
+            @Override
+            public void onSuccess(BaseResponse<List<FriendTest>> result) {
+                ToastUtil.ToastShortShow("Success!", MyApp.getGlobalContext());
+                friendTestList = result.getData();
+            }
+
+            @Override
+            public void onFail() {
+                ToastUtil.ToastShortShow("Fail", MyApp.getGlobalContext());
+            }
+        });
         return null; // TODO: 邹神这里获取好友信息。
     }
 }
 
-interface FriendsListView extends IBaseView{
+interface FriendsListView extends IBaseView {
 
     void updateList(ArrayList<User> users);
 }
 
-class FriendsListPresenter extends BasePresenter<FriendsListView>{
+class FriendsListPresenter extends BasePresenter<FriendsListView> {
     FriendsListModel mModel = new FriendsListModel();
-    public void updateFriendsList(){
+
+    public void updateFriendsList() {
         ArrayList<User> users = mModel.getUsers();
-        if (users == null){
+        if (users == null) {
             return;
         }
         mView.updateList(users);
     }
 }
 
-public class FriendsListActivity extends AppCompatActivity implements FriendsListView{
+public class FriendsListActivity extends AppCompatActivity implements FriendsListView {
 
     FriendsListPresenter mPresenter = new FriendsListPresenter();
 
