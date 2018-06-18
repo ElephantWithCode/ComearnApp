@@ -1,5 +1,6 @@
 package com.example.team.comearnapp.activity;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.widget.RadioButton;
 import android.widget.Toast;
 
 import com.example.team.comearnapp.R;
+import com.example.team.comearnapp.activity.wang_in_liao.FriendsListActivity;
 import com.example.team.commonlibrary.base.util.Retrofit.bean.Friend;
 import com.example.team.commonlibrary.base.util.Retrofit.bean.User;
 import com.example.team.commonlibrary.base.util.Retrofit.bean.UserTest;
@@ -83,13 +85,10 @@ public class CreateClassActivity extends AppCompatActivity implements View.OnCli
         return super.onOptionsItemSelected(item);
     }
 
-
     @Override
-    public void onClick(View var1) {
-        /**
-         * 普通的创建群组
-         */
-        if (var1.getId() == R.id.creat_class_btn) {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 199 && resultCode == RESULT_OK){
+
             if (class_name.getText().length() == 0 || class_information.getText().length() == 0) {
                 Toast.makeText(getApplicationContext(), "请完善信息", Toast.LENGTH_SHORT).show();
             } else {
@@ -136,6 +135,65 @@ public class CreateClassActivity extends AppCompatActivity implements View.OnCli
                 }
             }
 
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public void onClick(View var1) {
+        /**
+         * 普通的创建群组
+         */
+        if (var1.getId() == R.id.creat_class_btn) {
+
+            startActivityForResult(new Intent(this, FriendsListActivity.class), 199);
+
+            /*if (class_name.getText().length() == 0 || class_information.getText().length() == 0) {
+                Toast.makeText(getApplicationContext(), "请完善信息", Toast.LENGTH_SHORT).show();
+            } else {
+                *//**
+                 * 先向cto的服务器提出创建群组请求，再向融云服务器提出群组请求
+                 * userList那里可能出现问题
+                 * @param userIdList:已经注册用户的id集合
+                 *//*
+                List<UserTest.UserTempBean> userIdList = new ArrayList<>();
+                UserTest.UserTempBean user1 = new UserTest.UserTempBean();
+                user1.setId("5ac38bbe60b27023703e0ec7");
+                userIdList.add(user1);
+                UserTest.UserTempBean user2 = new UserTest.UserTempBean();
+                user2.setId("5b152f34e996eebc7422412b");
+                userIdList.add(user2);
+                UserTest userTest = new UserTest();
+                userTest.setUuid("5ab6738260b20797b26114e7");
+                userTest.setGroupName(class_name.getText().toString());
+                userTest.setGroupInformation(class_information.getText().toString());
+                userTest.setUserTemps(userIdList);
+                if (DbUtil.contains(MyApp.getGlobalContext(), "user_id")) {
+                    final Call<BaseResponse<Group>> groupCall = RetroHttpUtil.build().createGroupCall(userTest);
+                    RetroHttpUtil.sendRequest(groupCall, new AbstractCommonHttpCallback<BaseResponse<Group>>() {
+                        @Override
+                        public void onSuccess(BaseResponse<Group> result) {
+                            groupId = result.getData().getGroupId();
+                            if (RongIM.getInstance() != null) {
+                                *//**
+                                 * 请求融云前设置好群组用户信息提供者
+                                 *//*
+                                initGroupInfo();
+                                initGroupUserInfo(result.getData());
+                                RongIM.getInstance().startConversation(CreateClassActivity.this, Conversation.ConversationType.GROUP,groupId,class_name.getText().toString());
+                            }
+                            Toast.makeText(getApplicationContext(), "创建成功", Toast.LENGTH_SHORT).show();
+                        }
+
+                        @Override
+                        public void onFail() {
+                            ToastUtil.ToastShortShow("建群失败", CreateClassActivity.this);
+                        }
+                    });
+
+                }
+            }
+*/
         } else if (var1.getId() == R.id.face2face_btn) {
 /**
  * 面对面建群

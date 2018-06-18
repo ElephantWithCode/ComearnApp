@@ -3,6 +3,7 @@ package com.example.team.comearnapp.activity.wang_in_liao;
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
@@ -58,7 +59,19 @@ class FriendsListModel extends BaseModel {
                 ToastUtil.ToastShortShow("Fail", MyApp.getGlobalContext());
             }
         });
-        return null; // TODO: 邹神这里获取好友信息。
+
+
+
+        return adaptType(friendTestList); // TODO: 邹神这里获取好友信息。
+    }
+
+    ArrayList<User> adaptType(List<FriendTest> friendTests){
+        ArrayList<User> users = new ArrayList<>();
+        for (int i = 0; i < friendTests.size(); i++) {
+            User tempUser = new User();
+            tempUser.setUsername(friendTests.get(i).getFriendAlias());
+        }
+        return users;
     }
 }
 
@@ -113,6 +126,8 @@ public class FriendsListActivity extends AppCompatActivity implements FriendsLis
 
     private void initUI() {
         mRecyView = findViewById(R.id.act_friends_list_rv);
+
+        mRecyView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         mRefreshLayout = findViewById(R.id.act_friends_list_prl);
 
         mRefreshLayout.setOnPullListener(new QMUIPullRefreshLayout.OnPullListener() {

@@ -75,6 +75,10 @@
                     android:id="@+id/type_top_title" />
 
             </LinearLayout>
+            <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" />
+
         </LinearLayout>
     </LinearLayout>
 
