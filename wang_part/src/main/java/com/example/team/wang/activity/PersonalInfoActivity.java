@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
@@ -143,8 +144,26 @@ class PersonalInfoModel extends BaseModel {
 class PersonalInfoPresenter extends BasePresenter<PersonalInfoView> {
     private PersonalInfoModel mInfoModel = new PersonalInfoModel();
 
-    public boolean isUser = true;
+    public boolean isUser = true; // 判断是不是用户自己
 
+
+    /**
+     * 刷新所有的基本信息
+     */
+    public void refreshAllInfo(){
+        User user = mInfoModel.getUser();
+        refreshAllInfo(user);
+    }
+
+    /**
+     * 提供一个依赖外部user的方法
+     * @param user
+     */
+    public void refreshAllInfo(User user){
+        if (user != null){
+            mView.refreshInfo(user);
+        }
+    }
 
     public User getUser(){
         return mInfoModel.getUser();
@@ -177,6 +196,12 @@ class PersonalInfoPresenter extends BasePresenter<PersonalInfoView> {
                 .show();
     }
 
+    /**
+     * 这里的逻辑将移植至Modify活动中
+     * 同时将更改为refresh整个User
+     * @param text
+     */
+    @Deprecated
     public void refreshName(String text) {
         mView.refreshName(text);
         mInfoModel.refreshName(text, mContext);
@@ -191,6 +216,10 @@ class PersonalInfoPresenter extends BasePresenter<PersonalInfoView> {
         mView.refreshBtn(isUser);
     }
 
+    /**
+     * 更新头像。
+     * TODO:这里需要增加一个选择照片的功能
+     */
     public void updateHeadPortrait(){
         mView.selectHeadImage();
         mInfoModel.uploadHeadPortrait();
@@ -256,6 +285,8 @@ interface PersonalInfoView extends IBaseView {
     void selectHeadImage();
 
     void updatePortrait(Uri uri);
+
+    void refreshInfo(User user);
 }
 
 @Route(path = "/wang_part/personal_info")
@@ -287,6 +318,8 @@ public class PersonalInfoActivity extends AppCompatActivity implements PersonalI
         initListeners();
 
         mTargetUserId = mInfoModel.getTargetUerId(getIntent());
+
+        mPresenter.refreshAllInfo();
 
         mPresenter.fetchGroupInfos();
 
@@ -353,6 +386,9 @@ public class PersonalInfoActivity extends AppCompatActivity implements PersonalI
 
         ((DefaultCustomCardView) mViewManager.getView(R.id.act_personal_info_nsv_dccv_hold))
                 .setHeadText("基本信息").addViewList(views);
+        
+        
+        
     }
 
     @Override
@@ -406,6 +442,8 @@ public class PersonalInfoActivity extends AppCompatActivity implements PersonalI
         else if (requestCode == FOR_INFO && resultCode == RESULT_OK){
             if (data != null){
                 //TODO 获得修改后的信息
+                User user = (User) data.getSerializableExtra("user_info");
+                mPresenter.refreshAllInfo(user);
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
@@ -464,5 +502,24 @@ public class PersonalInfoActivity extends AppCompatActivity implements PersonalI
     @Override
     public void updatePortrait(Uri uri) {
         ((ImageView)mViewManager.getView("clps_bg").findViewById(R.id.act_personal_info_c_bg_ci_portrait)).setImageURI(uri);
+    }
+
+    @Override
+    public void refreshInfo(User user) {
+        ((TextView)mViewManager.getView("clps_bg").findViewById(R.id.act_personal_info_c_tv_info)).setText(user.getEmail());
+
+        ((CompoundTextLayout)mViewManager.getView("txt_age")).setContentText(user.getGrade());
+        ((CompoundTextLayout)mViewManager.getView("txt_university")).setContentText(user.getInstitute());
+        ((CompoundTextLayout)mViewManager.getView("txt_school")).setContentText(user.getSchool());
+        ((CompoundTextLayout)mViewManager.getView("txt_gender")).setContentText(user.getGender());
+        ((CompoundTextLayout)mViewManager.getView("txt_major")).setContentText(user.getMajor());
+
+
+
+        ((DefaultCustomCollapsingToolbarLayout)mViewManager.getView("clps_bg")).setTitle(user.getUsername());
+        ((DefaultCustomCollapsingToolbarLayout)mViewManager.getView("clps_bg")).setTitle(user.getUsername());
+
+
+
     }
 }
